@@ -1,5 +1,5 @@
 {
-    "tableName": "item",
-    "partitionKeyName": "owner",
+    "tableName": "main",
+    "partitionKeyName": "name",
     "partitionKeyType": "S"
 }
