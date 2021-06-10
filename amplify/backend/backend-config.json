@@ -1,1 +1,28 @@
-{}
+{
+  "storage": {
+    "main": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "items": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "batch": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "tags": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "history": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "transactions": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    }
+  }
+}

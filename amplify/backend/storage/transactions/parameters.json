@@ -1,0 +1,5 @@
+{
+    "tableName": "transactions",
+    "partitionKeyName": "number",
+    "partitionKeyType": "S"
+}
