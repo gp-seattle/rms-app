@@ -1,6 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "build": "cd ./amplify/backend && tsc",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -8,6 +9,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "aws-sdk": "^2.812.0",
     "expo": "~41.0.1",
     "expo-status-bar": "~1.0.4",
     "react": "16.13.1",
@@ -16,9 +18,11 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
+    "@types/aws-lambda": "8.10.3",
     "@babel/core": "^7.9.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "prompt": "^1.1.0",
     "typescript": "~4.0.0"
   },
   "private": true
