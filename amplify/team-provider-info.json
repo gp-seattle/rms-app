@@ -10,6 +10,14 @@
       "StackName": "amplify-rms-test-132531",
       "StackId": "arn:aws:cloudformation:us-west-2:801118485191:stack/amplify-rms-test-132531/d80016e0-c960-11eb-b2af-0a8b7e4c85fd",
       "AmplifyAppId": "dsn8z7b3klbw3"
+    },
+    "categories": {
+      "function": {
+        "smsrouter": {
+          "deploymentBucketName": "amplify-rms-test-132531-deployment",
+          "s3Key": "amplify-builds/smsrouter-6f514567323362684373-build.zip"
+        }
+      }
     }
   }
 }
