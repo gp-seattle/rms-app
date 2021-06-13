@@ -1,5 +1,5 @@
 # Workflow to push to Amplify on commit
-name: Amplify CI
+name: Amplify CD
 
 # Controls when the action will run. 
 on:
@@ -13,7 +13,7 @@ on:
 jobs:
   amplify-deploy:
     runs-on: ubuntu-latest
-    environment: AmplifyCI
+    environment: AmplifyCD
     
     strategy:
       matrix:
@@ -27,6 +27,16 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: configure amplify
+        uses: ambientlight/amplify-cli-action@0.2.2
+        with:
+          amplify_command: configure
+          amplify_env: test
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
 
       - name: install and build
         run: |
