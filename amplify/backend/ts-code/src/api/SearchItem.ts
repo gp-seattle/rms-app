@@ -41,10 +41,10 @@ export class SearchItem {
                         if (Object.keys(search.map).length === 0) {
                             return "No items found."
                         } else {
-                            var returnString: string = `${Object.keys(search.map).length} items found.`
+                            let returnString: string = `${Object.keys(search.map).length} items found.`
                             search.entries.forEach((entry: MainSchema) => {
-                                var availableItems: string[] = []
-                                var borrowedItems: string[] = []
+                                const availableItems: string[] = []
+                                const borrowedItems: string[] = []
                                 Object.keys(entry.items).forEach((id: string) => {
                                     if (entry.items[id].borrower === "") {
                                         availableItems.push(id)
@@ -74,7 +74,7 @@ export class SearchItem {
     public execute(scratch: ScratchInterface): Promise<SearchItemReturn> {
         return emitAPIMetrics(
             () => {
-                var names: TagMap = {}
+                const names: TagMap = {}
                 
                 return Promise.all(scratch.tags.map((tag: string, index: number) => {
                     return this.tagTable.get(tag)

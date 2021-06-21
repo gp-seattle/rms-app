@@ -23,7 +23,7 @@ class SMSRouter {
     private responseDestination: string
 
     public constructor(record: SNSEventRecord) {
-        var message = JSON.parse(record.Sns.Message)
+        const message = JSON.parse(record.Sns.Message)
         this.request = message.messageBody.toLowerCase()
         this.responseOrigination = message.destinationNumber
         this.responseDestination = message.originationNumber
@@ -43,7 +43,7 @@ class SMSRouter {
      * Function to send Pinpoint SMS response.
      */
     private sendMessage(response: string): Promise<any> {
-        var params: Pinpoint.Types.SendMessagesRequest = {
+        const params: Pinpoint.Types.SendMessagesRequest = {
             ApplicationId: process.env.PinpointAppId,
             MessageRequest: {
                 Addresses: {

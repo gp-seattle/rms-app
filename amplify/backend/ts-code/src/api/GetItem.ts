@@ -81,7 +81,7 @@ interface ScratchInterface {
 // Output Formatting Functions. Exporting them to be used for testing.
 
 export function getItemHeader(entry: MainSchema): string {
-    var tags: string[] = entry.tags ? entry.tags.values : []
+    const tags: string[] = entry.tags ? entry.tags.values : []
     return `name: ${entry.name}`
         + `\ndescription: ${entry.description}`
         + `\ntags: ${tags.toString()}`
@@ -89,7 +89,7 @@ export function getItemHeader(entry: MainSchema): string {
 }
 
 export function getItemItem(entry: MainSchema, id: string) {
-    var batch: string[] = entry.items[id].batch ? entry.items[id].batch.values : []
+    const batch: string[] = entry.items[id].batch ? entry.items[id].batch.values : []
     return `\n  id: ${id}`
         + `\n    owner: ${entry.items[id].owner}`
         + `\n    borrower: ${entry.items[id].borrower}`

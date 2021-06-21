@@ -67,13 +67,13 @@ export class Router {
      * @param number Corresponding unique number, which is used to identify transactions from a given source.
      */
     public processRequest(request: string, number: string): Promise<string> {
-        var processedRequest: string = request.toLowerCase().trim()
+        const processedRequest: string = request.toLowerCase().trim()
         processedRequest = (processedRequest === "none") ? "" : processedRequest
 
         return this.transactionsTable.get(number)
             .then((data: DocumentClient.GetItemOutput) => {
                 if (data.Item) {
-                    var entry: TransactionsSchema = data.Item as TransactionsSchema
+                    const entry: TransactionsSchema = data.Item as TransactionsSchema
                     return this.routeRequest(number, processedRequest, entry.type, entry.scratch)
                 } else {
                     return this.routeRequest(number, processedRequest, processedRequest)

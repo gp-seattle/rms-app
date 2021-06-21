@@ -36,10 +36,10 @@ export class TSV {
             tableName: "main",
             ExclusiveStartKey: exclusiveStartKey
         }).then((output: DocumentClient.ScanOutput) => {
-            var outputString = ""
+            const outputString = ""
             output.Items.forEach((dbItem: MainSchema) => {
                 Object.keys(dbItem.items).forEach((id: string) => {
-                    var item: OutputCSVItem = {
+                    const item: OutputCSVItem = {
                         id: id,
                         name: dbItem.name,
                         description: dbItem.description,
@@ -68,21 +68,21 @@ export class TSV {
      * @throws when header is not as expected.
      */
     public upload(csv: string): Promise<string[]> {
-        var itemTable: ItemTable = new ItemTable(this.client)
-        var addItem: AddItem = new AddItem(this.client, this.metrics)
+        const itemTable: ItemTable = new ItemTable(this.client)
+        const addItem: AddItem = new AddItem(this.client, this.metrics)
 
-        var rows: string[] = csv.split("\n")
+        const rows: string[] = csv.split("\n")
 
-        var header: string[] = rows.shift().split("\t")
+        const header: string[] = rows.shift().split("\t")
         if (this.arrayEquals(header, KEYS)) {
             console.log(header.toString())
             throw Error(`Header needs to have the following: '${KEYS.toString()}'`)
         }
 
-        var ids: string[] = []
+        const ids: string[] = []
         return Promise.all(rows.map((row: string) => {
-            var values: string[] = row.split("\t")
-            var item: InputCSVItem = {
+            const values: string[] = row.split("\t")
+            const item: InputCSVItem = {
                 id: values[0].toLowerCase().trim(),
                 name: values[1].toLowerCase().trim(),
                 description: values[2].toLowerCase().trim(),

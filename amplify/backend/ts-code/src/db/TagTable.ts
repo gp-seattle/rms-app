@@ -29,7 +29,7 @@ export class TagTable {
                     // Contains tag already. Do nothing.
                     return
                 } else {
-                    var mainParams: DocumentClient.UpdateItemInput = {
+                    const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
                             "name": name
@@ -47,7 +47,7 @@ export class TagTable {
                         .then(() => {
                             if (tagEntry) {
                                 // Index exists, so update
-                                var updateParam: DocumentClient.UpdateItemInput = {
+                                const updateParam: DocumentClient.UpdateItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
                                         "key": tag
@@ -63,11 +63,11 @@ export class TagTable {
                                 return this.client.update(updateParam)
                             } else {
                                 // Index doesn't exists, so put
-                                var putItem: SearchIndexSchema = {
+                                const putItem: SearchIndexSchema = {
                                     key: tag,
                                     val: this.client.createSet([name])
                                 }
-                                var putParam: DocumentClient.PutItemInput = {
+                                const putParam: DocumentClient.PutItemInput = {
                                     TableName: TAGS_TABLE,
                                     Item: putItem
                                 }
@@ -95,7 +95,7 @@ export class TagTable {
         return this.get(tag)
             .then((tagEntry: SearchIndexSchema) => {
                 if (tagEntry && tagEntry.val.values.includes(name)) {
-                    var mainUpdateParams: DocumentClient.UpdateItemInput = {
+                    const mainUpdateParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
                             "name": name
@@ -112,7 +112,7 @@ export class TagTable {
                     return this.client.update(mainUpdateParams)
                         .then(() => {
                             if (tagEntry.val.values.length === 1) {
-                                var tagDeleteParams: DocumentClient.DeleteItemInput = {
+                                const tagDeleteParams: DocumentClient.DeleteItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
                                         "key": tag
@@ -120,7 +120,7 @@ export class TagTable {
                                 }
                                 return this.client.delete(tagDeleteParams)
                             } else {
-                                var tagUpdateParams: DocumentClient.UpdateItemInput = {
+                                const tagUpdateParams: DocumentClient.UpdateItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
                                         "key": tag
@@ -147,7 +147,7 @@ export class TagTable {
         name: string,
         tags: string[]
     ): Promise<any> {
-        var mainParam: DocumentClient.GetItemInput = {
+        const mainParam: DocumentClient.GetItemInput = {
             TableName: MAIN_TABLE,
             Key: {
                 "name": name
@@ -156,10 +156,10 @@ export class TagTable {
         return this.client.get(mainParam)
             .then((data: DocumentClient.GetItemOutput) => {
                 if (data.Item) {
-                    var entry: MainSchema = data.Item as MainSchema
-                    var curTags = entry.tags ? entry.tags.values : []
-                    var createTags = tags.filter((newTag: string) => !curTags.includes(newTag))
-                    var deleteTags = curTags.filter((curTag: string) => !tags.includes(curTag))
+                    const entry: MainSchema = data.Item as MainSchema
+                    const curTags = entry.tags ? entry.tags.values : []
+                    const createTags = tags.filter((newTag: string) => !curTags.includes(newTag))
+                    const deleteTags = curTags.filter((curTag: string) => !tags.includes(curTag))
                     return Promise.all([this.create(name, createTags), this.delete(name, deleteTags)])
                 } else {
                     throw Error(`Could not find '${name}' in the database.`)
@@ -173,7 +173,7 @@ export class TagTable {
     public get(
         tag: string
     ): Promise<SearchIndexSchema> {
-        var params: DocumentClient.GetItemInput = {
+        const params: DocumentClient.GetItemInput = {
             TableName: TAGS_TABLE,
             Key: {
                 "key": tag

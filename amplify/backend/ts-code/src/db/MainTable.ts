@@ -18,12 +18,12 @@ export class MainTable {
         name: string,
         description: string
     ): Promise<DocumentClient.PutItemOutput> {
-        var item: MainSchema = {
+        const item: MainSchema = {
             name: name,
             description: description,
             items: {}
         }
-        var params: DocumentClient.PutItemInput = {
+        const params: DocumentClient.PutItemInput = {
             TableName: MAIN_TABLE,
             Item: item
         }
@@ -45,7 +45,7 @@ export class MainTable {
                 } else if (entry.tags !== undefined) {
                     throw Error(`Entry '${name}' still contains tags.`)
                 } else {
-                    var params: DocumentClient.DeleteItemInput = {
+                    const params: DocumentClient.DeleteItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
                             name: name
@@ -62,7 +62,7 @@ export class MainTable {
     public get(
         name: string
     ): Promise<MainSchema> {
-        var params: DocumentClient.GetItemInput = {
+        const params: DocumentClient.GetItemInput = {
             TableName: MAIN_TABLE,
             Key: {
                 "name": name
@@ -80,7 +80,7 @@ export class MainTable {
         key: string,
         val: string
     ): Promise<DocumentClient.UpdateItemOutput> {
-        var params: DocumentClient.UpdateItemInput = {
+        const params: DocumentClient.UpdateItemInput = {
             TableName: MAIN_TABLE,
             Key: {
                 "name": name
@@ -106,7 +106,7 @@ export class MainTable {
         val: string,
         expectedValue?: string
     ): Promise<DocumentClient.GetItemOutput> {
-        var itemSearchParams: DocumentClient.GetItemInput = {
+        const itemSearchParams: DocumentClient.GetItemInput = {
             TableName: ITEMS_TABLE,
             Key: {
                 "key": id
@@ -115,7 +115,7 @@ export class MainTable {
         return this.client.get(itemSearchParams)
             .then((data: DocumentClient.GetItemOutput) => {
                 if (data.Item) {
-                    var entry: SecondaryIndexSchema = data.Item as SecondaryIndexSchema
+                    const entry: SecondaryIndexSchema = data.Item as SecondaryIndexSchema
                     return this.get(entry.val)
                 } else {
                     throw Error(`Couldn't find item ${id} in the database.`)
@@ -125,7 +125,7 @@ export class MainTable {
                     throw Error(`'${key}' is currently '${entry.items[id][key]}', `
                         + `which isn't equal to the expected value of '${expectedValue}'.`)
                 } else {
-                    var updateParams: DocumentClient.UpdateItemInput = {
+                    const updateParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
                             "name": entry.name
@@ -163,10 +163,10 @@ export class MainTable {
         borrower: string,
         action: "borrow" | "return"
     ): Promise<string> {
-        var expectedBorrower: string = (action === "borrow") ? "" : borrower
-        var nextBorrower: string = (action === "borrow") ? borrower : ""
+        const expectedBorrower: string = (action === "borrow") ? "" : borrower
+        const nextBorrower: string = (action === "borrow") ? borrower : ""
 
-        var itemSearchParams: DocumentClient.GetItemInput = {
+        const itemSearchParams: DocumentClient.GetItemInput = {
             TableName: ITEMS_TABLE,
             Key: {
                 "key": id
@@ -175,7 +175,7 @@ export class MainTable {
         return this.client.get(itemSearchParams)
             .then((data: DocumentClient.GetItemOutput) => {
                 if (data.Item) {
-                    var entry: SecondaryIndexSchema = data.Item as SecondaryIndexSchema
+                    const entry: SecondaryIndexSchema = data.Item as SecondaryIndexSchema
                     return this.get(entry.val)
                 } else {
                     throw Error(`Couldn't find item ${id} in the database.`)
@@ -191,7 +191,7 @@ export class MainTable {
                             + `which isn't equal to the specified borrower of '${expectedBorrower}'.`)
                     }
                 } else {
-                    var updateParams: DocumentClient.UpdateItemInput = {
+                    const updateParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
                             "name": entry.name
@@ -222,9 +222,9 @@ export class MainTable {
         action: "borrow" | "return",
         notes: string
     ): Promise<DocumentClient.PutItemOutput> {
-        var curEpochMs: number = Date.now()
-        var key: string = `${curEpochMs}-${id}`
-        var item: HistorySchema = {
+        const curEpochMs: number = Date.now()
+        const key: string = `${curEpochMs}-${id}`
+        const item: HistorySchema = {
             key: key,
             name: name,
             id: id,
@@ -233,12 +233,12 @@ export class MainTable {
             notes: notes,
             timestamp: curEpochMs
         }
-        var addHistoryParams: DocumentClient.PutItemInput = {
+        const addHistoryParams: DocumentClient.PutItemInput = {
             TableName: HISTORY_TABLE,
             Item: item
         }
 
-        var updateMainParams: DocumentClient.UpdateItemInput = {
+        const updateMainParams: DocumentClient.UpdateItemInput = {
             TableName: MAIN_TABLE,
             Key: {
                 "name": name
