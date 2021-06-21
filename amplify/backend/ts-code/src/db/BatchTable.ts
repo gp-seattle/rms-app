@@ -53,10 +53,10 @@ export class BatchTable {
                     Key: {
                         "name": mainEntry.name
                     },
-                    UpdateExpression: "ADD #attr.#id.#key :val",
+                    UpdateExpression: "ADD #attr1.#attr2.#key :val",
                     ExpressionAttributeNames: {
-                        "#attr": "items",
-                        "#id": id,
+                        "#attr1": "items",
+                        "#attr2": id,
                         "#key": "batch"
                     },
                     ExpressionAttributeValues: {
@@ -107,10 +107,10 @@ export class BatchTable {
                 Key: {
                     "name": mainEntry.name
                 },
-                UpdateExpression: "DELETE #attr.#id.#key :val",
+                UpdateExpression: "DELETE #attr1.#attr2.#key :val",
                 ExpressionAttributeNames: {
-                    "#attr": "items",
-                    "#id": id,
+                    "#attr1": "items",
+                    "#attr2": id,
                     "#key": "batch"
                 },
                 ExpressionAttributeValues: {

@@ -35,6 +35,14 @@ export class GetBatch {
             scratch.name = request
             return this.transactionsTable.delete(number)
                     .then(() => this.execute(scratch))
+                    .then((ids: string[]) => {
+                        return Promise.all(ids.map((id: string) => {
+                            return this.itemTable.get(id)
+                                .then((secondaryEntry: SecondaryIndexSchema) => this.mainTable.get(secondaryEntry.val))
+                                .then((mainEntry: MainSchema) => getBatchItem(id, mainEntry.name, mainEntry.items[id].owner, mainEntry.items[id].borrower))
+                        })).then((items: string[]) => `batch: ${scratch.name}` + items.join(""))
+                    })
+                    
         }
     }
 
@@ -42,17 +50,13 @@ export class GetBatch {
      * Required params in scratch object:
      * @param name Name of Batch
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(scratch: ScratchInterface): Promise<string[]> {
         return emitAPIMetrics(
             () => {
                 return this.batchTable.get(scratch.name)
                     .then((batchEntry: SearchIndexSchema) => {
                         if (batchEntry) {
-                            return Promise.all(batchEntry.val.values.map((id: string) => {
-                                return this.itemTable.get(id)
-                                    .then((secondaryEntry: SecondaryIndexSchema) => this.mainTable.get(secondaryEntry.val))
-                                    .then((mainEntry: MainSchema) => this.item(mainEntry, id))
-                            })).then((items: string[]) => `batch: ${scratch.name}` + items.join(""))
+                            return batchEntry.val.values
                         } else {
                             throw new Error(`Unable to find Batch '${scratch.name}'`)
                         }
@@ -61,15 +65,15 @@ export class GetBatch {
             GetBatch.NAME, this.metrics
         )
     }
-
-    private item(entry: MainSchema, id: string) {
-        return `\n  id: ${id}`
-            + `\n    name: ${entry.name}`
-            + `\n    owner: ${entry.items[id].owner}`
-            + `\n    borrower: ${entry.items[id].borrower}`
-    }
 }
 
 interface ScratchInterface {
     name?: string
+}
+
+export function getBatchItem(id: string, name: string, owner: string, borrower: string): string {
+    return `\n  id: ${id}`
+        + `\n    name: ${name}`
+        + `\n    owner: ${owner}`
+        + `\n    borrower: ${borrower}`
 }

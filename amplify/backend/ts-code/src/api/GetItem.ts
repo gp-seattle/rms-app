@@ -33,8 +33,8 @@ export class GetItem {
             return this.transactionsTable.delete(number)
                     .then(() => this.execute(scratch))
                     .then((entry: MainSchema) => {
-                        let returnString = header(entry)
-                        Object.keys(entry.items).forEach((id: string) => returnString += item(entry, id))
+                        let returnString = getItemHeader(entry)
+                        Object.keys(entry.items).forEach((id: string) => returnString += getItemItem(entry, id))
                         return returnString
                     })
         }
@@ -80,7 +80,7 @@ interface ScratchInterface {
 
 // Output Formatting Functions. Exporting them to be used for testing.
 
-export function header(entry: MainSchema): string {
+export function getItemHeader(entry: MainSchema): string {
     var tags: string[] = entry.tags ? entry.tags.values : []
     return `name: ${entry.name}`
         + `\ndescription: ${entry.description}`
@@ -88,7 +88,7 @@ export function header(entry: MainSchema): string {
         + `\nitems:`
 }
 
-export function item(entry: MainSchema, id: string) {
+export function getItemItem(entry: MainSchema, id: string) {
     var batch: string[] = entry.items[id].batch ? entry.items[id].batch.values : []
     return `\n  id: ${id}`
         + `\n    owner: ${entry.items[id].owner}`
