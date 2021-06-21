@@ -36,7 +36,7 @@ export class TSV {
             tableName: "main",
             ExclusiveStartKey: exclusiveStartKey
         }).then((output: DocumentClient.ScanOutput) => {
-            const outputString = ""
+            let outputString = ""
             output.Items.forEach((dbItem: MainSchema) => {
                 Object.keys(dbItem.items).forEach((id: string) => {
                     const item: OutputCSVItem = {
