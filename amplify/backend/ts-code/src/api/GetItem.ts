@@ -1,7 +1,7 @@
 import { MainTable } from "../db/MainTable"
 import { ItemTable } from "../db/ItemTable"
 import { TransactionsTable } from "../db/TransactionsTable"
-import { MainSchema, SecondaryIndexSchema } from "../db/Schemas"
+import { ItemSchema, MainSchema, SecondaryIndexSchema } from "../db/Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
@@ -32,6 +32,11 @@ export class GetItem {
             scratch.key = request
             return this.transactionsTable.delete(number)
                     .then(() => this.execute(scratch))
+                    .then((entry: MainSchema) => {
+                        let returnString = header(entry)
+                        Object.keys(entry.items).forEach((id: string) => returnString += item(entry, id))
+                        return returnString
+                    })
         }
     }
 
@@ -39,7 +44,7 @@ export class GetItem {
      * Required params in scratch object:
      * @param key Name or ID of item
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(scratch: ScratchInterface): Promise<void | MainSchema> {
         return emitAPIMetrics(
             () => {
                 return this.itemTable.get(scratch.key)
@@ -47,16 +52,16 @@ export class GetItem {
                         if (secondaryEntry) {
                             return this.mainTable.get(secondaryEntry.val)
                                 .then((entry: MainSchema) => {
-                                    return this.header(entry)
-                                        + this.item(entry, scratch.key)
+                                    let ret: MainSchema = { ...entry }
+                                    ret.items = {}
+                                    ret.items[scratch.key] = entry.items[scratch.key]
+                                    return ret
                                 })
                         } else {
                             return this.mainTable.get(scratch.key)
                                 .then((entry: MainSchema) => {
                                     if (entry) {
-                                        var returnString = this.header(entry)
-                                        Object.keys(entry.items).forEach((id: string) => returnString += this.item(entry, id))
-                                        return returnString
+                                        return entry
                                     } else {
                                         throw Error(`Couldn't find item '${scratch.key}'`)
                                     }
@@ -67,25 +72,27 @@ export class GetItem {
             GetItem.NAME, this.metrics
         )
     }
-
-    private header(entry: MainSchema): string {
-        var tags: string[] = entry.tags ? entry.tags.values : []
-        return `name: ${entry.name}`
-            + `\ndescription: ${entry.description}`
-            + `\ntags: ${tags.toString()}`
-            + `\nitems:`
-    }
-
-    private item(entry: MainSchema, id: string) {
-        var batch: string[] = entry.items[id].batch ? entry.items[id].batch.values : []
-        return `\n  id: ${id}`
-            + `\n    owner: ${entry.items[id].owner}`
-            + `\n    borrower: ${entry.items[id].borrower}`
-            + `\n    batch: ${batch}`
-            + `\n    notes: ${entry.items[id].notes}`
-    }
 }
 
 interface ScratchInterface {
     key?: string
+}
+
+// Output Formatting Functions. Exporting them to be used for testing.
+
+export function header(entry: MainSchema): string {
+    var tags: string[] = entry.tags ? entry.tags.values : []
+    return `name: ${entry.name}`
+        + `\ndescription: ${entry.description}`
+        + `\ntags: ${tags.toString()}`
+        + `\nitems:`
+}
+
+export function item(entry: MainSchema, id: string) {
+    var batch: string[] = entry.items[id].batch ? entry.items[id].batch.values : []
+    return `\n  id: ${id}`
+        + `\n    owner: ${entry.items[id].owner}`
+        + `\n    borrower: ${entry.items[id].borrower}`
+        + `\n    batch: ${batch}`
+        + `\n    notes: ${entry.items[id].notes}`
 }
