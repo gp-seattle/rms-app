@@ -43,7 +43,7 @@ export class MainTable {
                 if (Object.keys(entry.items).length !== 0) {
                     throw Error(`Entry '${name}' still contains items.`)
                 } else if (entry.tags !== undefined) {
-                    throw Error(`Entry '${name}' still contains IDs.`)
+                    throw Error(`Entry '${name}' still contains tags.`)
                 } else {
                     var params: DocumentClient.DeleteItemInput = {
                         TableName: MAIN_TABLE,
