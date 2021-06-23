@@ -1,7 +1,8 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "build": "./amplify/backend/tscompile.sh",
+    "build": "./amplify/backend/resources/scripts/compile-ts.sh",
+    "test": "./amplify/backend/resources/scripts/run-tests.sh",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -18,12 +19,28 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@types/aws-lambda": "8.10.3",
     "@babel/core": "^7.9.0",
+    "@types/aws-lambda": "8.10.3",
+    "@types/jest": "^26.0.23",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "jest": "^27.0.4",
     "prompt": "^1.1.0",
     "typescript": "~4.0.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": ["./amplify/backend/ts-output/src/**/*.js"],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "roots": ["./amplify/backend/ts-output"],
+    "moduleFileExtensions": ["js"]
   },
   "private": true
 }

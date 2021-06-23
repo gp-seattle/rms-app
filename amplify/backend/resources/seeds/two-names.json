@@ -1,0 +1,51 @@
+{
+    "main":{
+        "test name":{
+            "name":"test name",
+            "description":"test description",
+            "items":{
+                "123":{
+                    "owner":"test owner",
+                    "notes":"test note",
+                    "borrower":""
+                }
+            },
+            "tags":{"type": "String", "values": ["tag1"]}
+        },
+        "test name 2":{
+            "name":"test name 2",
+            "description":"test description 2",
+            "items":{
+                "12345":{
+                    "owner":"test owner 2",
+                    "notes":"test note 2",
+                    "borrower":""
+                }
+            },
+            "tags":{"type": "String", "values": ["tag1", "tag2"]}
+        }
+    },
+    "items":{
+        "123":{
+            "key":"123",
+            "val":"test name"
+        },
+        "12345":{
+            "key":"12345",
+            "val":"test name 2"
+        }
+    },
+    "batch":{},
+    "tags":{
+        "tag1":{
+            "key":"tag1",
+            "val":{"type":"String","values":["test name", "test name 2"]}
+        },
+        "tag2":{
+            "key":"tag2",
+            "val":{"type":"String","values":["test name 2"]}
+        }
+    },
+    "history":{},
+    "transactions":{}
+}

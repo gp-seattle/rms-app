@@ -35,7 +35,7 @@ async function run() {
             if (err) {
                 throw err
             } else {
-                var input: string = data.toString("utf-8")
+                const input: string = data.toString("utf-8")
                 await new TSV(client, metrics).upload(input)
                     .then((ids: string[]) => console.log(`Successfully added items '${ids.toString()}'`))
             }
