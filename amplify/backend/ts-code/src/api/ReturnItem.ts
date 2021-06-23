@@ -25,7 +25,7 @@ export class ReturnItem {
             return this.transactionsTable.create(number, ReturnItem.NAME)
                 .then(() => "IDs of Items (separated by spaces):")
         } else if (scratch.ids === undefined) {
-            var ids: string[] = request.split(/(\s+)/)
+            const ids: string[] = request.split(/(\s+)/)
                 .filter((str: string) => str.trim().length > 0)
                 .map((str: string) => str.toLowerCase().trim())
             return this.transactionsTable.appendToScratch(number, "ids", ids)

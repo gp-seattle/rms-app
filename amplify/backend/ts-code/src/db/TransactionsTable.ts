@@ -21,7 +21,7 @@ export class TransactionsTable {
         key: string,
         val: any
     ): Promise<DocumentClient.UpdateItemOutput> {
-        var param: DocumentClient.UpdateItemInput = {
+        const param: DocumentClient.UpdateItemInput = {
             TableName: TRANSACTIONS_TABLE,
             Key: {
                 "number": number
@@ -49,7 +49,7 @@ export class TransactionsTable {
         number: string,
         type: string
     ): Promise<DocumentClient.PutItemOutput> {
-        var params: DocumentClient.PutItemInput = {
+        const params: DocumentClient.PutItemInput = {
             TableName: TRANSACTIONS_TABLE,
             Item: {
                 "number": number,
@@ -68,7 +68,7 @@ export class TransactionsTable {
     public delete(
         number: string
     ): Promise<DocumentClient.DeleteItemOutput> {
-        var params: DocumentClient.DeleteItemInput = {
+        const params: DocumentClient.DeleteItemInput = {
             TableName: TRANSACTIONS_TABLE,
             Key: {
                 "number": number
@@ -85,7 +85,7 @@ export class TransactionsTable {
     public get(
         number: string
     ): Promise<DocumentClient.GetItemOutput> {
-        var params: DocumentClient.GetItemInput = {
+        const params: DocumentClient.GetItemInput = {
             TableName: TRANSACTIONS_TABLE,
             Key: {
                 "number": number

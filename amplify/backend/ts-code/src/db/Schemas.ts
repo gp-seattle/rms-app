@@ -33,7 +33,7 @@ export interface ItemSchema {
     notes: string
 }
 
-export const ITEMS_TABLE: string = "gp-seattle-inventory-items"
+export const ITEMS_TABLE: string = process.env.STORAGE_ITEMS_NAME
 export interface SecondaryIndexSchema {
     key: string,
     val: string

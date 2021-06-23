@@ -24,12 +24,12 @@ export class ItemTable {
                 if (entry) {
                     throw Error(`RMS ID ${id} is not unique.`)
                 } else {
-                    var item: ItemSchema = {
+                    const item: ItemSchema = {
                         owner: owner,
                         notes: notes,
                         borrower: ""
                     }
-                    var mainParams: DocumentClient.UpdateItemInput = {
+                    const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
                             "name": name
@@ -44,11 +44,11 @@ export class ItemTable {
                         }
                     }
             
-                    var indexItem: SecondaryIndexSchema = {
+                    const indexItem: SecondaryIndexSchema = {
                         key: id,
                         val: name
                     }
-                    var indexParams: DocumentClient.PutItemInput = {
+                    const indexParams: DocumentClient.PutItemInput = {
                         TableName: ITEMS_TABLE,
                         Item: indexItem
                     }
@@ -68,7 +68,7 @@ export class ItemTable {
         return this.get(id)
             .then((entry: SecondaryIndexSchema) => {
                 if (entry) {
-                    var mainParams: DocumentClient.UpdateItemInput = {
+                    const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
                             "name": entry.val
@@ -82,7 +82,7 @@ export class ItemTable {
                         }
                     }
 
-                    var itemsParams: DocumentClient.DeleteItemInput = {
+                    const itemsParams: DocumentClient.DeleteItemInput = {
                         TableName: ITEMS_TABLE,
                         Key: {
                             "key": id
@@ -111,7 +111,7 @@ export class ItemTable {
     public get(
         id: string
     ): Promise<SecondaryIndexSchema> {
-        var params: DocumentClient.GetItemInput = {
+        const params: DocumentClient.GetItemInput = {
             TableName: ITEMS_TABLE,
             Key: {
                 "key": id

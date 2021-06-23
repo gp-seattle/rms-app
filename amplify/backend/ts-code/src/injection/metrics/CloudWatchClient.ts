@@ -18,7 +18,7 @@ export class CloudWatchClient implements MetricsClient {
         namespace: string,
         name: string
     ): Promise<T> {
-        var startTime: number = Date.now()
+        const startTime: number = Date.now()
 
             return executable()
                 .then(
@@ -35,8 +35,8 @@ export class CloudWatchClient implements MetricsClient {
     }
 
     private emitDuration(namespace: string, name: string, startTime: number): Promise<{}> {
-        var duration: number = Date.now() - startTime
-        var param: PutMetricDataInput = {
+        const duration: number = Date.now() - startTime
+        const param: PutMetricDataInput = {
             Namespace: NAMESPACE_PREFIX + namespace,
             MetricData: [
                 {
@@ -59,7 +59,7 @@ export class CloudWatchClient implements MetricsClient {
     }
 
     private emitErrors(namespace: string, name: string, value: 0 | 1): Promise<{}> {
-        var param: PutMetricDataInput = {
+        const param: PutMetricDataInput = {
             Namespace: NAMESPACE_PREFIX + namespace,
             MetricData: [
                 {

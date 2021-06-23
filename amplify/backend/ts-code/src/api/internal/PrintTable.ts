@@ -75,7 +75,7 @@ export class PrintTable {
     public execute(scratch: ScratchInterface): Promise<DocumentClient.ScanOutput> {
         return emitAPIMetrics(
             () => {
-                var params: DocumentClient.ScanInput = {
+                const params: DocumentClient.ScanInput = {
                     TableName: this.getTableName(scratch.tableName),
                     Limit: scratch.Limit,
                     ExclusiveStartKey: scratch.ExclusiveStartKey,

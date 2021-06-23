@@ -21,12 +21,12 @@ export class BatchTable {
     ): Promise<any> {
         return Promise.all(ids.map((id: string) => this.attachBatchToItem(name, id)))
             .then(() => {
-                var item: SearchIndexSchema = {
+                const item: SearchIndexSchema = {
                     key: name,
                     val: this.client.createSet(ids)
                 }
 
-                var params: DocumentClient.PutItemInput = {
+                const params: DocumentClient.PutItemInput = {
                     TableName: BATCH_TABLE,
                     Item: item
                 }
@@ -53,10 +53,10 @@ export class BatchTable {
                     Key: {
                         "name": mainEntry.name
                     },
-                    UpdateExpression: "ADD #attr.#id.#key :val",
+                    UpdateExpression: "ADD #attr1.#attr2.#key :val",
                     ExpressionAttributeNames: {
-                        "#attr": "items",
-                        "#id": id,
+                        "#attr1": "items",
+                        "#attr2": id,
                         "#key": "batch"
                     },
                     ExpressionAttributeValues: {
@@ -81,7 +81,7 @@ export class BatchTable {
                 if (entry) {
                     return Promise.all(entry.val.values.map((id: string) => this.detachBatchFromItem(name, id)))
                         .then(() => {
-                            var params: DocumentClient.DeleteItemInput = {
+                            const params: DocumentClient.DeleteItemInput = {
                                 TableName: BATCH_TABLE,
                                 Key: {
                                     "key": name
@@ -107,10 +107,10 @@ export class BatchTable {
                 Key: {
                     "name": mainEntry.name
                 },
-                UpdateExpression: "DELETE #attr.#id.#key :val",
+                UpdateExpression: "DELETE #attr1.#attr2.#key :val",
                 ExpressionAttributeNames: {
-                    "#attr": "items",
-                    "#id": id,
+                    "#attr1": "items",
+                    "#attr2": id,
                     "#key": "batch"
                 },
                 ExpressionAttributeValues: {
@@ -123,7 +123,7 @@ export class BatchTable {
     }
 
     private getMainEntryFromId(id: string): Promise<MainSchema> {
-        var secondaryParams: DocumentClient.GetItemInput = {
+        const secondaryParams: DocumentClient.GetItemInput = {
             TableName: ITEMS_TABLE,
             Key: {
                 "key": id
@@ -133,9 +133,9 @@ export class BatchTable {
         return this.client.get(secondaryParams)
             .then((secondaryData: DocumentClient.GetItemOutput) => {
                 if (secondaryData.Item) {
-                    var secondaryEntry: SecondaryIndexSchema = secondaryData.Item as SecondaryIndexSchema
+                    const secondaryEntry: SecondaryIndexSchema = secondaryData.Item as SecondaryIndexSchema
 
-                    var mainParams: DocumentClient.GetItemInput = {
+                    const mainParams: DocumentClient.GetItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
                             "name": secondaryEntry.val
@@ -162,7 +162,7 @@ export class BatchTable {
     public get(
         name: string
     ): Promise<SearchIndexSchema> {
-        var params: DocumentClient.GetItemInput = {
+        const params: DocumentClient.GetItemInput = {
             TableName: BATCH_TABLE,
             Key: {
                 "key": name

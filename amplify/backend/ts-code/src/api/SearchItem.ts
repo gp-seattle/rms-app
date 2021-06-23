@@ -37,6 +37,33 @@ export class SearchItem {
                 .reverse()
             return this.transactionsTable.delete(number)
                     .then(() => this.execute(scratch))
+                    .then((search: SearchItemReturn) => {
+                        if (Object.keys(search.map).length === 0) {
+                            return "No items found."
+                        } else {
+                            let returnString: string = `${Object.keys(search.map).length} items found.`
+                            search.entries.forEach((entry: MainSchema) => {
+                                const availableItems: string[] = []
+                                const borrowedItems: string[] = []
+                                Object.keys(entry.items).forEach((id: string) => {
+                                    if (entry.items[id].borrower === "") {
+                                        availableItems.push(id)
+                                    } else {
+                                        borrowedItems.push(id)
+                                    }
+                                })
+    
+                                returnString += searchItemItem(
+                                    entry.name,
+                                    search.map[entry.name].occurrences,
+                                    availableItems,
+                                    borrowedItems
+                                )
+                            })
+    
+                            return returnString
+                        }
+                    })
         }
     }
 
@@ -44,10 +71,10 @@ export class SearchItem {
      * Required params for scratch object:
      * @param tags List of tags to search for, ordered in the level of importance.
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(scratch: ScratchInterface): Promise<SearchItemReturn> {
         return emitAPIMetrics(
             () => {
-                var names: TagMap = {}
+                const names: TagMap = {}
                 
                 return Promise.all(scratch.tags.map((tag: string, index: number) => {
                     return this.tagTable.get(tag)
@@ -77,29 +104,10 @@ export class SearchItem {
                             return (b.occurrences - a.occurrences) + (a.relevance - b.relevance) * 0.01
                         }).slice(0, MAX_LIST_SIZE)
                         .map((value: TagObject) => this.mainTable.get(value.name)))
-                }).then((entries: MainSchema[]) => {
-                    if (entries.length === 0) {
-                        return "No items found."
-                    } else {
-                        var returnString: string = `${Object.keys(names).length} items found.`
-                        entries.forEach((entry: MainSchema) => {
-                            var availableItems: string[] = []
-                            var borrowedItems: string[] = []
-                            Object.keys(entry.items).forEach((id: string) => {
-                                if (entry.items[id].borrower === "") {
-                                    availableItems.push(id)
-                                } else {
-                                    borrowedItems.push(id)
-                                }
-                            })
-
-                            returnString += `\nName: ${entry.name}`
-                                + `\n  # of relevant tags: ${names[entry.name].occurrences}`
-                                + `\n  Available Item IDs: ${availableItems}`
-                                + `\n  Borrowed Item IDs: ${borrowedItems}`
-                        })
-
-                        return returnString
+                }).then((entry: MainSchema[]) => {
+                    return {
+                        map: names,
+                        entries: entry
                     }
                 })
             },
@@ -110,6 +118,15 @@ export class SearchItem {
 
 interface ScratchInterface {
     tags?: string[]
+}
+
+/**
+ * @param map Map of top matches
+ * @param entries Corrosponding top entry matches
+ */
+export interface SearchItemReturn {
+    map: TagMap,
+    entries: MainSchema[]
 }
 
 interface TagMap {
@@ -125,4 +142,11 @@ interface TagObject {
     name: string
     occurrences: number,
     relevance: number
+}
+
+export function searchItemItem(name: string, occurrences: number, availableItems: string[], borrowedItems: string[]): string {
+    return `\nName: ${name}`
+        + `\n  # of relevant tags: ${occurrences}`
+        + `\n  Available Item IDs: ${availableItems}`
+        + `\n  Borrowed Item IDs: ${borrowedItems}`
 }

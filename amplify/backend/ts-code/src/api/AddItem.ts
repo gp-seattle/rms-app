@@ -46,7 +46,7 @@ export class AddItem {
                     }
                 })
         } else if (scratch.createItem && scratch.tags == undefined) {
-            var tags: string[] = request.split(/(\s+)/)
+            const tags: string[] = request.split(/(\s+)/)
                 .filter((str: string) => str.trim().length > 0)
                 .map((str: string) => str.toLowerCase().trim())
             return this.transactionsTable.appendToScratch(number, "tags", tags)
