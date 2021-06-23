@@ -1,0 +1,31 @@
+{
+    "main":{
+        "test name":{
+            "name":"test name",
+            "description":"test description",
+            "items":{
+                "123":{
+                    "owner":"test owner",
+                    "notes":"test note",
+                    "borrower":""
+                }
+            },
+            "tags":{"type": "String", "values": ["tag1"]}
+        }
+    },
+    "items":{
+        "123":{
+            "key":"123",
+            "val":"test name"
+        }
+    },
+    "batch":{},
+    "tags":{
+        "tag1":{
+            "key":"tag1",
+            "val":{"type":"String","values":["test name"]}
+        }
+    },
+    "history":{},
+    "transactions":{}
+}

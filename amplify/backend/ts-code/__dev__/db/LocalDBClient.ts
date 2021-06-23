@@ -1,4 +1,5 @@
-import { DBClient } from "../../../src/injection/db/DBClient";
+import { DBSeed } from "./DBTestConstants";
+import { DBClient } from "../../src/injection/db/DBClient";
 import { AWSError, Schemas } from "aws-sdk"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 import { PromiseResult } from "aws-sdk/lib/request"
@@ -8,7 +9,7 @@ import {
     BATCH_TABLE, TAGS_TABLE, SearchIndexSchema,
     TRANSACTIONS_TABLE, TransactionsSchema,
     HISTORY_TABLE, HistorySchema
-} from "../../../src/db/Schemas"
+} from "../../src/db/Schemas"
 
 interface LocalDB {
     main: { [key: string]: MainSchema },
@@ -26,22 +27,15 @@ export class LocalDBClient implements DBClient {
 
     private db: LocalDB
 
-    constructor() {
-        this.db = {
-            main: {},
-            items: {},
-            batch: {},
-            tags: {},
-            history: {},
-            transactions: {}
-        }
+    constructor(seed: DBSeed = DBSeed.EMPTY) {
+        this.db = JSON.parse(JSON.stringify(seed))
     }
 
     /**
      * Return entire database as a string
      */
-    public toJSON(): string {
-        return JSON.stringify(this.db)
+    public getDB(): LocalDB {
+        return this.db
     }
 
     public createSet(list: string[]): DocumentClient.StringSet {
@@ -106,19 +100,69 @@ export class LocalDBClient implements DBClient {
                 const val: string[] = params.ExpressionAttributeValues[":val"]
                 this.getTable(params.TableName)[Object.values(params.Key)[0]][key]
                     = this.getTable(params.TableName)[Object.values(params.Key)[0]][key].concat(val)
+            } else if (params.UpdateExpression === "SET #key = :val") {
+                const key: string = params.ExpressionAttributeNames["#key"]
+                const val: any = params.ExpressionAttributeValues[":val"]
+                this.getTable(params.TableName)[Object.values(params.Key)[0]][key] = val
             } else if (params.UpdateExpression === "SET #attr.#key = :val") {
                 const attr: string = params.ExpressionAttributeNames["#attr"]
                 const key: string = params.ExpressionAttributeNames["#key"]
                 const val: any = params.ExpressionAttributeValues[":val"]
                 this.getTable(params.TableName)[Object.values(params.Key)[0]][attr][key] = val
-            } else if (params.UpdateExpression === "REMOVE #attr.#key") {
-                const attr: string = params.ExpressionAttributeNames["#attr"]
+            } else if (params.UpdateExpression === "SET #attr1.#attr2.#key = :val") {
+                const attr1: string = params.ExpressionAttributeNames["#attr1"]
+                const attr2: string = params.ExpressionAttributeNames["#attr2"]
                 const key: string = params.ExpressionAttributeNames["#key"]
-                delete this.getTable(params.TableName)[Object.values(params.Key)[0]][attr][key]
+                const val: any = params.ExpressionAttributeValues[":val"]
+                this.getTable(params.TableName)[Object.values(params.Key)[0]][attr1][attr2][key] = val
+            } else if (params.UpdateExpression === "REMOVE #attr.#id") {
+                const attr: string = params.ExpressionAttributeNames["#attr"]
+                const id: string = params.ExpressionAttributeNames["#id"]
+                delete this.getTable(params.TableName)[Object.values(params.Key)[0]][attr][id]
             } else if (params.UpdateExpression === "REMOVE #key[:idx]") {
                 const key: string = params.ExpressionAttributeNames["#key"]
                 const idx: string = params.ExpressionAttributeValues[":idx"]
                 this.getTable(params.TableName)[Object.values(params.Key)[0]][key].splice(idx, 1)
+            } else if (params.UpdateExpression === "ADD #key :val") {
+                const key: string = params.ExpressionAttributeNames["#key"]
+                const val: DocumentClient.StringSet = params.ExpressionAttributeValues[":val"]
+                if (this.getTable(params.TableName)[Object.values(params.Key)[0]][key]) {
+                    this.getTable(params.TableName)[Object.values(params.Key)[0]][key].values
+                        = val.values.concat(this.getTable(params.TableName)[Object.values(params.Key)[0]][key].values).sort()
+                } else {
+                    this.getTable(params.TableName)[Object.values(params.Key)[0]][key] = val
+                }
+            } else if (params.UpdateExpression === "ADD #attr1.#attr2.#key :val") {
+                const attr1: string = params.ExpressionAttributeNames["#attr1"]
+                const attr2: string = params.ExpressionAttributeNames["#attr2"]
+                const key: string = params.ExpressionAttributeNames["#key"]
+                const val: DocumentClient.StringSet = params.ExpressionAttributeValues[":val"]
+                if (this.getTable(params.TableName)[Object.values(params.Key)[0]][attr1][attr2][key]) {
+                    this.getTable(params.TableName)[Object.values(params.Key)[0]][attr1][attr2][key].values
+                        = val.values.concat(this.getTable(params.TableName)[Object.values(params.Key)[0]][attr1][attr2][key].values).sort()
+                } else {
+                    this.getTable(params.TableName)[Object.values(params.Key)[0]][attr1][attr2][key] = val
+                }
+            } else if (params.UpdateExpression === "DELETE #key :val") {
+                const key: string = params.ExpressionAttributeNames["#key"]
+                const val: DocumentClient.StringSet = params.ExpressionAttributeValues[":val"]
+                this.getTable(params.TableName)[Object.values(params.Key)[0]][key].values =
+                        this.getTable(params.TableName)[Object.values(params.Key)[0]][key].values
+                            .filter((el: string) => !val.values.includes(el))
+                if (this.getTable(params.TableName)[Object.values(params.Key)[0]][key].values.length == 0) {
+                    this.getTable(params.TableName)[Object.values(params.Key)[0]][key] = undefined
+                }
+            } else if (params.UpdateExpression === "DELETE #attr1.#attr2.#key :val") {
+                const attr1: string = params.ExpressionAttributeNames["#attr1"]
+                const attr2: string = params.ExpressionAttributeNames["#attr2"]
+                const key: string = params.ExpressionAttributeNames["#key"]
+                const val: DocumentClient.StringSet = params.ExpressionAttributeValues[":val"]
+                this.getTable(params.TableName)[Object.values(params.Key)[0]][attr1][attr2][key].values =
+                        this.getTable(params.TableName)[Object.values(params.Key)[0]][attr1][attr2][key].values
+                            .filter((el: string) => !val.values.includes(el))
+                if (this.getTable(params.TableName)[Object.values(params.Key)[0]][attr1][attr2][key].values.length == 0) {
+                    this.getTable(params.TableName)[Object.values(params.Key)[0]][attr1][attr2][key] = undefined
+                }
             } else {
                 throw Error("Unsupported UpdateExpression: " + params.UpdateExpression)
             }

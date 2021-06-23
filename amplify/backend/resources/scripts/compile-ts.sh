@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # cd to script directory
-cd "$(dirname "$0")" || exit
+cd "$(dirname "$0")"/../../ || exit
 
 # rm previous build
 rm -r ./ts-output/
