@@ -1,7 +1,4 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true
-  },
-  "exclude": ["amplify", "node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
+  "compilerOptions": {},
+  "extends": "expo/tsconfig.base"
 }
