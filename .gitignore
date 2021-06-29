@@ -23,4 +23,4 @@ amplifytools.xcconfig
 
 # Backend ts builds
 ts-output/
-coverage/
+report.json

@@ -31,14 +31,7 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": ["./amplify/backend/ts-output/src/**/*.js"],
-    "coverageThreshold": {
-      "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
-      }
-    },
+    "coverageReporters": ["text", "text-summary"],
     "roots": ["./amplify/backend/ts-output"],
     "moduleFileExtensions": ["js"]
   },
