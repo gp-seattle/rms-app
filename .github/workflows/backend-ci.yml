@@ -1,5 +1,5 @@
 # Workflow to run backend tests on push
-name: Amplify CD
+name: Backend CI
 
 # Controls when the action will run. 
 on:
@@ -33,3 +33,10 @@ jobs:
           npm install
           npm run build
           npm run test
+      
+      - name: code coverage
+        uses: artiomtr/jest-coverage-report-action@v2.0-rc.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          threshold: 80
+          skip-step: all

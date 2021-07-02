@@ -8,4 +8,4 @@ export STORAGE_TAGS_NAME="tags"
 export STORAGE_HISTORY_NAME="history"
 export STORAGE_TRANSACTIONS_NAME="transactions"
 
-jest
+jest --json --outputFile=report.json
