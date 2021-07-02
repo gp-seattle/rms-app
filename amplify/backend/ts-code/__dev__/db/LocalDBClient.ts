@@ -1,6 +1,6 @@
 import { DBSeed } from "./DBTestConstants";
 import { DBClient } from "../../src/injection/db/DBClient";
-import { AWSError, Schemas } from "aws-sdk"
+import { AWSError } from "aws-sdk"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 import { PromiseResult } from "aws-sdk/lib/request"
 import { 
