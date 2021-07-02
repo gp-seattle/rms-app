@@ -1,7 +1,7 @@
 import { MainTable } from "../db/MainTable"
 import { ItemTable } from "../db/ItemTable"
 import { TransactionsTable } from "../db/TransactionsTable"
-import { ItemSchema, MainSchema, SecondaryIndexSchema } from "../db/Schemas"
+import { MainSchema, SecondaryIndexSchema } from "../db/Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"

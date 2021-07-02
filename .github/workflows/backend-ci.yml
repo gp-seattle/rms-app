@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  amplify-deploy:
+  backend-ci:
     runs-on: ubuntu-latest
     
     strategy:

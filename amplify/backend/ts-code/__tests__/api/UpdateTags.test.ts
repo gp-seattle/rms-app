@@ -1,4 +1,3 @@
-import { UpdateDescription } from "../../src/api/UpdateDescription"
 import { UpdateTags } from "../../src/api/UpdateTags"
 import { DBSeed, TestConstants} from "../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../__dev__/db/LocalDBClient"
