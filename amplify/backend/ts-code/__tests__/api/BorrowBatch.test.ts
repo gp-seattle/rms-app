@@ -72,3 +72,35 @@ test('will fail to borrow batch when batch does not exist', async () => {
     ).rejects.toThrow(`Could not find batch '${TestConstants.BAD_REQUEST}'`)
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)
 })
+
+test('will fail to borrow batch when item name not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
+    const api: BorrowBatch = new BorrowBatch(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.BORROW_BATCH)
+
+    await expect(
+        api.execute({
+            borrower: TestConstants.BORROWER,
+            notes: TestConstants.NOTES
+        }).then(() => dbClient.getDB())
+    ).rejects.toThrow("Missing required field 'name'")
+    expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)
+})
+
+test('will fail to borrow batch when item borrower not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
+    const api: BorrowBatch = new BorrowBatch(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.BORROW_BATCH)
+
+    await expect(
+        api.execute({ 
+            name: TestConstants.BATCH,
+            notes: TestConstants.NOTES
+        }).then(() => dbClient.getDB())
+    ).rejects.toThrow("Missing required field 'borrower'")
+    expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)
+})
