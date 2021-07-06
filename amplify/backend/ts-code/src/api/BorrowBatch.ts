@@ -24,7 +24,7 @@ export class BorrowBatch {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: BorrowBatchInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, BorrowBatch.NAME)
                 .then(() => "Name of Batch:")
@@ -47,10 +47,11 @@ export class BorrowBatch {
      * @param borrower Name of borrower
      * @param notes Notes about this action
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(scratch: BorrowBatchInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.batchTable.get(scratch.name)
+                return this.performAllFVAs(scratch)
+                    .then(() => this.batchTable.get(scratch.name))
                     .then((entry: SearchIndexSchema) => {
                         if (entry) {
                             return Promise.all(entry.val.values.map((id: string) =>
@@ -65,9 +66,20 @@ export class BorrowBatch {
             BorrowBatch.NAME, this.metrics
         )
     }
+
+    private performAllFVAs(scratch: BorrowBatchInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (scratch.name == undefined) {
+                reject(new Error("Missing required field 'name'"))
+            } else if (scratch.borrower == undefined) {
+                reject(new Error("Missing required field 'borrower'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface BorrowBatchInput {
     name?: string,
     borrower?: string,
     notes?: string
