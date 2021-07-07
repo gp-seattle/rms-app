@@ -8,7 +8,7 @@ test('will print item correctly when main table is empty', async () => {
     const api: PrintTable = new PrintTable(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             tableName: MAIN_TABLE
         })
     ).resolves.toEqual({
@@ -25,8 +25,8 @@ test('will fail to print item when table name is invalid', () => {
     const api: PrintTable = new PrintTable(dbClient)
     
     // Throws exceiption outside of a promise
-    expect(() => 
-        api.execute({ 
+    expect(() =>
+        api.execute({
             tableName: TestConstants.BAD_REQUEST
         })
     ).toThrow("Unsupported Table Name: " + TestConstants.BAD_REQUEST)

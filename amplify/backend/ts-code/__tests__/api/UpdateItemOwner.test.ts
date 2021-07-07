@@ -7,7 +7,7 @@ test('will update description correctly when id exists', async () => {
     const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID,
             currentOwner: TestConstants.OWNER,
             newOwner: TestConstants.OWNER_2
@@ -21,7 +21,7 @@ test('will throw excpetion when owner is invalid', async () => {
     const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID,
             currentOwner: TestConstants.BAD_REQUEST,
             newOwner: TestConstants.OWNER_2
@@ -35,7 +35,7 @@ test('will throw excpetion when id is invalid', async () => {
     const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.BAD_REQUEST,
             currentOwner: TestConstants.OWNER,
             newOwner: TestConstants.OWNER_2

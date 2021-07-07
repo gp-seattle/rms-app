@@ -8,7 +8,7 @@ import { DocumentClient } from "aws-sdk/clients/dynamodb";
 
 /**
  * Interact with Main Table by TSV.
- * 
+ *
  * Has capabilities to download the latest table in the form of a TSV
  * and update the latest table from a TSV.
  */
@@ -23,7 +23,7 @@ export class TSV {
 
     /**
      * Download file, outputting basic information in the form of a TSV.
-     * 
+     *
      * @returns TSV formatted string of the current database
      */
     public download(): Promise<string> {
@@ -61,9 +61,9 @@ export class TSV {
 
     /**
      * Will iterate through the list of items in the TSV, uploading them to the main database.
-     * 
+     *
      * If item doesn't exist, then will add item.
-     * 
+     *
      * @param filepath Path to input file
      * @throws when header is not as expected.
      */

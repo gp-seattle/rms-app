@@ -62,7 +62,7 @@ export class Router {
 
     /**
      * Process given request string.
-     * 
+     *
      * @param request String to process.
      * @param number Corresponding unique number, which is used to identify transactions from a given source.
      */

@@ -11,7 +11,7 @@ export class BatchTable {
 
     /**
      * Adds specified items to batch. Will override existing batch if exists.
-     * 
+     *
      * @param name Name of Batch
      * @param ids RMS IDs of the items in the Batch
      */
@@ -35,7 +35,7 @@ export class BatchTable {
             })
             .catch((reason: any) => {
                 // Rollback
-                return Promise.all(ids.map((id: string) => 
+                return Promise.all(ids.map((id: string) =>
                     this.detachBatchFromItem(name, id)
                         .catch((reason: any) => "Ignore Error")
                 )).then(() => { throw reason })
@@ -69,7 +69,7 @@ export class BatchTable {
 
     /**
      * Delete specified batch by name
-     * 
+     *
      * @param name Name of Batch
      * @param ids RMS IDs of the items in the Batch
      */

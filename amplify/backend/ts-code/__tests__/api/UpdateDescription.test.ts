@@ -7,7 +7,7 @@ test('will update description correctly when name exists', async () => {
     const api: UpdateDescription = new UpdateDescription(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.NAME,
             description: TestConstants.DESCRIPTION_2
         })
@@ -20,7 +20,7 @@ test('will throw excpetion when name is invalid', async () => {
     const api: UpdateDescription = new UpdateDescription(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BAD_REQUEST,
             description: TestConstants.DESCRIPTION_2
         })

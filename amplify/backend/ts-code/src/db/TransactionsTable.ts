@@ -11,7 +11,7 @@ export class TransactionsTable {
 
     /**
      * Append to scratch space map
-     * 
+     *
      * @param number Phone Number being used for response.
      * @param key Target variable
      * @param val Value to append
@@ -40,7 +40,7 @@ export class TransactionsTable {
 
     /**
      * Create new Transaction
-     * 
+     *
      * @param number Phone Number being used for response.
      * @param type Type of transaction being performed
      * @param scratch Scratch space used by transactions. Initialized as empty.
@@ -62,7 +62,7 @@ export class TransactionsTable {
 
     /**
      * Delete by phone number
-     * 
+     *
      * @param number Phone Number being used for response.
      */
     public delete(
@@ -79,7 +79,7 @@ export class TransactionsTable {
 
     /**
      * Get transaction entry by phone number
-     * 
+     *
      * @param number Phone Number being used for response.
      */
     public get(

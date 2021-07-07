@@ -7,11 +7,11 @@ test('will add item correctly when name does not exist', async () => {
     const api: AddItem = new AddItem(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID,
             name: TestConstants.NAME,
             description: TestConstants.DESCRIPTION,
-            tags: [TestConstants.TAG], 
+            tags: [TestConstants.TAG],
             owner: TestConstants.OWNER,
             notes: TestConstants.NOTES
         })
@@ -24,11 +24,11 @@ test('will add additional item correctly when item already exist', async () => {
     const api: AddItem = new AddItem(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID_2,
             name: TestConstants.NAME,
             description: TestConstants.DESCRIPTION_2,
-            tags: [TestConstants.TAG, TestConstants.TAG_2], 
+            tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,
             notes: TestConstants.NOTES_2
         })
@@ -41,11 +41,11 @@ test('will fail to add item when id is not unique', async () => {
     const api: AddItem = new AddItem(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID,
             name: TestConstants.NAME,
             description: TestConstants.DESCRIPTION_2,
-            tags: [TestConstants.TAG, TestConstants.TAG_2], 
+            tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,
             notes: TestConstants.NOTES_2
         })
@@ -58,11 +58,11 @@ test('will add different name correctly when name already exists', async () => {
     const api: AddItem = new AddItem(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID_2,
             name: TestConstants.NAME_2,
             description: TestConstants.DESCRIPTION_2,
-            tags: [TestConstants.TAG, TestConstants.TAG_2], 
+            tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,
             notes: TestConstants.NOTES_2
         })
@@ -75,11 +75,11 @@ test('will fail to add name when id is not unique', async () => {
     const api: AddItem = new AddItem(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID,
             name: TestConstants.NAME_2,
             description: TestConstants.DESCRIPTION_2,
-            tags: [TestConstants.TAG, TestConstants.TAG_2], 
+            tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,
             notes: TestConstants.NOTES_2
         })

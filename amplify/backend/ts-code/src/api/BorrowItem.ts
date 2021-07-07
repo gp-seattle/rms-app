@@ -55,7 +55,7 @@ export class BorrowItem {
             },
             BorrowItem.NAME, this.metrics
         )
-    }  
+    }
 }
 
 interface ScratchInterface {

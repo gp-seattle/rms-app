@@ -71,7 +71,7 @@ export const TRANSACTIONS_TABLE: string = process.env.STORAGE_TRANSACTIONS_NAME
  * @param number Phone Number being used for response.
  * @param type Type of transaction being performed
  * @param scratch Scratch space used by transactions. Initialized as empty.
- */ 
+ */
 export interface TransactionsSchema {
     number: string,
     type: string,

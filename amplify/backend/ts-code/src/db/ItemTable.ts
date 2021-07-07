@@ -54,7 +54,7 @@ export class ItemTable {
                     }
 
                     return this.client.update(mainParams)
-                        .then(() => this.client.put(indexParams))        
+                        .then(() => this.client.put(indexParams))
                 }
             })
     }

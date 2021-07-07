@@ -10,7 +10,7 @@ test('will return item correctly when id borrowed', async () => {
     Date.now = jest.fn(() => TestTimestamps.RETURN_ITEM)
 
     await expect(
-        api.execute({ 
+        api.execute({
             ids: [ TestConstants.ITEM_ID ],
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES_2
@@ -27,7 +27,7 @@ test('will fail to return item when item is not borrowed', async () => {
     Date.now = jest.fn(() => TestTimestamps.RETURN_ITEM)
 
     await expect(
-        api.execute({ 
+        api.execute({
             ids: [ TestConstants.ITEM_ID ],
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES_2
@@ -44,7 +44,7 @@ test('will fail to return item when item is borrowed by somebody else', async ()
     Date.now = jest.fn(() => TestTimestamps.RETURN_ITEM)
 
     await expect(
-        api.execute({ 
+        api.execute({
             ids: [ TestConstants.ITEM_ID ],
             borrower: TestConstants.BAD_REQUEST,
             notes: TestConstants.NOTES_2
@@ -61,7 +61,7 @@ test('will fail to return item when id does not exist', async () => {
     Date.now = jest.fn(() => TestTimestamps.RETURN_ITEM)
 
     await expect(
-        api.execute({ 
+        api.execute({
             ids: [ TestConstants.BAD_REQUEST ],
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES_2

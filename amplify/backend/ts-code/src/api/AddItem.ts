@@ -94,7 +94,7 @@ export class AddItem {
                     }
                 }).then(() => {
                     return this.itemTable.create(scratch.id, scratch.name, scratch.owner, scratch.notes)
-                        .then(() => `Created Item with RMS ID: ${scratch.id}`)       
+                        .then(() => `Created Item with RMS ID: ${scratch.id}`)
                 })
             },
             AddItem.NAME, this.metrics
@@ -109,7 +109,7 @@ interface ScratchInterface {
     name?: string,
     createItem?: boolean,
     description?: string,
-    tags?: string[], 
+    tags?: string[],
     owner?: string,
     notes?: string
 }

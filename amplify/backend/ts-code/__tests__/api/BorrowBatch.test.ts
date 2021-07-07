@@ -10,7 +10,7 @@ test('will borrow batch correctly when batch exists', async () => {
     Date.now = jest.fn(() => TestTimestamps.BORROW_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES
@@ -29,7 +29,7 @@ test('will fail to borrow batch when single item already borrowed', async () => 
     Date.now = jest.fn(() => TestTimestamps.BORROW_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES
@@ -47,7 +47,7 @@ test('will fail to borrow batch when batch already borrowed', async () => {
     Date.now = jest.fn(() => TestTimestamps.BORROW_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES
@@ -64,7 +64,7 @@ test('will fail to borrow batch when batch does not exist', async () => {
     Date.now = jest.fn(() => TestTimestamps.BORROW_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BAD_REQUEST,
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES
@@ -97,7 +97,7 @@ test('will fail to borrow batch when item borrower not passed in', async () => {
     Date.now = jest.fn(() => TestTimestamps.BORROW_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             notes: TestConstants.NOTES
         }).then(() => dbClient.getDB())

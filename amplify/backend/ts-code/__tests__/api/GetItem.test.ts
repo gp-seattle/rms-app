@@ -20,7 +20,7 @@ test('will get item correctly when id exists', async () => {
     }
     
     await expect(
-        api.execute({ 
+        api.execute({
             key: TestConstants.ITEM_ID
         })
     ).resolves.toEqual(expected)
@@ -49,7 +49,7 @@ test('will get item correctly when name exists', async () => {
     }
     
     await expect(
-        api.execute({ 
+        api.execute({
             key: TestConstants.NAME
         })
     ).resolves.toEqual(expected)
@@ -61,7 +61,7 @@ test('will throw excpetion when key is invalid', async () => {
     const api: GetItem = new GetItem(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             key: TestConstants.BAD_REQUEST
         })
     ).rejects.toThrow(`Couldn't find item '${TestConstants.BAD_REQUEST}'`)

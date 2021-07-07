@@ -7,7 +7,7 @@ test('will create batch correctly when items exist', async () => {
     const api: CreateBatch = new CreateBatch(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             ids: [ TestConstants.ITEM_ID, TestConstants.ITEM_ID_2 ]
         })
@@ -20,7 +20,7 @@ test('will override existing batch when batch already exist', async () => {
     const api: CreateBatch = new CreateBatch(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             ids: [ TestConstants.ITEM_ID ]
         })
@@ -33,7 +33,7 @@ test('will create batch correctly when a batch already exists', async () => {
     const api: CreateBatch = new CreateBatch(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH_2,
             ids: [ TestConstants.ITEM_ID ]
         })
@@ -46,7 +46,7 @@ test('will fail to create batch when id is invalid', async () => {
     const api: CreateBatch = new CreateBatch(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             ids: [ TestConstants.ITEM_ID, TestConstants.ITEM_ID_2, TestConstants.BAD_REQUEST ]
         })

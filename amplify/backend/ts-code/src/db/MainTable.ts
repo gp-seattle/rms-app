@@ -11,7 +11,7 @@ export class MainTable {
 
     /**
      * Create new description for item family.
-     * 
+     *
      * Tags and Items are initialized as empty.
      */
     public create(
@@ -32,7 +32,7 @@ export class MainTable {
 
     /**
      * Delete description
-     * 
+     *
      * Checks that Tags and Items are empty before proceeding.
      */
     public delete(

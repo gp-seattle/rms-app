@@ -7,7 +7,7 @@ test('will delete item correctly when name has single item', async () => {
     const api: DeleteItem = new DeleteItem(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID_2,
         })
     ).resolves.toEqual(`Deleted a '${TestConstants.NAME_2}' from the inventory.`)
@@ -19,7 +19,7 @@ test('will delete item correctly when name has two items', async () => {
     const api: DeleteItem = new DeleteItem(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID_2,
         })
     ).resolves.toEqual(`Deleted a '${TestConstants.NAME}' from the inventory.`)
@@ -31,7 +31,7 @@ test('will throw exception when id is invalid', async () => {
     const api: DeleteItem = new DeleteItem(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.BAD_REQUEST,
         }).then(() => dbClient.getDB())
     ).rejects.toThrow(`Item ${TestConstants.BAD_REQUEST} doesn't exist.`)
