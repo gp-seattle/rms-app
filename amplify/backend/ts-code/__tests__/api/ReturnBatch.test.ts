@@ -10,7 +10,7 @@ test('will return batch correctly when batch borrowed', async () => {
     Date.now = jest.fn(() => TestTimestamps.RETURN_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES_2
@@ -29,7 +29,7 @@ test('will fail to return batch when batch is only partially borrowed', async ()
     Date.now = jest.fn(() => TestTimestamps.RETURN_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES_2
@@ -47,7 +47,7 @@ test('will fail to return batch when batch is not borrowed', async () => {
     Date.now = jest.fn(() => TestTimestamps.RETURN_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES_2
@@ -64,7 +64,7 @@ test('will fail to return batch when batch is borrowed by somebody else', async 
     Date.now = jest.fn(() => TestTimestamps.RETURN_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH,
             borrower: TestConstants.BAD_REQUEST,
             notes: TestConstants.NOTES_2
@@ -81,7 +81,7 @@ test('will fail to return batch when batch does not exist', async () => {
     Date.now = jest.fn(() => TestTimestamps.RETURN_BATCH)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BAD_REQUEST,
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES_2

@@ -4,7 +4,7 @@ import { PromiseResult } from "aws-sdk/lib/request"
 
 /**
  * Database client following pattern of DynamoDB DocumentClient
- * 
+ *
  * ref: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html
  */
 export interface DBClient {

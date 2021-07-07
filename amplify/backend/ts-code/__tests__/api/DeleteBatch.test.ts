@@ -7,7 +7,7 @@ test('will delete batch correctly when batch exist', async () => {
     const api: DeleteBatch = new DeleteBatch(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BATCH
         })
     ).resolves.toEqual(`Successfully deleted batch '${TestConstants.BATCH}'`)
@@ -19,7 +19,7 @@ test('will fail to delete batch when batch does not exist', async () => {
     const api: DeleteBatch = new DeleteBatch(dbClient)
 
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BAD_REQUEST
         })
     ).rejects.toThrow(`Batch '${TestConstants.BAD_REQUEST}' not found`)

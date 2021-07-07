@@ -30,7 +30,7 @@ export class SearchItem {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, SearchItem.NAME)
                 .then(() => "Tags to search for (separated by spaces):")
-        } else {            
+        } else {
             scratch.tags = request.split(/(\s+)/)
                 .filter((str: string) => str.trim().length > 0)
                 .map((str: string) => str.toLowerCase().trim())
@@ -82,13 +82,13 @@ export class SearchItem {
                             if (search && search.val) {
                                 search.val.values.forEach((name: string) => {
                                     if (Object.keys(names).includes(name)) {
-                                        names[name] = { 
+                                        names[name] = {
                                             name: name,
                                             occurrences: names[name].occurrences + 1,
                                             relevance: Math.min(names[name].relevance, index)
                                         }
                                     } else {
-                                        names[name] = { 
+                                        names[name] = {
                                             name: name,
                                             occurrences: 1,
                                             relevance: index

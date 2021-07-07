@@ -7,7 +7,7 @@ test('will update note correctly when id exists', async () => {
     const api: UpdateItemNotes = new UpdateItemNotes(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.ITEM_ID,
             note: TestConstants.NOTES_2
         })
@@ -20,7 +20,7 @@ test('will throw excpetion when id is invalid', async () => {
     const api: UpdateItemNotes = new UpdateItemNotes(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             id: TestConstants.BAD_REQUEST,
             note: TestConstants.NOTES_2
         }).then(() => dbClient.getDB())

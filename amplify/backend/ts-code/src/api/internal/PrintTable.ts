@@ -7,7 +7,7 @@ import { DocumentClient } from "aws-sdk/clients/dynamodb"
 
 /**
  * Scan entire table.
- * 
+ *
  * WARNING: THIS IS A EXPENSIVE OPERATION
  */
 export class PrintTable {
@@ -64,7 +64,7 @@ export class PrintTable {
 
     /**
      * Scan Table, returning the DynamoDB ScanOutput.
-     * 
+     *
      * Required params in scratch object:
      * @param tableName Name of target table
      * Optional DynamoDB Scan Parameters:

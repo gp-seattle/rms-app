@@ -34,7 +34,7 @@ function run() {
 }
 
 async function getSchema(err: any, request: any) {
-    if (err) { 
+    if (err) {
         console.log(err)
         return 1
     } else {

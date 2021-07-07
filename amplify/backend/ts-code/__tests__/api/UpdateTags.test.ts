@@ -7,7 +7,7 @@ test('will update tags correctly when name exists', async () => {
     const api: UpdateTags = new UpdateTags(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.NAME,
             tags: [ TestConstants.TAG_2 ]
         })
@@ -20,7 +20,7 @@ test('will throw excpetion when name is invalid', async () => {
     const api: UpdateTags = new UpdateTags(dbClient)
     
     await expect(
-        api.execute({ 
+        api.execute({
             name: TestConstants.BAD_REQUEST,
             tags: [ TestConstants.TAG_2 ]
         }).then(() => dbClient.getDB())

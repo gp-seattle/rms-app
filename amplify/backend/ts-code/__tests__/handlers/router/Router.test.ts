@@ -107,7 +107,7 @@ test('will internal print table correctly when using router and invalid table na
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
     const router: Router = new Router(dbClient)
 
-    await expect(() => 
+    await expect(() =>
         router.processRequest(PrintTable.NAME, TestConstants.NUMBER)
             .then((output: string) => {
                 expect(output).toEqual("Name of table: (Options: main, batch, history, items, tags, transactions)")

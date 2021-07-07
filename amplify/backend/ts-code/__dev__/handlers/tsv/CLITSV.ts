@@ -14,9 +14,9 @@ const metrics: MetricsClient = new CloudWatchClient(
 
 /**
  * CLI to batch download / download the main table.
- * 
+ *
  * CONNECTS TO PRODUCTION DATABASE
- * 
+ *
  * Run with following command:
  * node CLITSV.js <download/upload> <path to file>
  */

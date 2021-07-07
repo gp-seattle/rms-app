@@ -15,7 +15,7 @@ test('will borrow batch correctly when using handler', async () => {
     Date.now = jest.fn(() => TestTimestamps.BORROW_BATCH)
     
     await expect(
-        handler({ 
+        handler({
             name: TestConstants.BATCH,
             borrower: TestConstants.BORROWER,
             notes: TestConstants.NOTES

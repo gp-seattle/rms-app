@@ -6,7 +6,7 @@ test('will search item correctly when tag exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const api: SearchItem = new SearchItem(dbClient)
     
-    await api.execute({ 
+    await api.execute({
         tags: [ TestConstants.TAG_2, TestConstants.TAG ]
     }).then((search: SearchItemReturn) => {
         expect(Object.keys(search.map).length).toEqual(2)
@@ -24,7 +24,7 @@ test('will return nothing when tag does not exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const api: SearchItem = new SearchItem(dbClient)
     
-    await api.execute({ 
+    await api.execute({
         tags: [ TestConstants.BAD_REQUEST ]
     }).then((search: SearchItemReturn) => {
         expect(Object.keys(search.map).length).toEqual(0)

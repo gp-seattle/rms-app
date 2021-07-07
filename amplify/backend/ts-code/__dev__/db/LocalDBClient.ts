@@ -3,7 +3,7 @@ import { DBClient } from "../../src/injection/db/DBClient";
 import { AWSError } from "aws-sdk"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 import { PromiseResult } from "aws-sdk/lib/request"
-import { 
+import {
     MAIN_TABLE, MainSchema,
     ITEMS_TABLE, SecondaryIndexSchema,
     BATCH_TABLE, TAGS_TABLE, SearchIndexSchema,
