@@ -1,8 +1,8 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "build": "./amplify/backend/resources/scripts/compile-ts.sh",
-    "test": "./amplify/backend/resources/scripts/run-tests.sh",
+    "build": "node backend-build.js",
+    "test": "node backend-test.js",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
