@@ -1,8 +1,6 @@
 /**
  * Test Backend Code
  */
-
-const path = require("path")
 const { exec } = require("child_process")
 
 const MASTER_PATH = __dirname
