@@ -1,7 +1,7 @@
 # Workflow to run backend tests on push
 name: Backend CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on pull request events but only for the master branch
   pull_request:
@@ -10,7 +10,7 @@ on:
 jobs:
   backend-ci:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [14.x]
@@ -18,7 +18,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-    
+
       - name: use node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -29,7 +29,7 @@ jobs:
           npm install
           npm run build
           npm run test
-      
+
       - name: code coverage
         uses: artiomtr/jest-coverage-report-action@v2.0-rc.1
         with:
