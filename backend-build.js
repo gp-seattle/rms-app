@@ -64,7 +64,7 @@ exec("tsc", { cwd: MASTER_PATH },
         // Move to Lambda Folders
         copyEntireDirectory(
             path.join(MASTER_PATH, "ts-output", "src"),
-            path.join(MASTER_PATH, "function", "sms-router", "src", "ts-output")
+            path.join(MASTER_PATH, "function", "smsrouter", "src", "ts-output")
         )
 
         API_NAMES.forEach((apiName) => {
