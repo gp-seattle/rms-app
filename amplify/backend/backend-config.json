@@ -128,6 +128,61 @@
         }
       ]
     },
+    "ReturnBatch": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "main",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "transactions",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
     "ReturnItem": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -138,8 +193,7 @@
           "resourceName": "main",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -147,8 +201,7 @@
           "resourceName": "items",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -156,8 +209,7 @@
           "resourceName": "batch",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -165,8 +217,7 @@
           "resourceName": "tags",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -174,8 +225,7 @@
           "resourceName": "history",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -183,8 +233,7 @@
           "resourceName": "transactions",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         }
       ]
