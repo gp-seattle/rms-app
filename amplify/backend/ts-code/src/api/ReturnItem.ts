@@ -37,7 +37,7 @@ export class ReturnItem {
             scratch.notes = request
             return this.transactionsTable.delete(number)
                 .then(() => this.execute(scratch))
-        } 
+        }
     }
 
     /**
