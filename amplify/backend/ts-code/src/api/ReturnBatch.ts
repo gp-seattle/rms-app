@@ -24,7 +24,7 @@ export class ReturnBatch {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: ReturnBatchInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, ReturnBatch.NAME)
                 .then(() => "Name of Batch:")
@@ -47,27 +47,39 @@ export class ReturnBatch {
      * @param borrower Name of borrower
      * @param notes Notes about this action
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: ReturnBatchInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.batchTable.get(scratch.name)
+                return this.performAllFVAs(input)
+                    .then(() => this.batchTable.get(input.name))
                     .then((entry: SearchIndexSchema) => {
                         if (entry) {
                             return Promise.all(entry.val.values.map((id: string) =>
-                                this.mainTable.changeBorrower(id, scratch.borrower, "return", scratch.notes)
+                                this.mainTable.changeBorrower(id, input.borrower, "return", input.notes)
                             ))
                         } else {
-                            throw Error(`Could not find batch '${scratch.name}'`)
+                            throw Error(`Could not find batch '${input.name}'`)
                         }
                     })
-                    .then(() => `Successfully returned items in batch '${scratch.name}'`)
+                    .then(() => `Successfully returned items in batch '${input.name}'`)
             },
             ReturnBatch.NAME, this.metrics
         )
     }
+    
+    private performAllFVAs(input: ReturnBatchInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.name == undefined) {
+                reject(new Error("Missing required field 'name'"))
+            } else if (input.borrower == undefined) {
+                reject(new Error("Missing required field 'borrower'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface ReturnBatchInput {
     name?: string,
     borrower?: string,
     notes?: string
