@@ -27,15 +27,15 @@ exec("jest --json --outputFile=report.json",
         }
     },
     (error, stdout, stderr) => {
-        if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-        }
         if (stderr) {
             console.error(`stderr: ${stderr}`);
         }
         if (stdout) {
             console.log(`stdout: ${stdout}`);
+        }
+        if (error) {
+            console.error(`exec error: ${error}`);
+            return;
         }
     }
 )
