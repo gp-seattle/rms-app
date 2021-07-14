@@ -7,13 +7,13 @@ const path = require("path")
 const { exec } = require("child_process")
 
 const MASTER_PATH = path.join(__dirname, "amplify", "backend")
-const API_NAMES = ["BorrowBatch", "ReturnBatch", "ReturnItem"]
+const API_NAMES = ["BorrowBatch","BorrowItem", "ReturnBatch", "ReturnItem"]
 
 function deleteTsOutput(parentPath) {
     fs.readdirSync(parentPath).forEach((file) => {
         const curPath = path.join(parentPath, file)
         if (fs.lstatSync(curPath).isDirectory()) {
-            if (file == "ts-output") {
+            if (file === "ts-output") {
                 fs.rmSync(curPath, { recursive: true, force: true })
             } else {
                 deleteTsOutput(curPath)

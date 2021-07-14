@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "aws-sdk": "^2.812.0",
-    "expo": "~41.0.1",
+    "expo": "^1.0.0",
     "expo-status-bar": "~1.0.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "^0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -30,10 +30,19 @@
   },
   "jest": {
     "collectCoverage": true,
-    "collectCoverageFrom": ["./amplify/backend/ts-output/src/**/*.js"],
-    "coverageReporters": ["text", "text-summary"],
-    "roots": ["./amplify/backend/ts-output"],
-    "moduleFileExtensions": ["js"]
+    "collectCoverageFrom": [
+      "./amplify/backend/ts-output/src/**/*.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "text-summary"
+    ],
+    "roots": [
+      "./amplify/backend/ts-output"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ]
   },
   "private": true
 }
