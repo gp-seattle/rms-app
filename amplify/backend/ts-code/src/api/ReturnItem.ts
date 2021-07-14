@@ -20,7 +20,7 @@ export class ReturnItem {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: ReturnItemInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, ReturnItem.NAME)
                 .then(() => "IDs of Items (separated by spaces):")
@@ -46,19 +46,34 @@ export class ReturnItem {
      * @param borrower Name of borrower
      * @param notes Notes about this action
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: ReturnItemInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return Promise.all(scratch.ids.map((id: string) =>
-                    this.mainTable.changeBorrower(id, scratch.borrower, "return", scratch.notes)
-                )).then(() => `Successfully returned items '${scratch.ids.toString()}'.`)
+                    return this.performAllFVAs(input)
+                        .then(() => {
+                            return Promise.all(input.ids.map((id: string) =>
+                                this.mainTable.changeBorrower(id, input.borrower, "return", input.notes)
+                            ))
+                        })
+                        .then(() => `Successfully returned items '${input.ids.toString()}'.`)
             },
             ReturnItem.NAME, this.metrics
         )
     }
+
+    private performAllFVAs(input: ReturnItemInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.ids == undefined) {
+                reject(new Error("Missing required field 'ids'"))
+            } else if (input.borrower == undefined) {
+                reject(new Error("Missing required field 'borrower'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface ReturnItemInput {
     ids?: string[],
     borrower?: string,
     notes?: string
