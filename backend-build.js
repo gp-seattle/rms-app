@@ -7,7 +7,7 @@ const path = require("path")
 const { exec } = require("child_process")
 
 const MASTER_PATH = path.join(__dirname, "amplify", "backend")
-const API_NAMES = ["BorrowBatch"]
+const API_NAMES = ["BorrowBatch", "ReturnItem"]
 
 function deleteTsOutput(parentPath) {
     fs.readdirSync(parentPath).forEach((file) => {
@@ -50,15 +50,15 @@ deleteTsOutput(MASTER_PATH)
 // Compile Typescript
 exec("tsc", { cwd: MASTER_PATH },
     (error, stdout, stderr) => {
-        if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-        }
         if (stderr) {
             console.error(`stderr: ${stderr}`);
         }
         if (stdout) {
             console.log(`stdout: ${stdout}`);
+        }
+        if (error) {
+            console.error(`exec error: ${error}`);
+            return;
         }
 
         // Move to Lambda Folders

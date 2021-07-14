@@ -69,3 +69,35 @@ test('will fail to return item when id does not exist', async () => {
     ).rejects.toThrow(`Couldn't find item ${TestConstants.BAD_REQUEST} in the database.`)
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME_BORROWED)
 })
+
+test('will fail to return item when item ids not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME_BORROWED)
+    const api: ReturnItem = new ReturnItem(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.RETURN_ITEM)
+
+    await expect(
+        api.execute({
+            borrower: TestConstants.BORROWER,
+            notes: TestConstants.NOTES_2
+        })
+    ).rejects.toThrow("Missing required field 'ids'")
+    expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME_BORROWED)  // gaurentees DB state is the same start & end
+})
+
+test('will fail to return item when item borrower not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME_BORROWED)
+    const api: ReturnItem = new ReturnItem(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.RETURN_ITEM)
+
+    await expect(
+        api.execute({
+            ids: [ TestConstants.ITEM_ID ],
+            notes: TestConstants.NOTES_2
+        })
+    ).rejects.toThrow("Missing required field 'borrower'")
+    expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME_BORROWED)
+})
