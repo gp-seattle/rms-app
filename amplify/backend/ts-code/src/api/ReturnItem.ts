@@ -49,13 +49,13 @@ export class ReturnItem {
     public execute(input: ReturnItemInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.performAllFVAs(input)
-                    .then(() => {
-                        return Promise.all(input.ids.map((id: string) =>
-                        this.mainTable.changeBorrower(id, input.borrower, "return", input.notes)
-                        ))
-                    })
-                    .then(() => `Successfully returned items '${input.ids.toString()}'.`)
+                    return this.performAllFVAs(input)
+                        .then(() => {
+                            return Promise.all(input.ids.map((id: string) =>
+                                this.mainTable.changeBorrower(id, input.borrower, "return", input.notes)
+                            ))
+                        })
+                        .then(() => `Successfully returned items '${input.ids.toString()}'.`)
             },
             ReturnItem.NAME, this.metrics
         )

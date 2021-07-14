@@ -24,13 +24,3 @@ test('will return item correctly when using handler', async () => {
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME_RETURNED)
     metricsClient.assureState(0)
 })
-
-// make AWS Lambda function
-// name function: API Name in Upper Camel Case
-// ex: ReturnItem
-// pick Node JS runtime
-// use Hello Wolrd function template (we're overriding everything)
-//
-
-//in amplify/function
-// we deleted index.js because it was the function code
