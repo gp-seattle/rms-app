@@ -16,7 +16,10 @@
         "smsrouter": {
           "deploymentBucketName": "amplify-rms-test-132531-deployment",
           "s3Key": "amplify-builds/smsrouter-6f514567323362684373-build.zip"
-        }
+        },
+        "BorrowBatch": {},
+        "ReturnBatch": {},
+        "ReturnItem": {}
       }
     }
   }
