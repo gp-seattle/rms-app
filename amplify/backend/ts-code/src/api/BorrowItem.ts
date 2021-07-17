@@ -3,7 +3,7 @@ import { TransactionsTable } from "../db/TransactionsTable"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
-import {BorrowBatchInput} from "./BorrowBatch";
+
 
 /**
  * Borrow specified item
@@ -51,11 +51,13 @@ export class BorrowItem {
         return emitAPIMetrics(
             () => {
                 return this.performAllFVAs(input)
-                    .then(()=>
-                        Promise.all(input.ids.map((id: string) =>
+                    .then(()=>{
+                        return Promise.all(input.ids.map((id: string) =>
                         this.mainTable.changeBorrower(id, input.borrower, "borrow", input.notes)
-                ))).then(() => `Successfully borrowed items '${input.ids.toString()}'.`)
-            },
+                ))
+            })
+            .then(() => `Successfully borrowed items '${input.ids.toString()}'.`)
+    },
             BorrowItem.NAME, this.metrics
         )
     }

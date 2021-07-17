@@ -1,9 +1,9 @@
 import { BorrowItem } from "../../src/api/BorrowItem"
 import { DBSeed, TestConstants, TestTimestamps } from "../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../__dev__/db/LocalDBClient"
-import {BorrowBatch} from "../../src/api/BorrowBatch";
 
-test('will borrow item correctly when id exists', async () => {
+
+test('will borrow item  correctly when id exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: BorrowItem = new BorrowItem(dbClient)
     
@@ -53,7 +53,7 @@ test('will fail to borrow item when id does not exist', async () => {
     ).rejects.toThrow(`Couldn't find item ${TestConstants.BAD_REQUEST} in the database.`)
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
 })
-test('will fail to borrow item when item name not passed in', async () => {
+test('will fail to borrow item  when item ids not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: BorrowItem = new BorrowItem(dbClient)
 
