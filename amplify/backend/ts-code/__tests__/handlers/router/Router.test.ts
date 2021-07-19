@@ -139,6 +139,9 @@ test('will add item correctly when name does not exist', async () => {
         }).then((output: string) => {
             expect(output).toEqual("Optional notes about this specific item:")
             return router.processRequest(TestConstants.NOTES, TestConstants.NUMBER)
+        }).then((output: string) => {
+            expect(output).toEqual(`Created Item with RMS ID: ${TestConstants.ITEM_ID}`)
+            expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
         })
 })
 
@@ -171,7 +174,7 @@ test('will get item correctly when given valid is', async () => {
 
     const expectedItem: MainSchema = {
         name: TestConstants.NAME,
-        displayName: "",
+        displayName:"",
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
         items: { }

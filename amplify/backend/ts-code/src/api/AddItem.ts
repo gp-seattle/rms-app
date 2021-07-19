@@ -31,7 +31,7 @@ export class AddItem {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, AddItem.NAME)
                 .then(() => "Name of item:")
-        } else if (scratch.name=== undefined) {
+        } else if (scratch.name === undefined) {
             return this.transactionsTable.appendToScratch(number, "name", request)
                 .then(() => this.mainTable.get(request))
                 .then((item: MainSchema) => {
