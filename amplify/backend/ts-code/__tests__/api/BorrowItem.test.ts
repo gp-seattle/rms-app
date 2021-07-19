@@ -3,7 +3,7 @@ import { DBSeed, TestConstants, TestTimestamps } from "../../__dev__/db/DBTestCo
 import { LocalDBClient } from "../../__dev__/db/LocalDBClient"
 
 
-test('will borrow item  correctly when id exists', async () => {
+test('will borrow item correctly when id exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: BorrowItem = new BorrowItem(dbClient)
     
