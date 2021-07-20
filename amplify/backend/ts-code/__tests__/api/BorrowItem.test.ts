@@ -52,6 +52,7 @@ test('will fail to borrow item when id does not exist', async () => {
     ).rejects.toThrow(`Couldn't find item ${TestConstants.BAD_REQUEST} in the database.`)
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
 })
+
 test('will fail to borrow item  when item ids not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: BorrowItem = new BorrowItem(dbClient)

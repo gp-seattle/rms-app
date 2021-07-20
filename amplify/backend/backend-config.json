@@ -249,7 +249,6 @@
           "attributes": [
             "Name",
             "Arn",
-            "StreamArn"
           ]
         },
         {
@@ -258,7 +257,6 @@
           "attributes": [
             "Name",
             "Arn",
-            "StreamArn"
           ]
         },
         {
@@ -267,7 +265,6 @@
           "attributes": [
             "Name",
             "Arn",
-            "StreamArn"
           ]
         },
         {
@@ -276,7 +273,6 @@
           "attributes": [
             "Name",
             "Arn",
-            "StreamArn"
           ]
         },
         {
@@ -285,7 +281,6 @@
           "attributes": [
             "Name",
             "Arn",
-            "StreamArn"
           ]
         },
         {
@@ -294,7 +289,6 @@
           "attributes": [
             "Name",
             "Arn",
-            "StreamArn"
           ]
         }
       ]

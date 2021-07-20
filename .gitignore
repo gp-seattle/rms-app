@@ -24,4 +24,4 @@ amplifytools.xcconfig
 
 # Backend ts builds
 ts-output/
-report.json'.idea' 
+report.json
