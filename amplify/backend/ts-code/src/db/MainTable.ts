@@ -20,6 +20,7 @@ export class MainTable {
     ): Promise<DocumentClient.PutItemOutput> {
         const item: MainSchema = {
             name: name,
+            displayName: "",
             description: description,
             items: {}
         }

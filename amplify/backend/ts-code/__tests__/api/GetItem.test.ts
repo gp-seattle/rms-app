@@ -9,6 +9,7 @@ test('will get item correctly when id exists', async () => {
     
     const expected: MainSchema = {
         name: TestConstants.NAME,
+        displayName: "",
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
         items: { }
@@ -33,6 +34,7 @@ test('will get item correctly when name exists', async () => {
     
     const expected: MainSchema = {
         name: TestConstants.NAME,
+        displayName: "",
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
         items: { }
