@@ -10,6 +10,7 @@ test('will add item correctly when name does not exist', async () => {
         api.execute({
             id: TestConstants.ITEM_ID,
             name: TestConstants.NAME,
+            displayName: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION,
             tags: [TestConstants.TAG],
             owner: TestConstants.OWNER,
@@ -27,6 +28,7 @@ test('will add additional item correctly when item already exist', async () => {
         api.execute({
             id: TestConstants.ITEM_ID_2,
             name: TestConstants.NAME,
+            displayName: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,
@@ -44,6 +46,7 @@ test('will fail to add item when id is not unique', async () => {
         api.execute({
             id: TestConstants.ITEM_ID,
             name: TestConstants.NAME,
+            displayName: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,
@@ -61,6 +64,7 @@ test('will add different name correctly when name already exists', async () => {
         api.execute({
             id: TestConstants.ITEM_ID_2,
             name: TestConstants.NAME_2,
+            displayName: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,
@@ -78,6 +82,7 @@ test('will fail to add name when id is not unique', async () => {
         api.execute({
             id: TestConstants.ITEM_ID,
             name: TestConstants.NAME_2,
+            displayName: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,

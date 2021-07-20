@@ -23,6 +23,7 @@ export enum TestConstants {
     BAD_REQUEST = "bad request",
 
     NAME = "test name",
+    DISPLAYNAME = "Test Name",
     NAME_2 = "test name 2",
     DESCRIPTION = "test description",
     DESCRIPTION_2 = "test description 2",

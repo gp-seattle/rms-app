@@ -19,7 +19,7 @@ export class MainTable {
         description: string
     ): Promise<DocumentClient.PutItemOutput> {
         const item: MainSchema = {
-            name: name,
+            name: name.toLowerCase(),
             displayName: "",
             description: description,
             items: {}
@@ -49,7 +49,7 @@ export class MainTable {
                     const params: DocumentClient.DeleteItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            name: name
+                            name: name.toLowerCase()
                         }
                     }
                     return this.client.delete(params)
@@ -66,7 +66,7 @@ export class MainTable {
         const params: DocumentClient.GetItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name
+                "name": name.toLowerCase()
             }
         }
         return this.client.get(params)
@@ -84,7 +84,7 @@ export class MainTable {
         const params: DocumentClient.UpdateItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name
+                "name": name.toLowerCase()
             },
             UpdateExpression: "SET #key = :val",
             ConditionExpression: 'attribute_exists(#key)',
@@ -129,7 +129,7 @@ export class MainTable {
                     const updateParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": entry.name
+                            "name": entry.name.toLowerCase()
                         },
                         UpdateExpression: "SET #attr1.#attr2.#key = :val",
                         ExpressionAttributeNames: {
@@ -195,7 +195,7 @@ export class MainTable {
                     const updateParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": entry.name
+                            "name": entry.name.toLowerCase()
                         },
                         UpdateExpression: "SET #attr1.#attr2.#key = :val",
                         ExpressionAttributeNames: {
@@ -242,7 +242,7 @@ export class MainTable {
         const updateMainParams: DocumentClient.UpdateItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name
+                "name": name.toLowerCase()
             },
             UpdateExpression: "ADD #attr1.#attr2.#key :val",
             ExpressionAttributeNames: {
