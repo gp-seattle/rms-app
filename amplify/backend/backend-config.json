@@ -248,7 +248,7 @@
           "resourceName": "main",
           "attributes": [
             "Name",
-            "Arn",
+            "Arn"
           ]
         },
         {
@@ -256,7 +256,7 @@
           "resourceName": "items",
           "attributes": [
             "Name",
-            "Arn",
+            "Arn"
           ]
         },
         {
@@ -264,7 +264,7 @@
           "resourceName": "batch",
           "attributes": [
             "Name",
-            "Arn",
+            "Arn"
           ]
         },
         {
@@ -272,7 +272,7 @@
           "resourceName": "tags",
           "attributes": [
             "Name",
-            "Arn",
+            "Arn"
           ]
         },
         {
@@ -280,7 +280,7 @@
           "resourceName": "history",
           "attributes": [
             "Name",
-            "Arn",
+            "Arn"
           ]
         },
         {
@@ -288,7 +288,7 @@
           "resourceName": "transactions",
           "attributes": [
             "Name",
-            "Arn",
+            "Arn"
           ]
         }
       ]
@@ -301,9 +301,12 @@
       "output": {
         "authConfig": {
           "defaultAuthentication": {
-            "authenticationType": "AWS_IAM"
-          },
-          "additionalAuthenticationProviders": []
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          }
         }
       }
     }

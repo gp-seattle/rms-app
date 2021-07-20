@@ -1,0 +1,6 @@
+{
+  "pluginId": "amplify-nodejs-function-runtime-provider",
+  "functionRuntime": "nodejs",
+  "defaultEditorFile": "./ts-output/handlers/api/BorrowBatch.js",
+  "useLegacyBuild": true
+}

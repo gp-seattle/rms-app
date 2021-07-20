@@ -15,11 +15,24 @@
       "function": {
         "smsrouter": {
           "deploymentBucketName": "amplify-rms-test-132531-deployment",
-          "s3Key": "amplify-builds/smsrouter-6f514567323362684373-build.zip"
+          "s3Key": "amplify-builds/smsrouter-4359666269477441372f-build.zip"
         },
-        "BorrowBatch": {},
-        "ReturnBatch": {},
-        "ReturnItem": {}
+        "BorrowBatch": {
+          "deploymentBucketName": "amplify-rms-test-132531-deployment",
+          "s3Key": "amplify-builds/BorrowBatch-674b5275734846746c4b-build.zip"
+        },
+        "ReturnBatch": {
+          "deploymentBucketName": "amplify-rms-test-132531-deployment",
+          "s3Key": "amplify-builds/ReturnBatch-542f4749725853347477-build.zip"
+        },
+        "ReturnItem": {
+          "deploymentBucketName": "amplify-rms-test-132531-deployment",
+          "s3Key": "amplify-builds/ReturnItem-373458756b366132476d-build.zip"
+        },
+        "BorrowItem": {
+          "deploymentBucketName": "amplify-rms-test-132531-deployment",
+          "s3Key": "amplify-builds/BorrowItem-3070494e6d486c596562-build.zip"
+        }
       }
     }
   }
