@@ -67,7 +67,7 @@ export class Router {
      * @param number Corresponding unique number, which is used to identify transactions from a given source.
      */
     public processRequest(request: string, number: string): Promise<string> {
-        let processedRequest: string = request.toLowerCase().trim()
+        let processedRequest: string = request.trim()
         processedRequest = (processedRequest === "none") ? "" : processedRequest
 
         return this.transactionsTable.get(number)

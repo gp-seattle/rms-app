@@ -174,6 +174,7 @@ test('will get item correctly when given valid is', async () => {
 
     const expectedItem: MainSchema = {
         name: TestConstants.NAME,
+        displayName:"",
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
         items: { }

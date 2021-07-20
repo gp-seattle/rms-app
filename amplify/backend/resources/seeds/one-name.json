@@ -2,6 +2,7 @@
     "main":{
         "test name":{
             "name":"test name",
+            "displayName": "",
             "description":"test description",
             "items":{
                 "123":{

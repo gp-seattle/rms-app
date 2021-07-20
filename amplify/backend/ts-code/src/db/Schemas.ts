@@ -11,6 +11,7 @@ export const MAIN_TABLE: string = process.env.STORAGE_MAIN_NAME
  */
 export interface MainSchema {
     name: string,
+    displayName: string,
     description: string,
     tags?: DocumentClient.StringSet,
     items: { [id: string]: ItemSchema }
