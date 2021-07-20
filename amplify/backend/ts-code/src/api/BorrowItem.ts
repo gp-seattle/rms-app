@@ -4,6 +4,7 @@ import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
 
+
 /**
  * Borrow specified item
  */
@@ -20,7 +21,7 @@ export class BorrowItem {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: BorrowItemInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, BorrowItem.NAME)
                 .then(() => "IDs of Items (separated by spaces):")
@@ -46,19 +47,33 @@ export class BorrowItem {
      * @param borrower Name of borrower
      * @param notes Notes about this action
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: BorrowItemInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return Promise.all(scratch.ids.map((id: string) =>
-                    this.mainTable.changeBorrower(id, scratch.borrower, "borrow", scratch.notes)
-                )).then(() => `Successfully borrowed items '${scratch.ids.toString()}'.`)
-            },
+                return this.performAllFVAs(input)
+                    .then(()=>{
+                        return Promise.all(input.ids.map((id: string) =>
+                        this.mainTable.changeBorrower(id, input.borrower, "borrow", input.notes)
+                ))
+            })
+            .then(() => `Successfully borrowed items '${input.ids.toString()}'.`)
+    },
             BorrowItem.NAME, this.metrics
         )
     }
+    private performAllFVAs(input: BorrowItemInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.ids == undefined) {
+                reject(new Error("Missing required field 'ids'"))
+            } else if (input.borrower == undefined) {
+                reject(new Error("Missing required field 'borrower'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface BorrowItemInput {
     ids?: string[],
     borrower?: string,
     notes?: string
