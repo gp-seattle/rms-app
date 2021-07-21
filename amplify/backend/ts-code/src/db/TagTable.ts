@@ -32,7 +32,7 @@ export class TagTable {
                     const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": name
+                            "name": name.toLowerCase()
                         },
                         UpdateExpression: "ADD #key :val",
                         ExpressionAttributeNames: {
@@ -57,7 +57,7 @@ export class TagTable {
                                         "#key": "val"
                                     },
                                     ExpressionAttributeValues: {
-                                        ":val": this.client.createSet([name])
+                                        ":val": this.client.createSet([name.toLowerCase()])
                                     }
                                 }
                                 return this.client.update(updateParam)
@@ -65,7 +65,7 @@ export class TagTable {
                                 // Index doesn't exists, so put
                                 const putItem: SearchIndexSchema = {
                                     key: tag,
-                                    val: this.client.createSet([name])
+                                    val: this.client.createSet([name.toLowerCase()])
                                 }
                                 const putParam: DocumentClient.PutItemInput = {
                                     TableName: TAGS_TABLE,
@@ -98,7 +98,7 @@ export class TagTable {
                     const mainUpdateParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": name
+                            "name": name.toLowerCase()
                         },
                         UpdateExpression: "DELETE #key :val",
                         ExpressionAttributeNames: {
@@ -150,7 +150,7 @@ export class TagTable {
         const mainParam: DocumentClient.GetItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name
+                "name": name.toLowerCase()
             }
         }
         return this.client.get(mainParam)

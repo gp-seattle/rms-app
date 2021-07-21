@@ -20,7 +20,7 @@ export class MainTable {
     ): Promise<DocumentClient.PutItemOutput> {
         const item: MainSchema = {
             name: name.toLowerCase(),
-            displayName: "",
+            displayName: name,
             description: description,
             items: {}
         }
