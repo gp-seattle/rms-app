@@ -155,7 +155,7 @@
                     "Ref": "s3Key"
                 }
             },
-            "Handler": "./ts-output/handlers/api/<BorrowItem>.handler",
+            "Handler": "./ts-output/handlers/api/BorrowItem.handler",
             "FunctionName": {
                 "Fn::If": [
                     "ShouldNotCreateEnvResources",
