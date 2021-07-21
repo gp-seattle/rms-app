@@ -24,7 +24,7 @@ class SMSRouter {
 
     public constructor(record: SNSEventRecord) {
         const message = JSON.parse(record.Sns.Message)
-        this.request = message.messageBody.toLowerCase()
+        this.request = message.messageBody
         this.responseOrigination = message.destinationNumber
         this.responseDestination = message.originationNumber
     }
