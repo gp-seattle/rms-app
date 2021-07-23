@@ -82,7 +82,7 @@ interface ScratchInterface {
 
 export function getItemHeader(entry: MainSchema): string {
     const tags: string[] = entry.tags ? entry.tags.values : []
-    return `name: ${entry.name}`
+    return `name: ${entry.displayName}`
         + `\ndescription: ${entry.description}`
         + `\ntags: ${tags.toString()}`
         + `\nitems:`

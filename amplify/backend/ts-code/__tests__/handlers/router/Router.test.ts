@@ -123,7 +123,7 @@ test('will add item correctly when name does not exist', async () => {
     await router.processRequest(AddItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
             expect(output).toEqual("Name of item:")
-            return router.processRequest(TestConstants.NAME, TestConstants.NUMBER)
+            return router.processRequest(TestConstants.DISPLAYNAME, TestConstants.NUMBER)
         }).then((output: string) => {
             expect(output).toEqual("Related Category Tags (separated by spaces):")
             return router.processRequest(TestConstants.TAG, TestConstants.NUMBER)
@@ -174,7 +174,7 @@ test('will get item correctly when given valid is', async () => {
 
     const expectedItem: MainSchema = {
         name: TestConstants.NAME,
-        displayName:"",
+        displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
         items: { }
@@ -277,7 +277,7 @@ test('will search item correctly when using router', async () => {
         }).then((output: string) => {
             expect(output).toEqual(
                 "1 items found."
-                + searchItemItem(TestConstants.NAME, 1, [ TestConstants.ITEM_ID ], [])
+                + searchItemItem(TestConstants.DISPLAYNAME, 1, [ TestConstants.ITEM_ID ], [])
             )
         })
 })
@@ -293,7 +293,7 @@ test('will search borrowed item correctly when using router', async () => {
         }).then((output: string) => {
             expect(output).toEqual(
                 "1 items found."
-                + searchItemItem(TestConstants.NAME, 1, [], [ TestConstants.ITEM_ID ])
+                + searchItemItem(TestConstants.DISPLAYNAME, 1, [], [ TestConstants.ITEM_ID ])
             )
         })
 })
@@ -385,7 +385,7 @@ test('will get batch correctly when using router', async () => {
         }).then((output: string) => {
             expect(output).toEqual(
                 `batch: ${TestConstants.BATCH}`
-                + getBatchItem(TestConstants.ITEM_ID, TestConstants.NAME, TestConstants.OWNER, "")
+                + getBatchItem(TestConstants.ITEM_ID, TestConstants.DISPLAYNAME, TestConstants.OWNER, "")
                 + getBatchItem(TestConstants.ITEM_ID_2, TestConstants.NAME_2, TestConstants.OWNER_2, "")
             )
         })

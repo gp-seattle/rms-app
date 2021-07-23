@@ -32,7 +32,7 @@ export class ItemTable {
                     const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": name
+                            "name": name.toLowerCase()
                         },
                         UpdateExpression: "SET #attr.#key = :val",
                         ExpressionAttributeNames: {
@@ -46,7 +46,7 @@ export class ItemTable {
             
                     const indexItem: SecondaryIndexSchema = {
                         key: id,
-                        val: name
+                        val: name.toLowerCase()
                     }
                     const indexParams: DocumentClient.PutItemInput = {
                         TableName: ITEMS_TABLE,
@@ -71,7 +71,7 @@ export class ItemTable {
                     const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": entry.val
+                            "name": entry.val.toLowerCase()
                         },
                         UpdateExpression: "REMOVE #attr.#id",
                         ConditionExpression: "attribute_not_exists(#attr.#id.#key)",

@@ -54,7 +54,7 @@ export class SearchItem {
                                 })
     
                                 returnString += searchItemItem(
-                                    entry.name,
+                                    entry.displayName,
                                     search.map[entry.name].occurrences,
                                     availableItems,
                                     borrowedItems

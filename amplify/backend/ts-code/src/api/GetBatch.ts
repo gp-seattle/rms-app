@@ -39,7 +39,7 @@ export class GetBatch {
                         return Promise.all(ids.map((id: string) => {
                             return this.itemTable.get(id)
                                 .then((secondaryEntry: SecondaryIndexSchema) => this.mainTable.get(secondaryEntry.val))
-                                .then((mainEntry: MainSchema) => getBatchItem(id, mainEntry.name, mainEntry.items[id].owner, mainEntry.items[id].borrower))
+                                .then((mainEntry: MainSchema) => getBatchItem(id, mainEntry.displayName, mainEntry.items[id].owner, mainEntry.items[id].borrower))
                         })).then((items: string[]) => `batch: ${scratch.name}` + items.join(""))
                     })
                     

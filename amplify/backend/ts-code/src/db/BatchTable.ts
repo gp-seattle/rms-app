@@ -22,7 +22,7 @@ export class BatchTable {
         return Promise.all(ids.map((id: string) => this.attachBatchToItem(name, id)))
             .then(() => {
                 const item: SearchIndexSchema = {
-                    key: name,
+                    key: name.toLowerCase(),
                     val: this.client.createSet(ids)
                 }
 
@@ -51,7 +51,7 @@ export class BatchTable {
                 const params: DocumentClient.UpdateItemInput = {
                     TableName: MAIN_TABLE,
                     Key: {
-                        "name": mainEntry.name
+                        "name": mainEntry.name.toLowerCase()
                     },
                     UpdateExpression: "ADD #attr1.#attr2.#key :val",
                     ExpressionAttributeNames: {
@@ -84,7 +84,7 @@ export class BatchTable {
                             const params: DocumentClient.DeleteItemInput = {
                                 TableName: BATCH_TABLE,
                                 Key: {
-                                    "key": name
+                                    "key": name.toLowerCase()
                                 }
                             }
                             
@@ -105,7 +105,7 @@ export class BatchTable {
             const params: DocumentClient.UpdateItemInput = {
                 TableName: MAIN_TABLE,
                 Key: {
-                    "name": mainEntry.name
+                    "name": mainEntry.name.toLowerCase()
                 },
                 UpdateExpression: "DELETE #attr1.#attr2.#key :val",
                 ExpressionAttributeNames: {
@@ -138,7 +138,7 @@ export class BatchTable {
                     const mainParams: DocumentClient.GetItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": secondaryEntry.val
+                            "name": secondaryEntry.val.toLowerCase()
                         }
                     }
             
@@ -165,7 +165,7 @@ export class BatchTable {
         const params: DocumentClient.GetItemInput = {
             TableName: BATCH_TABLE,
             Key: {
-                "key": name
+                "key": name.toLowerCase()
             }
         }
         return this.client.get(params)

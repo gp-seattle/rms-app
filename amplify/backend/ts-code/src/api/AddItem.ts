@@ -107,6 +107,7 @@ export class AddItem {
 interface ScratchInterface {
     id?: string,
     name?: string,
+    displayName?:string,
     createItem?: boolean,
     description?: string,
     tags?: string[],

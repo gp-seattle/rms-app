@@ -9,7 +9,7 @@ test('will add item correctly when name does not exist', async () => {
     await expect(
         api.execute({
             id: TestConstants.ITEM_ID,
-            name: TestConstants.NAME,
+            name: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION,
             tags: [TestConstants.TAG],
             owner: TestConstants.OWNER,
@@ -26,7 +26,7 @@ test('will add additional item correctly when item already exist', async () => {
     await expect(
         api.execute({
             id: TestConstants.ITEM_ID_2,
-            name: TestConstants.NAME,
+            name: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,
@@ -43,7 +43,7 @@ test('will fail to add item when id is not unique', async () => {
     await expect(
         api.execute({
             id: TestConstants.ITEM_ID,
-            name: TestConstants.NAME,
+            name: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
             owner: TestConstants.OWNER_2,
