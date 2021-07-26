@@ -1,4 +1,4 @@
-import { MAIN_TABLE, MainSchema, BATCH_TABLE, SearchIndexSchema, ITEMS_TABLE, SecondaryIndexSchema } from "./Schemas"
+import { BATCH_TABLE, SearchIndexSchema, ITEMS_TABLE } from "./Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 
@@ -46,24 +46,32 @@ export class BatchTable {
         batchName: string,
         id: string
     ): Promise<any> {
-        return this.getMainEntryFromId(id)
-            .then((mainEntry: MainSchema) => {
-                const params: DocumentClient.UpdateItemInput = {
-                    TableName: MAIN_TABLE,
-                    Key: {
-                        "name": mainEntry.name.toLowerCase()
-                    },
-                    UpdateExpression: "ADD #attr1.#attr2.#key :val",
-                    ExpressionAttributeNames: {
-                        "#attr1": "items",
-                        "#attr2": id,
-                        "#key": "batch"
-                    },
-                    ExpressionAttributeValues: {
-                        ":val": this.client.createSet([batchName])
-                    }
+        const getParams: DocumentClient.GetItemInput = {
+            TableName: ITEMS_TABLE,
+            Key: {
+                "id": id
+            }
+        }
+        const updateParams: DocumentClient.UpdateItemInput = {
+            TableName: ITEMS_TABLE,
+            Key: {
+                "id": id
+            },
+            UpdateExpression: "ADD #key :val",
+            ExpressionAttributeNames: {
+                "#key": "batch"
+            },
+            ExpressionAttributeValues: {
+                ":val": this.client.createSet([batchName])
+            }
+        }
+        return this.client.get(getParams)
+            .then((entry: DocumentClient.GetItemOutput) => {
+                if (entry.Item !== undefined) {
+                    return this.client.update(updateParams)
+                } else {
+                    throw new Error(`Unable to find id '${id}'`)
                 }
-                return this.client.update(params)
             })
     }
 
@@ -100,60 +108,20 @@ export class BatchTable {
         batchName: string,
         id: string
     ): Promise<any> {
-        return this.getMainEntryFromId(id)
-        .then((mainEntry: MainSchema) => {
-            const params: DocumentClient.UpdateItemInput = {
-                TableName: MAIN_TABLE,
-                Key: {
-                    "name": mainEntry.name.toLowerCase()
-                },
-                UpdateExpression: "DELETE #attr1.#attr2.#key :val",
-                ExpressionAttributeNames: {
-                    "#attr1": "items",
-                    "#attr2": id,
-                    "#key": "batch"
-                },
-                ExpressionAttributeValues: {
-                    ":val": this.client.createSet([batchName])
-                }
-            }
-    
-            return this.client.update(params)
-        })
-    }
-
-    private getMainEntryFromId(id: string): Promise<MainSchema> {
-        const secondaryParams: DocumentClient.GetItemInput = {
+        const params: DocumentClient.UpdateItemInput = {
             TableName: ITEMS_TABLE,
             Key: {
-                "key": id
+                "id": id
+            },
+            UpdateExpression: "DELETE #key :val",
+            ExpressionAttributeNames: {
+                "#key": "batch"
+            },
+            ExpressionAttributeValues: {
+                ":val": this.client.createSet([batchName])
             }
         }
-
-        return this.client.get(secondaryParams)
-            .then((secondaryData: DocumentClient.GetItemOutput) => {
-                if (secondaryData.Item) {
-                    const secondaryEntry: SecondaryIndexSchema = secondaryData.Item as SecondaryIndexSchema
-
-                    const mainParams: DocumentClient.GetItemInput = {
-                        TableName: MAIN_TABLE,
-                        Key: {
-                            "name": secondaryEntry.val.toLowerCase()
-                        }
-                    }
-            
-                    return this.client.get(mainParams)
-                        .then((data: DocumentClient.GetItemOutput) => {
-                            if (data.Item) {
-                                return data.Item as MainSchema
-                            } else {
-                                throw Error(`Unable to find name '${secondaryEntry.val}'`)
-                            }
-                        })
-                } else {
-                    throw Error(`Unable to find id '${id}'`)
-                }
-            })
+        return this.client.update(params)
     }
 
     /**

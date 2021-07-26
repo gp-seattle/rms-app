@@ -14,7 +14,7 @@ import { UpdateDescription } from "../../../src/api/UpdateDescription"
 import { UpdateItemNotes } from "../../../src/api/UpdateItemNotes"
 import { UpdateItemOwner } from "../../../src/api/UpdateItemOwner"
 import { UpdateTags } from "../../../src/api/UpdateTags"
-import { MainSchema } from "../../../src/db/Schemas"
+import { ItemsSchema, MainSchema } from "../../../src/db/Schemas"
 import { ADVANCED_HELP_MENU, BASIC_HELP_MENU, HELP_MENU, Router } from "../../../src/handlers/router/Router"
 import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
@@ -168,23 +168,25 @@ test('will add item correctly when name exists', async () => {
         })
 })
 
-test('will get item correctly when given valid is', async () => {
+test('will get item correctly when given valid id', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const router: Router = new Router(dbClient)
 
-    const expectedItem: MainSchema = {
+    const expectedMain: MainSchema = {
         name: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
-        items: { }
+        items: dbClient.createSet([TestConstants.ITEM_ID])
     }
-    expectedItem.items[TestConstants.ITEM_ID] = {
+    const expectedItem: ItemsSchema = {
+        id: TestConstants.ITEM_ID,
+        name: TestConstants.NAME,
         owner: TestConstants.OWNER,
         borrower: "",
         notes: TestConstants.NOTES,
     }
-    const expectedStr: string = getItemHeader(expectedItem) + getItemItem(expectedItem, TestConstants.ITEM_ID)
+    const expectedStr: string = getItemHeader(expectedMain) + getItemItem(expectedItem)
 
     await router.processRequest(GetItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -270,21 +272,13 @@ test('will search item correctly when using router', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const router: Router = new Router(dbClient)
 
-    await router.processRequest(SearchItem.NAME, TestConstants.NUMBER)
-        .then((output: string) => {
-            expect(output).toEqual("Tags to search for (separated by spaces):")
-            return router.processRequest(TestConstants.TAG, TestConstants.NUMBER)
-        }).then((output: string) => {
-            expect(output).toEqual(
-                "1 items found."
-                + searchItemItem(TestConstants.DISPLAYNAME, 1, [ TestConstants.ITEM_ID ], [])
-            )
-        })
-})
-
-test('will search borrowed item correctly when using router', async () => {
-    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME_BORROWED)
-    const router: Router = new Router(dbClient)
+    const expected: MainSchema = {
+        name: TestConstants.NAME,
+        displayName: TestConstants.DISPLAYNAME,
+        description: TestConstants.DESCRIPTION,
+        tags: dbClient.createSet([TestConstants.TAG]),
+        items: dbClient.createSet([TestConstants.ITEM_ID])
+    }
 
     await router.processRequest(SearchItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -293,7 +287,7 @@ test('will search borrowed item correctly when using router', async () => {
         }).then((output: string) => {
             expect(output).toEqual(
                 "1 items found."
-                + searchItemItem(TestConstants.DISPLAYNAME, 1, [], [ TestConstants.ITEM_ID ])
+                + searchItemItem(expected, 1)
             )
         })
 })

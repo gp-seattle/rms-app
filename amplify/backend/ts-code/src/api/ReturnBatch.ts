@@ -1,5 +1,5 @@
+import { ItemTable } from "../db/ItemTable"
 import { BatchTable } from "../db/BatchTable"
-import { MainTable } from "../db/MainTable"
 import { SearchIndexSchema } from "../db/Schemas"
 import { TransactionsTable } from "../db/TransactionsTable"
 import { DBClient } from "../injection/db/DBClient"
@@ -12,13 +12,13 @@ import { emitAPIMetrics } from "../metrics/MetricsHelper"
 export class ReturnBatch {
     public static NAME: string = "return batch"
 
-    private readonly mainTable: MainTable
+    private readonly itemTable: ItemTable
     private readonly batchTable: BatchTable
     private readonly transactionsTable: TransactionsTable
     private readonly metrics?: MetricsClient
 
     public constructor(client: DBClient, metrics?: MetricsClient) {
-        this.mainTable = new MainTable(client)
+        this.itemTable = new ItemTable(client)
         this.batchTable = new BatchTable(client)
         this.transactionsTable = new TransactionsTable(client)
         this.metrics = metrics
@@ -55,7 +55,7 @@ export class ReturnBatch {
                     .then((entry: SearchIndexSchema) => {
                         if (entry) {
                             return Promise.all(entry.val.values.map((id: string) =>
-                                this.mainTable.changeBorrower(id, input.borrower, "return", input.notes)
+                                this.itemTable.changeBorrower(id, input.borrower, "return", input.notes)
                             ))
                         } else {
                             throw Error(`Could not find batch '${input.name}'`)

@@ -53,7 +53,7 @@ export class DeleteItem {
                 return this.itemTable.delete(scratch.id)
                     .then((name: string) => this.mainTable.get(name))
                     .then((entry: MainSchema) => {
-                        if (Object.keys(entry.items).length === 0) {
+                        if (entry.items == undefined) {
                             return this.tagTable.delete(entry.name, entry.tags.values)
                                 .then(() => this.mainTable.delete(entry.name))
                                 .then(() => entry.name)

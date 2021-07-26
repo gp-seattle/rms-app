@@ -5,7 +5,7 @@ import { DocumentClient } from "aws-sdk/clients/dynamodb"
 import { PromiseResult } from "aws-sdk/lib/request"
 import {
     MAIN_TABLE, MainSchema,
-    ITEMS_TABLE, SecondaryIndexSchema,
+    ITEMS_TABLE, ItemsSchema,
     BATCH_TABLE, TAGS_TABLE, SearchIndexSchema,
     TRANSACTIONS_TABLE, TransactionsSchema,
     HISTORY_TABLE, HistorySchema
@@ -13,7 +13,7 @@ import {
 
 interface LocalDB {
     main: { [key: string]: MainSchema },
-    items: { [key: string]: SecondaryIndexSchema },
+    items: { [key: string]: ItemsSchema },
     batch: { [key: string]: SearchIndexSchema },
     tags: { [key: string]: SearchIndexSchema },
     history: { [key: string]: HistorySchema },
@@ -65,9 +65,9 @@ export class LocalDBClient implements DBClient {
                 const key: string = val.name
                 this.db.main[key] = val
             } else if (params.TableName === ITEMS_TABLE) {
-                const val: SecondaryIndexSchema = params.Item as SecondaryIndexSchema
-                const key: string = val.key
-                this.db.items[key] = val
+                const val: ItemsSchema = params.Item as ItemsSchema
+                const id: string = val.id
+                this.db.items[id] = val
             } else if (params.TableName === BATCH_TABLE) {
                 const val: SearchIndexSchema = params.Item as SearchIndexSchema
                 const key: string = val.key
