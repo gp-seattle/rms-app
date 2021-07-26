@@ -1,4 +1,4 @@
-import { MainTable } from "../db/MainTable"
+import { ItemTable } from "../db/ItemTable"
 import { TransactionsTable } from "../db/TransactionsTable"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
@@ -11,12 +11,12 @@ import { emitAPIMetrics } from "../metrics/MetricsHelper"
 export class BorrowItem {
     public static NAME: string = "borrow item"
 
-    private readonly mainTable: MainTable
+    private readonly itemTable: ItemTable
     private readonly transactionsTable: TransactionsTable
     private readonly metrics?: MetricsClient
 
     public constructor(client: DBClient, metrics?: MetricsClient) {
-        this.mainTable = new MainTable(client)
+        this.itemTable = new ItemTable(client)
         this.transactionsTable = new TransactionsTable(client)
         this.metrics = metrics
     }
@@ -53,7 +53,7 @@ export class BorrowItem {
                 return this.performAllFVAs(input)
                     .then(()=>{
                         return Promise.all(input.ids.map((id: string) =>
-                        this.mainTable.changeBorrower(id, input.borrower, "borrow", input.notes)
+                        this.itemTable.changeBorrower(id, input.borrower, "borrow", input.notes)
                 ))
             })
             .then(() => `Successfully borrowed items '${input.ids.toString()}'.`)

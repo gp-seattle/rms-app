@@ -14,7 +14,7 @@ export interface MainSchema {
     displayName: string,
     description: string,
     tags?: DocumentClient.StringSet,
-    items: { [id: string]: ItemSchema }
+    items?: DocumentClient.StringSet
 }
 
 /**
@@ -25,19 +25,16 @@ export interface MainSchema {
  * @param schedule List of entries in the schedule table [TODO: Implement Schedule]
  * @param batch List of batches this item is part of.
  */
-export interface ItemSchema {
+export const ITEMS_TABLE: string = process.env.STORAGE_ITEMS_NAME
+export interface ItemsSchema {
+    id: string,
+    name: string,
     owner: string,
     borrower: string,
     batch?: DocumentClient.StringSet,
     history?: DocumentClient.StringSet,
     schedule?: DocumentClient.StringSet,
     notes: string
-}
-
-export const ITEMS_TABLE: string = process.env.STORAGE_ITEMS_NAME
-export interface SecondaryIndexSchema {
-    key: string,
-    val: string
 }
 
 export const BATCH_TABLE: string = process.env.STORAGE_BATCH_NAME

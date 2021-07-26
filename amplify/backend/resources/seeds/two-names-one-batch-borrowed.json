@@ -4,41 +4,35 @@
             "name":"test name",
             "displayName": "Test Name",
             "description":"test description",
-            "items":{
-                "123":{
-                    "owner":"test owner",
-                    "notes":"test note",
-                    "borrower":"test borrower",
-                    "batch": {"type":"String","values":["test batch"]},
-                    "history": {"type":"String","values":["1000000000010-123"]}
-                }
-            },
+            "items":{"type": "String", "values": ["123"]},
             "tags":{"type": "String", "values": ["tag1"]}
         },
         "test name 2":{
             "name":"test name 2",
             "displayName": "test name 2",
             "description":"test description 2",
-            "items":{
-                "12345":{
-                    "owner":"test owner 2",
-                    "notes":"test note 2",
-                    "borrower":"test borrower",
-                    "batch": {"type":"String","values":["test batch"]},
-                    "history": {"type":"String","values":["1000000000010-12345"]}
-                }
-            },
+            "items":{"type": "String", "values": ["12345"]},
             "tags":{"type": "String", "values": ["tag1", "tag2"]}
         }
     },
     "items":{
         "123":{
-            "key":"123",
-            "val":"test name"
+            "id":"123",
+            "name":"test name",
+            "owner":"test owner",
+            "notes":"test note",
+            "borrower":"test borrower",
+            "batch": {"type":"String","values":["test batch"]},
+            "history": {"type":"String","values":["1000000000010-123"]}
         },
         "12345":{
-            "key":"12345",
-            "val":"test name 2"
+            "id":"12345",
+            "name":"test name 2",
+            "owner":"test owner 2",
+            "notes":"test note 2",
+            "borrower":"test borrower",
+            "batch": {"type":"String","values":["test batch"]},
+            "history": {"type":"String","values":["1000000000010-12345"]}
         }
     },
     "batch":{

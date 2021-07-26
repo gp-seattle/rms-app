@@ -4,20 +4,17 @@
             "name":"test name",
             "displayName": "Test Name",
             "description":"test description",
-            "items":{
-                "123":{
-                    "owner":"test owner",
-                    "notes":"test note 2",
-                    "borrower":""
-                }
-            },
+            "items":{"type": "String", "values": ["123"]},
             "tags":{"type": "String", "values": ["tag1"]}
         }
     },
     "items":{
         "123":{
-            "key":"123",
-            "val":"test name"
+            "id":"123",
+            "name":"test name",
+            "owner":"test owner",
+            "notes":"test note 2",
+            "borrower":""
         }
     },
     "batch":{},

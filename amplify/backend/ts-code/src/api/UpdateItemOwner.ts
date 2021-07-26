@@ -1,4 +1,4 @@
-import { MainTable } from "../db/MainTable"
+import { ItemTable } from "../db/ItemTable"
 import { TransactionsTable } from "../db/TransactionsTable"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
@@ -10,12 +10,12 @@ import { emitAPIMetrics } from "../metrics/MetricsHelper"
 export class UpdateItemOwner {
     public static NAME: string = "update item owner"
 
-    private readonly mainTable: MainTable
+    private readonly itemTable: ItemTable
     private readonly transactionsTable: TransactionsTable
     private readonly metrics?: MetricsClient
 
     public constructor(client: DBClient, metrics?: MetricsClient) {
-        this.mainTable = new MainTable(client)
+        this.itemTable = new ItemTable(client)
         this.transactionsTable = new TransactionsTable(client)
         this.metrics = metrics
     }
@@ -46,7 +46,7 @@ export class UpdateItemOwner {
     public execute(scratch: ScratchInterface): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.mainTable.updateItem(scratch.id, "owner", scratch.newOwner, scratch.currentOwner)
+                return this.itemTable.updateItem(scratch.id, "owner", scratch.newOwner, scratch.currentOwner)
                     .then(() => `Successfully updated owner for item '${scratch.id}'`)
             },
             UpdateItemOwner.NAME, this.metrics

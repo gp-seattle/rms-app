@@ -1,4 +1,4 @@
-import { MainTable } from "../db/MainTable"
+import { ItemTable } from "../db/ItemTable"
 import { TransactionsTable } from "../db/TransactionsTable"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
@@ -10,12 +10,12 @@ import { emitAPIMetrics } from "../metrics/MetricsHelper"
 export class ReturnItem {
     public static NAME: string = "return item"
 
-    private readonly mainTable: MainTable
+    private readonly itemTable: ItemTable
     private readonly transactionsTable: TransactionsTable
     private readonly metrics?: MetricsClient
 
     public constructor(client: DBClient, metrics?: MetricsClient) {
-        this.mainTable = new MainTable(client)
+        this.itemTable = new ItemTable(client)
         this.transactionsTable = new TransactionsTable(client)
         this.metrics = metrics
     }
@@ -52,7 +52,7 @@ export class ReturnItem {
                     return this.performAllFVAs(input)
                         .then(() => {
                             return Promise.all(input.ids.map((id: string) =>
-                                this.mainTable.changeBorrower(id, input.borrower, "return", input.notes)
+                                this.itemTable.changeBorrower(id, input.borrower, "return", input.notes)
                             ))
                         })
                         .then(() => `Successfully returned items '${input.ids.toString()}'.`)

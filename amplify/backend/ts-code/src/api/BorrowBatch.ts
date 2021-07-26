@@ -1,5 +1,5 @@
 import { BatchTable } from "../db/BatchTable"
-import { MainTable } from "../db/MainTable"
+import { ItemTable } from "../db/ItemTable"
 import { SearchIndexSchema } from "../db/Schemas"
 import { TransactionsTable } from "../db/TransactionsTable"
 import { DBClient } from "../injection/db/DBClient"
@@ -12,14 +12,14 @@ import { emitAPIMetrics } from "../metrics/MetricsHelper"
 export class BorrowBatch {
     public static NAME: string = "borrow batch"
 
-    private readonly mainTable: MainTable
     private readonly batchTable: BatchTable
+    private readonly itemTable: ItemTable
     private readonly transactionsTable: TransactionsTable
     private readonly metrics?: MetricsClient
 
     public constructor(client: DBClient, metrics?: MetricsClient) {
-        this.mainTable = new MainTable(client)
         this.batchTable = new BatchTable(client)
+        this.itemTable = new ItemTable(client)
         this.transactionsTable = new TransactionsTable(client)
         this.metrics = metrics
     }
@@ -55,7 +55,7 @@ export class BorrowBatch {
                     .then((entry: SearchIndexSchema) => {
                         if (entry) {
                             return Promise.all(entry.val.values.map((id: string) =>
-                                this.mainTable.changeBorrower(id, scratch.borrower, "borrow", scratch.notes)
+                                this.itemTable.changeBorrower(id, scratch.borrower, "borrow", scratch.notes)
                             ))
                         } else {
                             throw Error(`Could not find batch '${scratch.name}'`)

@@ -42,24 +42,11 @@ export class SearchItem {
                             return "No items found."
                         } else {
                             let returnString: string = `${Object.keys(search.map).length} items found.`
-                            search.entries.forEach((entry: MainSchema) => {
-                                const availableItems: string[] = []
-                                const borrowedItems: string[] = []
-                                Object.keys(entry.items).forEach((id: string) => {
-                                    if (entry.items[id].borrower === "") {
-                                        availableItems.push(id)
-                                    } else {
-                                        borrowedItems.push(id)
-                                    }
-                                })
-    
+                            search.entries.forEach((entry: MainSchema) => 
                                 returnString += searchItemItem(
-                                    entry.displayName,
-                                    search.map[entry.name].occurrences,
-                                    availableItems,
-                                    borrowedItems
-                                )
-                            })
+                                    entry,
+                                    search.map[entry.name].occurrences
+                            ))
     
                             return returnString
                         }
@@ -144,9 +131,8 @@ interface TagObject {
     relevance: number
 }
 
-export function searchItemItem(name: string, occurrences: number, availableItems: string[], borrowedItems: string[]): string {
-    return `\nName: ${name}`
+export function searchItemItem(main: MainSchema, occurrences: number): string {
+    return `\nName: ${main.displayName}`
         + `\n  # of relevant tags: ${occurrences}`
-        + `\n  Available Item IDs: ${availableItems}`
-        + `\n  Borrowed Item IDs: ${borrowedItems}`
+        + `\n  Item IDs: ${main.tags.values.toString()}`
 }

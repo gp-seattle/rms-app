@@ -2,7 +2,7 @@ import { MainTable } from "../db/MainTable"
 import { ItemTable } from "../db/ItemTable"
 import { BatchTable } from "../db/BatchTable"
 import { TransactionsTable } from "../db/TransactionsTable"
-import { MainSchema, SearchIndexSchema, SecondaryIndexSchema } from "../db/Schemas"
+import { ItemsSchema, MainSchema, SearchIndexSchema } from "../db/Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
@@ -38,8 +38,10 @@ export class GetBatch {
                     .then((ids: string[]) => {
                         return Promise.all(ids.map((id: string) => {
                             return this.itemTable.get(id)
-                                .then((secondaryEntry: SecondaryIndexSchema) => this.mainTable.get(secondaryEntry.val))
-                                .then((mainEntry: MainSchema) => getBatchItem(id, mainEntry.displayName, mainEntry.items[id].owner, mainEntry.items[id].borrower))
+                                .then((itemEntry: ItemsSchema) => {
+                                    return this.mainTable.get(itemEntry.name)
+                                        .then((mainEntry: MainSchema) => getBatchItem(id, mainEntry.displayName, itemEntry.owner, itemEntry.borrower))
+                                })
                         })).then((items: string[]) => `batch: ${scratch.name}` + items.join(""))
                     })
                     

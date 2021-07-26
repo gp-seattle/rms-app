@@ -1,5 +1,5 @@
-import { GetItem } from "../../src/api/GetItem"
-import { MainSchema } from "../../src/db/Schemas"
+import { GetItem, ReturnObject } from "../../src/api/GetItem"
+import { ItemsSchema, MainSchema } from "../../src/db/Schemas"
 import { DBSeed, TestConstants } from "../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../__dev__/db/LocalDBClient"
 
@@ -7,18 +7,23 @@ test('will get item correctly when id exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME_TWO_ITEMS)
     const api: GetItem = new GetItem(dbClient)
     
-    const expected: MainSchema = {
+    const expectedMain: MainSchema = {
         name: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
-        items: { }
+        items: dbClient.createSet([TestConstants.ITEM_ID, TestConstants.ITEM_ID_2])
     }
-    expected.items[TestConstants.ITEM_ID] = {
-        owner: TestConstants.OWNER,
-        borrower: "",
-        notes: TestConstants.NOTES,
-    }
+    const expectedItems: ItemsSchema[] = [
+        {
+            id: TestConstants.ITEM_ID,
+            name: TestConstants.NAME,
+            owner: TestConstants.OWNER,
+            borrower: "",
+            notes: TestConstants.NOTES,
+        }
+    ]
+    const expected: ReturnObject = new ReturnObject(expectedMain, expectedItems)
     
     await expect(
         api.execute({
@@ -31,24 +36,31 @@ test('will get item correctly when id exists', async () => {
 test('will get item correctly when name exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME_TWO_ITEMS)
     const api: GetItem = new GetItem(dbClient)
-    
-    const expected: MainSchema = {
+
+    const expectedMain: MainSchema = {
         name: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
-        items: { }
+        items: dbClient.createSet([TestConstants.ITEM_ID, TestConstants.ITEM_ID_2])
     }
-    expected.items[TestConstants.ITEM_ID] = {
-        owner: TestConstants.OWNER,
-        borrower: "",
-        notes: TestConstants.NOTES,
-    }
-    expected.items[TestConstants.ITEM_ID_2] = {
-        owner: TestConstants.OWNER_2,
-        borrower: "",
-        notes: TestConstants.NOTES_2,
-    }
+    const expectedItems: ItemsSchema[] = [
+        {
+            id: TestConstants.ITEM_ID,
+            name: TestConstants.NAME,
+            owner: TestConstants.OWNER,
+            borrower: "",
+            notes: TestConstants.NOTES,
+        },
+        {
+            id: TestConstants.ITEM_ID_2,
+            name: TestConstants.NAME,
+            owner: TestConstants.OWNER_2,
+            borrower: "",
+            notes: TestConstants.NOTES_2,
+        }
+    ]
+    const expected: ReturnObject = new ReturnObject(expectedMain, expectedItems)
     
     await expect(
         api.execute({
