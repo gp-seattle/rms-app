@@ -42,7 +42,7 @@ export class SearchItem {
                             return "No items found."
                         } else {
                             let returnString: string = `${Object.keys(search.map).length} items found.`
-                            search.entries.forEach((entry: MainSchema) => 
+                            search.entries.forEach((entry: MainSchema) =>
                                 returnString += searchItemItem(
                                     entry,
                                     search.map[entry.name].occurrences
