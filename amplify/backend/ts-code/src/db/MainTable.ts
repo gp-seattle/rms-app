@@ -1,4 +1,4 @@
-import { MAIN_TABLE,  MainSchema, ITEMS_TABLE, HISTORY_TABLE, HistorySchema } from "./Schemas"
+import { MAIN_TABLE,  MainSchema } from "./Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 

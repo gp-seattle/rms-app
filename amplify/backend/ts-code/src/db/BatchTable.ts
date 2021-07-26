@@ -1,4 +1,4 @@
-import { BATCH_TABLE, SearchIndexSchema, ITEMS_TABLE, ItemsSchema } from "./Schemas"
+import { BATCH_TABLE, SearchIndexSchema, ITEMS_TABLE } from "./Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 
