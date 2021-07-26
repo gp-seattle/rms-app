@@ -115,7 +115,7 @@
             "Ref": "s3Key"
           }
         },
-        "Handler": "./ts-output/handers/api/AddItem.handler",
+        "Handler": "./ts-output/handlers/api/AddItem.handler",
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
