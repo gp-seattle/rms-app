@@ -105,7 +105,7 @@ export class AddItem {
     private performAllFVAs(input: AddItemInput): Promise<void> {
         return new Promise((resolve, reject) => {
             if (input.id == undefined) {
-                reject(new Error("Missing required field 'ids'"))
+                reject(new Error("Missing required field 'id'"))
             } else if (input.name == undefined) {
                 reject(new Error("Missing required field 'name'"))
             }

@@ -87,7 +87,7 @@ test('will fail to add name when id is not unique', async () => {
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_FAIL_CREATE)
 })
 
-test('will fail to add item when item ids not passed in', async () => {
+test('will fail to add item when item id not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
     const api: AddItem = new AddItem(dbClient)
 
@@ -99,7 +99,7 @@ test('will fail to add item when item ids not passed in', async () => {
             owner: TestConstants.OWNER,
             notes: TestConstants.NOTES
         })
-    ).rejects.toThrow("Missing required field 'ids'")
+    ).rejects.toThrow("Missing required field 'id'")
     expect(dbClient.getDB()).toEqual(DBSeed.EMPTY)
 })
 

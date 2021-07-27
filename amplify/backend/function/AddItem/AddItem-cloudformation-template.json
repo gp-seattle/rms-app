@@ -30,9 +30,9 @@
             "Default": "storagemainArn"
             },
         
-        "storagemainStreamArn": {
+        "storagemain": {
             "Type": "String",
-            "Default": "storagemainStreamArn"
+            "Default": "storagemain"
             },
         
     
@@ -155,7 +155,7 @@
                     "Ref": "s3Key"
                 }
             },
-            "Handler": "./ts-output/handers/api/AddItem.js",
+            "Handler": "./ts-output/handers/api/AddItem.handler",
             "FunctionName": {
                 "Fn::If": [
                     "ShouldNotCreateEnvResources",
@@ -176,7 +176,7 @@
                 ]
             },
             "Environment": {
-                "Variables" : {"ENV":{"Ref":"env"},"REGION":{"Ref":"AWS::Region"},"STORAGE_MAIN_NAME":{"Ref":"storagemainName"},"STORAGE_MAIN_ARN":{"Ref":"storagemainArn"},"STORAGE_MAIN_STREAMARN":{"Ref":"storagemainStreamArn"},"STORAGE_ITEMS_NAME":{"Ref":"storageitemsName"},"STORAGE_ITEMS_ARN":{"Ref":"storageitemsArn"},"STORAGE_ITEMS_STREAMARN":{"Ref":"storageitemsStreamArn"},"STORAGE_BATCH_NAME":{"Ref":"storagebatchName"},"STORAGE_BATCH_ARN":{"Ref":"storagebatchArn"},"STORAGE_BATCH_STREAMARN":{"Ref":"storagebatchStreamArn"},"STORAGE_TAGS_NAME":{"Ref":"storagetagsName"},"STORAGE_TAGS_ARN":{"Ref":"storagetagsArn"},"STORAGE_TAGS_STREAMARN":{"Ref":"storagetagsStreamArn"},"STORAGE_HISTORY_NAME":{"Ref":"storagehistoryName"},"STORAGE_HISTORY_ARN":{"Ref":"storagehistoryArn"},"STORAGE_HISTORY_STREAMARN":{"Ref":"storagehistoryStreamArn"},"STORAGE_TRANSACTIONS_NAME":{"Ref":"storagetransactionsName"},"STORAGE_TRANSACTIONS_ARN":{"Ref":"storagetransactionsArn"},"STORAGE_TRANSACTIONS_STREAMARN":{"Ref":"storagetransactionsStreamArn"}}
+                "Variables" : {"ENV":{"Ref":"env"},"REGION":{"Ref":"AWS::Region"},"STORAGE_MAIN_NAME":{"Ref":"storagemainName"},"STORAGE_MAIN_ARN":{"Ref":"storagemainArn"},"STORAGE_ITEMS_NAME":{"Ref":"storageitemsName"},"STORAGE_ITEMS_ARN":{"Ref":"storageitemsArn"},"STORAGE_BATCH_NAME":{"Ref":"storagebatchName"},"STORAGE_BATCH_ARN":{"Ref":"storagebatchArn"},"STORAGE_TAGS_NAME":{"Ref":"storagetagsName"},"STORAGE_TAGS_ARN":{"Ref":"storagetagsArn"},"STORAGE_HISTORY_NAME":{"Ref":"storagehistoryName"},"STORAGE_HISTORY_ARN":{"Ref":"storagehistoryArn"},"STORAGE_TRANSACTIONS_NAME":{"Ref":"storagetransactionsName"},"STORAGE_TRANSACTIONS_ARN":{"Ref":"storagetransactionsArn"}}
             },
             "Role": { "Fn::GetAtt": ["LambdaExecutionRole", "Arn"] },
             "Runtime": "nodejs14.x",
