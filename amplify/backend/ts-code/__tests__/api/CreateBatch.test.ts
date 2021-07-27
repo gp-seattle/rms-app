@@ -53,3 +53,27 @@ test('will fail to create batch when id is invalid', async () => {
     ).rejects.toThrow(`Unable to find id '${TestConstants.BAD_REQUEST}'`)
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES)
 })
+
+test('will fail to create batch when item name not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
+    const api: CreateBatch = new CreateBatch(dbClient)
+
+    await expect(
+        api.execute({
+            ids: [ TestConstants.ITEM_ID, TestConstants.ITEM_ID_2 ]
+        })
+    ).rejects.toThrow("Missing required field 'name'")
+    expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES)
+})
+
+test('will fail to create batch when item id not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
+    const api: CreateBatch = new CreateBatch(dbClient)
+
+    await expect(
+        api.execute({
+            name: TestConstants.BATCH,
+        })
+    ).rejects.toThrow("Missing required field 'id'")
+    expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES)
+})

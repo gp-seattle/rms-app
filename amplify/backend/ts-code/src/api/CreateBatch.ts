@@ -21,7 +21,7 @@ export class CreateBatch {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: CreateBatchInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, CreateBatch.NAME)
                 .then(() => "Name of Batch:")
@@ -42,25 +42,36 @@ export class CreateBatch {
      * @param name Name of batch
      * @param ids List of IDs to include in this batch
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: CreateBatchInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.batchTable.get(scratch.name)
+                return this.performAllFVAs(input)
+                    .then(() => this.batchTable.get(input.name))
                     .then((entry: SearchIndexSchema) => {
                         if (entry) {
-                            return this.batchTable.delete(scratch.name)
+                            return this.batchTable.delete(input.name)
                         } else {
                             return
                         }
-                    }).then(() => this.batchTable.create(scratch.name, scratch.ids))
-                    .then(() => `Successfully created batch '${scratch.name}'`)
+                    }).then(() => this.batchTable.create(input.name, input.ids))
+                    .then(() => `Successfully created batch '${input.name}'`)
             },
             CreateBatch.NAME, this.metrics
         )
     }
+    private performAllFVAs(input: CreateBatchInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.name == undefined) {
+                reject(new Error("Missing required field 'name'"))
+            } else if (input.ids == undefined) {
+                reject(new Error("Missing required field 'id'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface CreateBatchInput {
     name?: string
     ids?: string[]
 }
