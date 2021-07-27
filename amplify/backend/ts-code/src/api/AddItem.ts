@@ -84,12 +84,12 @@ export class AddItem {
             () => {
                 return this.performAllFVAs(input)
                     .then(()=>{
-                    this.mainTable.get(input.name)
-                .then((entry: MainSchema) => {
-                    if (entry) {
+                        this.mainTable.get(input.name)
+                        .then((entry: MainSchema) => {
+                        if (entry) {
                         // Object Exists. No need to add description
-                        return
-                    } else {
+                            return
+                    }   else {
                         // Add new Object
                         return this.mainTable.create(input.name, input.description)
                             .then(() => this.tagTable.create(input.name, input.tags))
