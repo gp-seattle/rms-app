@@ -20,6 +20,9 @@
         "BorrowBatch": {},
         "ReturnBatch": {},
         "ReturnItem": {}
+      },
+      "auth": {
+        "rms3d290491": {}
       }
     }
   }
