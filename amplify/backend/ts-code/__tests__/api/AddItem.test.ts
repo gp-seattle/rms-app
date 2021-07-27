@@ -1,5 +1,5 @@
 import { AddItem } from "../../src/api/AddItem"
-import { DBSeed, TestConstants } from "../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants} from "../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../__dev__/db/LocalDBClient"
 
 test('will add item correctly when name does not exist', async () => {
@@ -85,4 +85,36 @@ test('will fail to add name when id is not unique', async () => {
         })
     ).rejects.toThrow(`RMS ID ${TestConstants.ITEM_ID} is not unique.`)
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_FAIL_CREATE)
+})
+
+test('will fail to add item when item ids not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
+    const api: AddItem = new AddItem(dbClient)
+
+    await expect(
+        api.execute({
+            name: TestConstants.DISPLAYNAME,
+            description: TestConstants.DESCRIPTION,
+            tags: [TestConstants.TAG],
+            owner: TestConstants.OWNER,
+            notes: TestConstants.NOTES
+        })
+    ).rejects.toThrow("Missing required field 'ids'")
+    expect(dbClient.getDB()).toEqual(DBSeed.EMPTY)
+})
+
+test('will fail to add item when item name not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
+    const api: AddItem = new AddItem(dbClient)
+
+    await expect(
+        api.execute({
+            id: TestConstants.ITEM_ID,
+            description: TestConstants.DESCRIPTION,
+            tags: [TestConstants.TAG],
+            owner: TestConstants.OWNER,
+            notes: TestConstants.NOTES
+        })
+    ).rejects.toThrow("Missing required field 'name'")
+    expect(dbClient.getDB()).toEqual(DBSeed.EMPTY)
 })
