@@ -64,7 +64,7 @@ export class CreateBatch {
             if (input.name == undefined) {
                 reject(new Error("Missing required field 'name'"))
             } else if (input.ids == undefined) {
-                reject(new Error("Missing required field 'id'"))
+                reject(new Error("Missing required field 'ids'"))
             }
             resolve()
         })

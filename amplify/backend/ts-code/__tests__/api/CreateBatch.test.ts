@@ -66,7 +66,7 @@ test('will fail to create batch when item name not passed in', async () => {
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES)
 })
 
-test('will fail to create batch when item id not passed in', async () => {
+test('will fail to create batch when item ids not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const api: CreateBatch = new CreateBatch(dbClient)
 
@@ -74,6 +74,6 @@ test('will fail to create batch when item id not passed in', async () => {
         api.execute({
             name: TestConstants.BATCH,
         })
-    ).rejects.toThrow("Missing required field 'id'")
+    ).rejects.toThrow("Missing required field 'ids'")
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES)
 })
