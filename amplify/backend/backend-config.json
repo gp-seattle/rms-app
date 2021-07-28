@@ -303,8 +303,7 @@
           "resourceName": "main",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -312,8 +311,7 @@
           "resourceName": "items",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -321,8 +319,7 @@
           "resourceName": "batch",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -330,8 +327,7 @@
           "resourceName": "tags",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -339,8 +335,7 @@
           "resourceName": "history",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         },
         {
@@ -348,8 +343,7 @@
           "resourceName": "transactions",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         }
       ]
