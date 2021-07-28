@@ -27,7 +27,7 @@ export class AddItem {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: AddItemInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, AddItem.NAME)
                 .then(() => "Name of item:")
@@ -79,32 +79,42 @@ export class AddItem {
      * Params used by router exclusively:
      * @param createItem Flag to indicate item needs to be created (used by the router function)
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: AddItemInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.mainTable.get(scratch.name)
-                .then((entry: MainSchema) => {
-                    if (entry) {
+                return this.performAllFVAs(input)
+                    .then(()=>{
+                        this.mainTable.get(input.name)
+                        .then((entry: MainSchema) => {
+                        if (entry) {
                         // Object Exists. No need to add description
-                        return
-                    } else {
+                            return
+                    }   else {
                         // Add new Object
-                        return this.mainTable.create(scratch.name, scratch.description)
-                            .then(() => this.tagTable.create(scratch.name, scratch.tags))
-                    }
+                        return this.mainTable.create(input.name, input.description)
+                            .then(() => this.tagTable.create(input.name, input.tags))
+                    }})
                 }).then(() => {
-                    return this.itemTable.create(scratch.id, scratch.name, scratch.owner, scratch.notes)
-                        .then(() => `Created Item with RMS ID: ${scratch.id}`)
+                    return this.itemTable.create(input.id, input.name, input.owner, input.notes)
+                        .then(() => `Created Item with RMS ID: ${input.id}`)
                 })
             },
             AddItem.NAME, this.metrics
         )
-        
-        
+    }
+    private performAllFVAs(input: AddItemInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.id == undefined) {
+                reject(new Error("Missing required field 'id'"))
+            } else if (input.name == undefined) {
+                reject(new Error("Missing required field 'name'"))
+            }
+            resolve()
+        })
     }
 }
 
-interface ScratchInterface {
+export interface AddItemInput {
     id?: string,
     name?: string,
     displayName?:string,
