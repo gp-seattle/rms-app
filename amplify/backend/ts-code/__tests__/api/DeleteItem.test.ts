@@ -37,3 +37,15 @@ test('will throw exception when id is invalid', async () => {
     ).rejects.toThrow(`Item ${TestConstants.BAD_REQUEST} doesn't exist.`)
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
 })
+
+test('will fail to delete item when id not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
+    const api: DeleteItem = new DeleteItem(dbClient)
+
+    await expect(
+        api.execute({
+        })
+    ).rejects.toThrow("Missing required field 'id'")
+    expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES)
+})
+

@@ -7,7 +7,8 @@ const path = require("path")
 const { exec } = require("child_process")
 
 const MASTER_PATH = path.join(__dirname, "amplify", "backend")
-const API_NAMES = ["BorrowBatch","BorrowItem","CreateBatch", "ReturnBatch", "ReturnItem"]
+
+const API_NAMES = ["AddItem", "BorrowBatch", "BorrowItem","CreateBatch", "DeleteItem", "ReturnBatch", "ReturnItem"]
 
 function deleteTsOutput(parentPath) {
     fs.readdirSync(parentPath).forEach((file) => {
