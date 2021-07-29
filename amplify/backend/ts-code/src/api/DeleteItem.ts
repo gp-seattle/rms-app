@@ -27,7 +27,7 @@ export class DeleteItem {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: DeleteItemInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, DeleteItem.NAME)
                 .then(() => "ID of item:")
@@ -47,12 +47,13 @@ export class DeleteItem {
      * Required params in scratch object:
      * @param id ID of Item
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: DeleteItemInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.itemTable.delete(scratch.id)
-                    .then((name: string) => this.mainTable.get(name))
-                    .then((entry: MainSchema) => {
+                return this.performAllFVAs(input)
+                    .then(() =>this.itemTable.delete(input.id)
+                        .then((name: string) => this.mainTable.get(name))
+                        .then((entry: MainSchema) => {
                         if (entry.items == undefined) {
                             return this.tagTable.delete(entry.name, entry.tags.values)
                                 .then(() => this.mainTable.delete(entry.name))
@@ -60,14 +61,22 @@ export class DeleteItem {
                         } else {
                             return entry.name
                         }
-                    })
+                    }))
                     .then((name: string) => `Deleted a '${name}' from the inventory.`)
             },
             DeleteItem.NAME, this.metrics
         )
     }
+    private performAllFVAs(input: DeleteItemInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.id == undefined) {
+                reject(new Error("Missing required field 'id'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface DeleteItemInput {
     id?: string
 }
