@@ -20,7 +20,7 @@ export class DeleteBatch {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: DeleteBatchInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, DeleteBatch.NAME)
                 .then(() => "Name of Batch:")
@@ -41,17 +41,26 @@ export class DeleteBatch {
      * Required params in scratch object:
      * @param name Name of batch
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: DeleteBatchInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.batchTable.delete(scratch.name)
-                    .then(() => `Successfully deleted batch '${scratch.name}'`)
+                return this.performAllFVAs(input)
+                    .then(() => this.batchTable.delete(input.name))
+                    .then(() => `Successfully deleted batch '${input.name}'`)
             },
             DeleteBatch.NAME, this.metrics
         )
     }
+    private performAllFVAs(input: DeleteBatchInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.name == undefined) {
+                reject(new Error("Missing required field 'name'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface DeleteBatchInput {
     name?: string
 }
