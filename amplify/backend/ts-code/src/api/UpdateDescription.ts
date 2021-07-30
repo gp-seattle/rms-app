@@ -20,7 +20,7 @@ export class UpdateDescription {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: UpdateDescriptionInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, UpdateDescription.NAME)
                 .then(() => "Name of item:")
@@ -39,18 +39,29 @@ export class UpdateDescription {
      * @param name Name of item
      * @param description New description
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: UpdateDescriptionInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.mainTable.update(scratch.name, "description", scratch.description)
-                    .then(() => `Successfully updated description of '${scratch.name}'`)
+                return this.performAllFVAs(input)
+                    .then(() => this.mainTable.update(input.name, "description", input.description))
+                    .then(() => `Successfully updated description of '${input.name}'`)
             },
             UpdateDescription.NAME, this.metrics
         )
     }
+    private performAllFVAs(input: UpdateDescriptionInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.name == undefined) {
+                reject(new Error("Missing required field 'name'"))
+            } else if (input.description == undefined) {
+                reject(new Error("Missing required field 'description'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface UpdateDescriptionInput {
     name?: string
     description?: string
 }

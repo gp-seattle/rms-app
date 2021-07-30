@@ -27,3 +27,27 @@ test('will throw excpetion when name is invalid', async () => {
     ).rejects.toThrow("Cannot set property 'description' of undefined")
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
 })
+
+test('will fail to update description when item name not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
+    const api: UpdateDescription = new UpdateDescription(dbClient)
+
+    await expect(
+        api.execute({
+            description: TestConstants.DESCRIPTION_2
+        })
+    ).rejects.toThrow("Missing required field 'name'")
+    expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
+})
+
+test('will fail to update description when item description not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
+    const api: UpdateDescription = new UpdateDescription(dbClient)
+
+    await expect(
+        api.execute({
+            name: TestConstants.NAME,
+        })
+    ).rejects.toThrow("Missing required field 'description'")
+    expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
+})
