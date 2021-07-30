@@ -20,7 +20,7 @@ export class UpdateItemOwner {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: UpdateItemOwnerInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, UpdateItemOwner.NAME)
                 .then(() => "ID of item:")
@@ -43,18 +43,31 @@ export class UpdateItemOwner {
      * @param currentOwner Name of current owner
      * @param newOwner Name of new owner
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: UpdateItemOwnerInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.itemTable.updateItem(scratch.id, "owner", scratch.newOwner, scratch.currentOwner)
-                    .then(() => `Successfully updated owner for item '${scratch.id}'`)
+                return this.performAllFVAs(input)
+                    .then(() => this.itemTable.updateItem(input.id, "owner", input.newOwner, input.currentOwner))
+                    .then(() => `Successfully updated owner for item '${input.id}'`)
             },
             UpdateItemOwner.NAME, this.metrics
         )
     }
+    private performAllFVAs(input: UpdateItemOwnerInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.id == undefined) {
+                reject(new Error("Missing required field 'id'"))
+            } else if (input.currentOwner == undefined) {
+                reject(new Error("Missing required field 'currentOwner'"))
+            } else if (input.newOwner == undefined) {
+                reject(new Error("Missing required field 'newOwner'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface UpdateItemOwnerInput {
     id?: string
     currentOwner?: string
     newOwner?: string
