@@ -43,3 +43,42 @@ test('will throw excpetion when id is invalid', async () => {
     ).rejects.toThrow(`Couldn't find item ${TestConstants.BAD_REQUEST} in the database.`)
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
 })
+
+test('will fail to update item owner when id not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
+    const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
+
+    await expect(
+        api.execute({
+            currentOwner: TestConstants.OWNER,
+            newOwner: TestConstants.OWNER_2
+        })
+    ).rejects.toThrow("Missing required field 'id'")
+    expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
+})
+
+test('will fail to update item owner when item currentOwner not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
+    const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
+
+    await expect(
+        api.execute({
+            id: TestConstants.ITEM_ID,
+            newOwner: TestConstants.OWNER_2
+        })
+    ).rejects.toThrow("Missing required field 'currentOwner'")
+    expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
+})
+
+test('will fail to update item owner when item newOwner not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
+    const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
+
+    await expect(
+        api.execute({
+            id: TestConstants.ITEM_ID,
+            currentOwner: TestConstants.OWNER,
+        })
+    ).rejects.toThrow("Missing required field 'newOwner'")
+    expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
+})
