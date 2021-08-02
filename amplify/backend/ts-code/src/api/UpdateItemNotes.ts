@@ -20,7 +20,7 @@ export class UpdateItemNotes {
         this.metrics = metrics
     }
 
-    public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
+    public router(number: string, request: string, scratch?: UpdateItemNotesInput): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, UpdateItemNotes.NAME)
                 .then(() => "ID of item:")
@@ -39,18 +39,29 @@ export class UpdateItemNotes {
      * @param id ID of Item
      * @param note String of the new note.
      */
-    public execute(scratch: ScratchInterface): Promise<string> {
+    public execute(input: UpdateItemNotesInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                return this.itemTable.updateItem(scratch.id, "notes", scratch.note)
-                    .then(() => `Successfully updated notes about item '${scratch.id}'`)
+                return this.performAllFVAs(input)
+                    .then(() => this.itemTable.updateItem(input.id, "notes", input.note))
+                    .then(() => `Successfully updated notes about item '${input.id}'`)
             },
             UpdateItemNotes.NAME, this.metrics
         )
     }
+    private performAllFVAs(input: UpdateItemNotesInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (input.id == undefined) {
+                reject(new Error("Missing required field 'id'"))
+            } else if (input.note == undefined) {
+                reject(new Error("Missing required field 'note'"))
+            }
+            resolve()
+        })
+    }
 }
 
-interface ScratchInterface {
+export interface UpdateItemNotesInput {
     id?: string
     note?: string
 }
