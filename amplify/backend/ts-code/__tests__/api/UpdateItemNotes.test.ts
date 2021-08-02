@@ -27,3 +27,27 @@ test('will throw excpetion when id is invalid', async () => {
     ).rejects.toThrow(`Couldn't find item ${TestConstants.BAD_REQUEST} in the database.`)
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
 })
+
+test('will fail to update item notes when id not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
+    const api: UpdateItemNotes = new UpdateItemNotes(dbClient)
+
+    await expect(
+        api.execute({
+            note: TestConstants.NOTES_2
+        })
+    ).rejects.toThrow("Missing required field 'id'")
+    expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
+})
+
+test('will fail to update item notes when note not passed in', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
+    const api: UpdateItemNotes = new UpdateItemNotes(dbClient)
+
+    await expect(
+        api.execute({
+            id: TestConstants.ITEM_ID,
+        })
+    ).rejects.toThrow("Missing required field 'note'")
+    expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
+})

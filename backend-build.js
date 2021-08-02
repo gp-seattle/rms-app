@@ -20,6 +20,7 @@ const API_NAMES = [
                     "ReturnItem",
                     "UpdateDescription",
                     "UpdateItemOwner",
+                    "UpdateItemNotes",
                     "UpdateTags"
 ]
 
