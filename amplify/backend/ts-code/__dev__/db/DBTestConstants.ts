@@ -23,6 +23,9 @@ export enum TestConstants {
     BAD_REQUEST = "bad request",
 
     NAME = "test name",
+    USERNAME = "testname",
+    PASSWORD = "Passw0rd",
+    EMAIl = "test@email.com",
     DISPLAYNAME = "Test Name",
     NAME_2 = "test name 2",
     DESCRIPTION = "test description",
