@@ -12,7 +12,7 @@ beforeAll(() => {
 
 /**
  * TODO: Single Use. Left here for validation purposes.
- * 
+ *
 test('will sign up when api is called', async () => {
     await expect(
         Auth.signUp({
