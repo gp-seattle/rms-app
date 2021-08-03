@@ -19,6 +19,8 @@ export enum DBSeed {
 }
 
 export enum TestConstants {
+    EMAIL = "test@email.com",
+    PASSWORD = "Passw0rd",
     NUMBER = "test number",
     BAD_REQUEST = "bad request",
 
