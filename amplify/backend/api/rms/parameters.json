@@ -5,4 +5,4 @@
   "DynamoDBModelTableWriteIOPS": 1,
   "DynamoDBEnablePointInTimeRecovery": false,
   "DynamoDBEnableServerSideEncryption": false
-} 
+}
