@@ -10,6 +10,8 @@ import { emitAPIMetrics } from "../metrics/MetricsHelper"
 /**
  * Adds item to item inventory table.
  */
+const uniqueId = Math.floor(Math.random() * Date.now()).toString().substring(0,5)
+
 export class AddItem {
     public static NAME: string = "add item"
 
