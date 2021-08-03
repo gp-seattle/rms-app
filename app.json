@@ -1,5 +1,6 @@
 {
   "expo": {
+    "entryPoint": "./frontend/App.js",
     "name": "rms-app",
     "slug": "rms-app",
     "version": "1.0.0",
