@@ -3,10 +3,10 @@
   "scripts": {
     "build": "node backend-build.js",
     "test": "node backend-test.js",
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "start": "expo start -c",
+    "android": "expo start -c --android",
+    "ios": "expo start -c --ios",
+    "web": "expo start -c --web",
     "eject": "expo eject"
   },
   "dependencies": {
@@ -18,7 +18,9 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-paper": "^4.9.2",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
