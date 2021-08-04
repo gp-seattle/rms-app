@@ -13,7 +13,7 @@ const STORAGE_HISTORY_NAME="history"
 const STORAGE_TRANSACTIONS_NAME="transactions"
 
 // Compile Typescript
-exec("jest --json --outputFile=report.json",
+exec("jest --json --outputFile=report.json --detectOpenHandles",
     {
         cwd: MASTER_PATH,
         env: {
