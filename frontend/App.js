@@ -14,7 +14,7 @@ function App() {
 		<ReduxProvider store={store}>
 			<PaperProvider theme={theme}>
 				<RMSTabsNavigator>
-          <Dashboard iconName="home" label="Dash" />
+          <Dashboard name="dash" title="Dash" iconName="home" />
           <View name="inv" title="Inventory" iconName="format-list-bulleted" />
           <View name="info" title="Info" iconName="alert-circle" />
         </RMSTabsNavigator>
@@ -31,7 +31,11 @@ const theme = {
 		surface: '#FFF',
     primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
 		accent: '#03DAC5',
+		surfaceMediumEmphasis: 'rgba(0, 0, 0, 0.6)'
 	},
+	fonts: {
+		regular: "Roboto"
+	}
 };
 
 export default registerRootComponent(App);
