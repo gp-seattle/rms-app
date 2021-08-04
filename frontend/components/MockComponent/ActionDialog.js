@@ -5,10 +5,10 @@ function ActionDialog(props) {
     return(
         <Modal 
             transparent = {true}
-            visible={props.visible} 
+            visible={props.visible}
             animationType = "slide"
         >
-            <TouchableOpacity style = {styles.modalContainer} onPress ={props.onCancel} >
+            <TouchableOpacity style = {styles.modalContainer} onPress ={props.onCancel}> 
                 <View style = {styles.container}>
                     <View style={styles.buttonContainer}>
                         <View style={styles.button}>
@@ -29,7 +29,6 @@ function ActionDialog(props) {
 
 const styles = StyleSheet.create({
     modalContainer: {
-        backgroundColor: 'rgba(0,0,0,0.5)',
         flex: 1
     },
     container: {
@@ -45,14 +44,18 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'column',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         alignItems: 'center',
         width: '80%',
-        height: '100%'
+        height: '60%',
+        marginBottom: 55
     },
     button: {
         width: '100%',
-        backgroundColor: '#6200EE'
+        backgroundColor: '#6200EE',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row'
     }
 });
 
