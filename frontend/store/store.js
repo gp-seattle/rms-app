@@ -4,6 +4,6 @@ import counterSlice from "./slices/counterSlice";
 
 export default configureStore(
   getSlicesConfig({
-
+    counterSlice
   })
 );
