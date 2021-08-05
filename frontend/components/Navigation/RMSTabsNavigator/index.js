@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { withTheme } from 'react-native-paper';
-import RMSIcon from '../RMSIcon';
+import RMSIcon from '../../RMSIcon';
 import TabsNavigator from '../TabsNavigator';
 
 const RMSTabsNavigator = ({ children, theme }) => {
