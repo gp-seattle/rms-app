@@ -14,14 +14,8 @@ const NewItem = () => {
 
 const styles = StyleSheet.create({
 	headerContainer: {
-		justifyContent: 'flex-start',
-		alignItems: 'flex-start',
-	},
-	input: {
-		width: '80%',
-		borderColor: 'black',
-		borderWidth: 1,
-		padding: 10,
+		justifyContent: 'center',
+		alignContent: 'center',
 	},
 });
 

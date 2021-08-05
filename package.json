@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.5.1",
     "aws-amplify": "^4.2.2",
     "aws-sdk": "^2.812.0",
     "expo": "~41.0.1",

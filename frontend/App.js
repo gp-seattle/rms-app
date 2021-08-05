@@ -4,13 +4,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import { registerRootComponent } from 'expo';
 import { Provider } from 'react-redux';
 import store from './store/store';
-import NewItem from './src/frontend/components/NewItem';
+import NewItem from './components/NewItem';
 
 function App() {
 	return (
 		<Provider store={store}>
-			<View style={styles.container}>
+			<View>
 				<NewItem />
+			</View>
+			<View style={styles.container}>
 				<Text>I am an app now powered by Redux!</Text>
 				<StatusBar style="auto" />
 			</View>
