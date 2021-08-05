@@ -68,7 +68,10 @@ export class AddItem {
         }
     }
 
-    private getUniqueId = Math.floor((Math.random() * Date.now() * new Date().getMilliseconds()) % 10).toString(36).substring(0, 6)
+    private getUniqueId(x:string): string {
+        x= Math.floor((Math.random() * Date.now()) % 10).toString(36).substring(0, 6)
+        if(x!=ItemTable.)
+    }
 
     /**
      * Required params in scratch object:
