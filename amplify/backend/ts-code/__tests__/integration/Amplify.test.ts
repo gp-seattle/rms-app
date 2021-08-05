@@ -70,6 +70,33 @@ describe('Amplify Tests', () => {
             ).resolves.toEqual(`Created Item with RMS ID: ${TestConstants.ITEM_ID}`)
     })
 
+    test('will delete item when api is called', async() => {
+        await expect(
+            Auth.currentCredentials()
+                .then((credentials:ICredentials) => {
+                    console.log(credentials)
+                    AWS.config.credentials = credentials
+                    const lambda = new Lambda({
+                        credentials:credentials,
+                        region: "us-west-2"
+                    })
+                    return lambda.invoke({
+                        FunctionName: `DeleteItem${ENV_SUFFIX}`,
+                        Payload: JSON.stringify({
+                            id: TestConstants.ITEM_ID,
+                            name: TestConstants.DISPLAYNAME,
+                            description: TestConstants.DESCRIPTION,
+                            tags: [TestConstants.TAG],
+                            owner: TestConstants.OWNER,
+                            notes: TestConstants.NOTES
+                        })
+                    }).promise()
+                }).then((response: InvocationResponse) => {
+                console.log(response)
+                return response.Payload
+            })
+        ).resolves.toEqual(`Deleted a '${TestConstants.NAME}' from the inventory.`)
+    })
     /**
      * AUTH: Sign Out
      */
