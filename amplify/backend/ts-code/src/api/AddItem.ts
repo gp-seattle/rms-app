@@ -10,8 +10,6 @@ import { emitAPIMetrics } from "../metrics/MetricsHelper"
 /**
  * Adds item to item inventory table.
  */
-const uniqueId = Math.floor(Math.random() * Date.now()).toString().substring(0,5)
-
 export class AddItem {
     public static NAME: string = "add item"
 
@@ -69,6 +67,8 @@ export class AddItem {
                 .then(() => this.execute(scratch))
         }
     }
+
+    private getUniqueId = Math.floor((Math.random() * Date.now() * new Date().getMilliseconds()) % 10).toString(36).substring(0, 6)
 
     /**
      * Required params in scratch object:
