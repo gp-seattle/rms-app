@@ -20,6 +20,22 @@ function App() {
 	);
 }
 
+const theme = {
+	...DefaultTheme,
+	colors: {
+		...DefaultTheme.colors,
+		primary: '#6200EE',
+		surface: '#FFF',
+		surfaceMediumEmphasis: 'rgba(0, 0, 0, 0.6)',
+		surfaceOverlay: 'rgba(33, 33, 33, 0.08)',
+    primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
+		accent: '#03DAC5',
+	},
+	fonts: {
+		regular: "Roboto"
+	}
+};
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
