@@ -2,10 +2,10 @@ import { MainTable } from "../db/MainTable"
 import { ItemTable } from "../db/ItemTable"
 import { TagTable } from "../db/TagTable"
 import { TransactionsTable } from "../db/TransactionsTable"
-import { MainSchema } from "../db/Schemas"
-import { DBClient } from "../injection/db/DBClient"
-import { MetricsClient } from "../injection/metrics/MetricsClient"
-import { emitAPIMetrics } from "../metrics/MetricsHelper"
+import { ItemsSchema, MainSchema} from "../db/Schemas"
+import {DBClient} from "../injection/db/DBClient"
+import {MetricsClient} from "../injection/metrics/MetricsClient"
+import {emitAPIMetrics} from "../metrics/MetricsHelper"
 
 /**
  * Adds item to item inventory table.
@@ -53,7 +53,7 @@ export class AddItem {
                 .then(() => "Optional description of this item:")
         } else if (scratch.createItem && scratch.description == undefined) {
             return this.transactionsTable.appendToScratch(number, "description", request)
-            .then(() => "Intended Unique RMS ID number:")
+                .then(() => "Intended Unique RMS ID number:")
         } else if (scratch.id === undefined) {
             return this.transactionsTable.appendToScratch(number, "id", request)
                 .then(() => "Owner of this item (or location where it's stored if church owned):")
@@ -68,9 +68,21 @@ export class AddItem {
         }
     }
 
-    private getUniqueId(x:string): string {
-        x= Math.floor((Math.random() * Date.now()) % 10).toString(36).substring(0, 6)
-        if(x!=ItemTable.)
+    /**
+     * @private Generate random ID and check if unique
+     */
+    private getUniqueId(): Promise<string> {
+        const id = Math.floor((Math.random() * Date.now()) % 10).toString(36).substring(0, 5)
+        return this.itemTable.get(id)
+        .then((item: ItemsSchema) => {
+            if (item) {
+                // Item Returned
+                return this.getUniqueId()
+            } else {
+                // No Item Returned
+                return id;
+            }
+        })
     }
 
     /**
@@ -128,4 +140,8 @@ export interface AddItemInput {
     tags?: string[],
     owner?: string,
     notes?: string
+}
+
+function Key(Key: any) {
+    throw new Error("Function not implemented.")
 }
