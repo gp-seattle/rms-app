@@ -24,12 +24,433 @@
     "S3DeploymentRootKey": {
       "Type": "String",
       "Description": "An S3 key relative to the S3DeploymentBucket that points to the root\nof the deployment directory."
+    },
+    "storagemainName": {
+      "Type": "String",
+      "Default": "storagemainName"
+    },
+    "storagemainArn": {
+      "Type": "String",
+      "Default": "storagemainArn"
+    },
+    "storagemain": {
+      "Type": "String",
+      "Default": "storagemain"
+    },
+    "storageitemsName": {
+      "Type": "String",
+      "Default": "storageitemsName"
+    },
+    "storageitemsArn": {
+      "Type": "String",
+      "Default": "storageitemsArn"
+    },
+    "storagebatchName": {
+      "Type": "String",
+      "Default": "storagebatchName"
+    },
+    "storagebatchArn": {
+      "Type": "String",
+      "Default": "storagebatchArn"
+    },
+    "storagetagsName": {
+      "Type": "String",
+      "Default": "storagetagsName"
+    },
+    "storagetagsArn": {
+      "Type": "String",
+      "Default": "storagetagsArn"
+    },
+    "storagehistoryName": {
+      "Type": "String",
+      "Default": "storagehistoryName"
+    },
+    "storagehistoryArn": {
+      "Type": "String",
+      "Default": "storagehistoryArn"
+    },
+    "storagetransactionsName": {
+      "Type": "String",
+      "Default": "storagetransactionsName"
+    },
+    "storagetransactionsArn": {
+      "Type": "String",
+      "Default": "storagetransactionsArn"
     }
   },
   "Resources": {
-    "EmptyResource": {
-      "Type": "Custom::EmptyResource",
-      "Condition": "AlwaysFalse"
+    "MainDataSource": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "Name": "MainDataSource",
+        "Type": "AMAZON_DYNAMODB",
+        "ServiceRoleArn": {
+          "Fn::GetAtt": [
+            "RootRole",
+            "Arn"
+          ]
+        },
+        "DynamoDBConfig": {
+          "AwsRegion" : {
+            "Ref": "AWS::Region"
+          },
+          "TableName" : {
+            "Ref": "storagemainName"
+          }
+        }
+      }
+    },
+    "ItemsDataSource": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "Name": "ItemsDataSource",
+        "Type": "AMAZON_DYNAMODB",
+        "ServiceRoleArn": {
+          "Fn::GetAtt": [
+            "RootRole",
+            "Arn"
+          ]
+        },
+        "DynamoDBConfig": {
+          "AwsRegion" : {
+            "Ref": "AWS::Region"
+          },
+          "TableName" : {
+            "Ref": "storageitemsName"
+          }
+        }
+      }
+    },
+    "BatchDataSource": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "Name": "BatchDataSource",
+        "Type": "AMAZON_DYNAMODB",
+        "ServiceRoleArn": {
+          "Fn::GetAtt": [
+            "RootRole",
+            "Arn"
+          ]
+        },
+        "DynamoDBConfig": {
+          "AwsRegion" : {
+            "Ref": "AWS::Region"
+          },
+          "TableName" : {
+            "Ref": "storagebatchName"
+          }
+        }
+      }
+    },
+    "TagsDataSource": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "Name": "TagsDataSource",
+        "Type": "AMAZON_DYNAMODB",
+        "ServiceRoleArn": {
+          "Fn::GetAtt": [
+            "RootRole",
+            "Arn"
+          ]
+        },
+        "DynamoDBConfig": {
+          "AwsRegion" : {
+            "Ref": "AWS::Region"
+          },
+          "TableName" : {
+            "Ref": "storagetagsName"
+          }
+        }
+      }
+    },
+    "HistoryDataSource": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "Name": "HistoryDataSource",
+        "Type": "AMAZON_DYNAMODB",
+        "ServiceRoleArn": {
+          "Fn::GetAtt": [
+            "RootRole",
+            "Arn"
+          ]
+        },
+        "DynamoDBConfig": {
+          "AwsRegion" : {
+            "Ref": "AWS::Region"
+          },
+          "TableName" : {
+            "Ref": "storagehistoryName"
+          }
+        }
+      }
+    },
+    "RootRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+          "AssumeRolePolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                  {
+                      "Effect": "Allow",
+                      "Principal": {
+                          "Service": [
+                              "appsync.amazonaws.com"
+                          ]
+                      },
+                      "Action": [
+                          "sts:AssumeRole"
+                      ]
+                  }
+              ]
+          },
+          "Path": "/",
+          "Policies": [
+              {
+                  "PolicyName": "all-dynamodb-tables",
+                  "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                          {
+                              "Effect": "Allow",
+                              "Action": [
+                                "dynamodb:GetItem",
+                                "dynamodb:BatchGetItem",
+                                "dynamodb:Query",
+                                "dynamodb:PutItem",
+                                "dynamodb:UpdateItem",
+                                "dynamodb:DeleteItem",
+                                "dynamodb:BatchWriteItem"
+                            ],
+                              "Resource": {
+                                "Fn::Sub": [
+                                  "arn:aws:dynamodb:${Region}:${Account}:table/*",
+                                  {
+                                    "Region": {
+                                      "Ref": "AWS::Region"
+                                    },
+                                    "Account": {
+                                      "Ref": "AWS::AccountId"
+                                    }
+                                  }
+                                ]
+                              }
+                          }
+                      ]
+                  }
+              }
+          ]
+      }
+    },
+    "RootInstanceProfile": {
+        "Type": "AWS::IAM::InstanceProfile",
+        "Properties": {
+            "Path": "/",
+            "Roles": [
+                {
+                    "Ref": "RootRole"
+                }
+            ]
+        }
+    },
+    "AllMainResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "DataSourceName": "MainDataSource",
+        "TypeName": "Query",
+        "FieldName": "allMain",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allMain.req.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        },
+        "ResponseMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allMain.res.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "AllItemsResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "DataSourceName": "ItemsDataSource",
+        "TypeName": "Query",
+        "FieldName": "allItems",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allItems.req.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        },
+        "ResponseMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allItems.res.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "AllBatchResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "DataSourceName": "BatchDataSource",
+        "TypeName": "Query",
+        "FieldName": "allBatch",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allBatch.req.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        },
+        "ResponseMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allBatch.res.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "AllTagsResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "DataSourceName": "TagsDataSource",
+        "TypeName": "Query",
+        "FieldName": "allTags",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allTags.req.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        },
+        "ResponseMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allTags.res.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "AllHistoryResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "DataSourceName": "HistoryDataSource",
+        "TypeName": "Query",
+        "FieldName": "allHistory",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allHistory.req.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        },
+        "ResponseMappingTemplateS3Location": {
+          "Fn::Sub": [
+            "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.allHistory.res.vtl",
+            {
+              "S3DeploymentBucket": {
+                "Ref": "S3DeploymentBucket"
+              },
+              "S3DeploymentRootKey": {
+                "Ref": "S3DeploymentRootKey"
+              }
+            }
+          ]
+        }
+      }
     }
   },
   "Conditions": {
@@ -47,12 +468,6 @@
     },
     "AlwaysFalse": {
       "Fn::Equals": ["true", "false"]
-    }
-  },
-  "Outputs": {
-    "EmptyOutput": {
-      "Description": "An empty output. You may delete this if you have at least one resource above.",
-      "Value": ""
     }
   }
 }

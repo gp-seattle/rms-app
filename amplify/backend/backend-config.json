@@ -741,11 +741,64 @@
       "output": {
         "authConfig": {
           "defaultAuthentication": {
-            "authenticationType": "AWS_IAM"
-          },
-          "additionalAuthenticationProviders": []
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          }
         }
-      }
+      },
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "main",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "transactions",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "auth": {
