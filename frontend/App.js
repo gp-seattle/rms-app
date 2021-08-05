@@ -1,28 +1,74 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useRef } from "react";
+import { StyleSheet, View, Text, Animated } from "react-native";
+
 import { registerRootComponent } from "expo";
-import { Provider } from "react-redux";
-import store from "./store/store";
+
+import ActionButton from "./components/MockComponent/ActionButton";
+import ActionDialog from "./components/MockComponent/ActionDialog";
 
 function App() {
+  const [visible, setVisible] = useState(false);
+
+  function cancelActionDialog() {
+    setVisible(false);
+  }
+
+  function openActionDialog() {
+    setVisible(true);
+  }
+
+  const dimEffect = useRef(new Animated.Value(0)).current;
+
+  function dimIn() {
+    Animated.timing(dimEffect, {
+      toValue: 1,
+      duration: 1000
+    }).start();
+  }
+
+  function dimOut() {
+    Animated.timing(dimEffect, {
+      toValue: 0,
+      duration: 1000
+    }).start();
+  }
+
+  let dimBackground;
+
+  if (visible) {
+    dimBackground = (
+      <Animated.View style = {[
+        styles.dimContainer, {
+          opacity: dimEffect
+          }
+        ]} 
+      >
+      </Animated.View>
+    );
+  }
+
   return (
-    <Provider store={store}>
-      <View style={styles.container}>
-        <Text>I am an app now powered by Redux!</Text>
-        <StatusBar style="auto" />
-      </View>
-    </Provider>
+    <View style={styles.screen}>
+      <ActionButton onPress={() => setVisible(true)} />
+        <ActionDialog
+          visible={visible}
+          onCancel = {cancelActionDialog}
+        />
+      <Text>Testing...</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ccc",
-    alignItems: "center",
-    justifyContent: "center",
+  screen: {
+    padding: 50
   },
+  dimContainer: {
+    flex: 1
+  },
+  dim: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  }
 });
 
 export default registerRootComponent(App);
