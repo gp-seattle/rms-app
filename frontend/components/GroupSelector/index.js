@@ -27,6 +27,7 @@ const GroupSelector = ({ items, onSelectedChange, style, buttonStyle, ButtonComp
 				flexDirection: 'row',
 				justifyContent: 'space-between',
 				marginTop: 5,
+				marginBottom: 5,
 				...style,
 			}}>
 			{items.map((title) => {

@@ -5,17 +5,20 @@ import { registerRootComponent } from 'expo';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import NewItem from './components/NewItem';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 
 function App() {
 	return (
 		<Provider store={store}>
-			<View>
-				<NewItem />
-			</View>
-			<View style={styles.container}>
-				<Text>I am an app now powered by Redux!</Text>
-				<StatusBar style="auto" />
-			</View>
+			<PaperProvider theme={theme}>
+				<View>
+					<NewItem />
+				</View>
+				<View style={styles.container}>
+					<Text>I am an app now powered by Redux!</Text>
+					<StatusBar style="auto" />
+				</View>
+			</PaperProvider>
 		</Provider>
 	);
 }
@@ -28,12 +31,12 @@ const theme = {
 		surface: '#FFF',
 		surfaceMediumEmphasis: 'rgba(0, 0, 0, 0.6)',
 		surfaceOverlay: 'rgba(33, 33, 33, 0.08)',
-    primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
+		primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
 		accent: '#03DAC5',
 	},
 	fonts: {
-		regular: "Roboto"
-	}
+		regular: 'Roboto',
+	},
 };
 
 const styles = StyleSheet.create({
