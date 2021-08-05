@@ -29,7 +29,6 @@ function ActionDialog(props) {
 
 const styles = StyleSheet.create({
     modalContainer: {
-        backgroundColor: 'rgba(0,0,0,0.5)',
         flex: 1
     },
     container: {
