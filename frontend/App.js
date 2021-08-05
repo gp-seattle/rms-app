@@ -13,10 +13,6 @@ function App() {
     setVisible(false);
   }
 
-  function openActionDialog() {
-    setVisible(true);
-  }
-
   const dimEffect = useRef(new Animated.Value(0)).current;
 
   function dimIn() {
