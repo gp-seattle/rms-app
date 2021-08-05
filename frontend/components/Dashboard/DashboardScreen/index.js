@@ -31,14 +31,14 @@ const DashboardScreen = () => {
 	];
 
 	const [groupsSelected, setGroupsSelected] = useState();
-	const [listSelected, setListSelected] = useState();
+	const [categorySelected, setCategorySelected] = useState();
 
 	function newGroupHandler(groupsSelected) {
 		setGroupsSelected(groupsSelected);
 	}
 
-	function newListHandler(listSelected) {
-		setListSelected(listSelected);
+	function newListHandler(categorySelected) {
+		setCategorySelected(categorySelected);
 	}
 
 	return (
