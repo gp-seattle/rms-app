@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import RMSToggleButton from '../RMSToggleButton';
 
-const GroupSelector = ({ items, onSelectedChange, style, buttonStyle }) => {
+const GroupSelector = ({ items, onSelectedChange, style, buttonStyle, ButtonComponent }) => {
 	const [selected, setSelected] = useState(
 		items.reduce((total, curr) => {
 			let newObj = {};
@@ -17,26 +16,32 @@ const GroupSelector = ({ items, onSelectedChange, style, buttonStyle }) => {
 	);
 
 	useEffect(() => {
-		if(onSelectedChange) {
+		if (onSelectedChange) {
 			onSelectedChange(selected);
 		}
 	}, [selected]);
 
 	return (
-		<View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 5, ...style }}>
+		<View
+			style={{
+				flexDirection: 'row',
+				justifyContent: 'space-between',
+				marginTop: 5,
+				...style,
+			}}>
 			{items.map((title) => {
 				return (
-					<RMSToggleButton
+					<ButtonComponent
 						key={title}
-						title={title.toUpperCase()}
+						title={title}
 						style={buttonStyle}
-						onPress={() =>
+						onPress={() => {
 							setSelected((prevSelected) => {
 								let result = { ...prevSelected };
 								result[title] = !result[title];
 								return result;
-							})
-						}
+							});
+						}}
 					/>
 				);
 			})}
