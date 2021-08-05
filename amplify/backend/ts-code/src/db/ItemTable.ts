@@ -72,7 +72,7 @@ export class ItemTable {
                     const itemsParams: DocumentClient.DeleteItemInput = {
                         TableName: ITEMS_TABLE,
                         Key: {
-                            "key": id
+                            "id": id
                         }
                     }
 
@@ -127,7 +127,7 @@ export class ItemTable {
         const itemSearchParams: DocumentClient.GetItemInput = {
             TableName: ITEMS_TABLE,
             Key: {
-                "key": id
+                "id": id
             }
         }
         return this.client.get(itemSearchParams)
@@ -184,7 +184,7 @@ export class ItemTable {
         const itemSearchParams: DocumentClient.GetItemInput = {
             TableName: ITEMS_TABLE,
             Key: {
-                "key": id
+                "id": id
             }
         }
         return this.client.get(itemSearchParams)
