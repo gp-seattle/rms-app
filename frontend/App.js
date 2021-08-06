@@ -1,16 +1,16 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { registerRootComponent } from "expo";
+import React, { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { registerRootComponent } from "expo";
+
+import ActionDialog from "./components/ActionDialog";
 
 function App() {
   return (
-    <Provider store={store}>
-      <View style={styles.container}>
-        <Text>I am an app now powered by Redux!</Text>
-        <StatusBar style="auto" />
+    <Provider store = {store}>
+      <View style = {styles.container}>
+        <ActionDialog />
       </View>
     </Provider>
   );
@@ -18,11 +18,8 @@ function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#ccc",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    flex: 1
+  }
 });
 
 export default registerRootComponent(App);
