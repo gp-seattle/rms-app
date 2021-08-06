@@ -55,7 +55,7 @@
         "1000000000010-123": {
             "action": "borrow",
             "borrower": "test borrower",
-            "id": "123",
+            "itemId": "123",
             "key": "1000000000010-123",
             "name": "test name",
             "notes": "test note",
@@ -64,7 +64,7 @@
         "1000000000010-12345": {
             "action": "borrow",
             "borrower": "test borrower",
-            "id": "12345",
+            "itemId": "12345",
             "key": "1000000000010-12345",
             "name": "test name 2",
             "notes": "test note",

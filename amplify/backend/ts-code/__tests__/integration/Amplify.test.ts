@@ -49,7 +49,6 @@ describe('Amplify Tests', () => {
             await expect(
                 Auth.currentCredentials()
                     .then((credentials:ICredentials) => {
-                        console.log(credentials)
                         AWS.config.credentials = credentials
                         const lambda = new Lambda({
                             credentials:credentials,
@@ -81,7 +80,6 @@ describe('Amplify Tests', () => {
         await expect(
             Auth.currentCredentials()
                 .then((credentials:ICredentials) => {
-                    console.log(credentials)
                     AWS.config.credentials = credentials
                     const lambda = new Lambda({
                         credentials:credentials,
