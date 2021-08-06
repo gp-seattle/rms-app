@@ -1,69 +1,24 @@
-import React, { useState, useRef } from "react";
-import { StyleSheet, View, Text, Animated } from "react-native";
-
+import React, { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
+import { Provider } from "react-redux";
+import store from "./store/store";
 import { registerRootComponent } from "expo";
 
-import ActionButton from "./components/MockComponent/ActionButton";
-import ActionDialog from "./components/MockComponent/ActionDialog";
+import ActionDialog from "./components/ActionDialog";
 
 function App() {
-  const [visible, setVisible] = useState(false);
-
-  function cancelActionDialog() {
-    setVisible(false);
-  }
-
-  const dimEffect = useRef(new Animated.Value(0)).current;
-
-  function dimIn() {
-    Animated.timing(dimEffect, {
-      toValue: 1,
-      duration: 1000
-    }).start();
-  }
-
-  function dimOut() {
-    Animated.timing(dimEffect, {
-      toValue: 0,
-      duration: 1000
-    }).start();
-  }
-
-  let dimBackground;
-
-  if (visible) {
-    dimBackground = (
-      <Animated.View style = {[
-        styles.dimContainer, {
-          opacity: dimEffect
-          }
-        ]} 
-      >
-      </Animated.View>
-    );
-  }
-
   return (
-    <View style={styles.screen}>
-      <ActionButton onPress={() => setVisible(true)} />
-        <ActionDialog
-          visible={visible}
-          onCancel = {cancelActionDialog}
-        />
-      <Text>Testing...</Text>
-    </View>
+    <Provider store = {store}>
+      <View style = {styles.container}>
+        <ActionDialog />
+      </View>
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    padding: 50
-  },
-  dimContainer: {
+  container: {
     flex: 1
-  },
-  dim: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   }
 });
 
