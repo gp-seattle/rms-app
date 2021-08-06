@@ -239,7 +239,7 @@ export class ItemTable {
         const item: HistorySchema = {
             key: key,
             name: name,
-            id: id,
+            itemId: id,
             borrower: borrower,
             action: action,
             notes: notes,

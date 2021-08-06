@@ -54,7 +54,7 @@
         "1000000000000-123": {
             "action": "borrow",
             "borrower": "test borrower",
-            "id": "123",
+            "itemId": "123",
             "key": "1000000000000-123",
             "name": "test name",
             "notes": "test note",

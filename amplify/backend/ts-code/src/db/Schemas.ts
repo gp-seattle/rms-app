@@ -57,7 +57,7 @@ export const HISTORY_TABLE: string = process.env.STORAGE_HISTORY_NAME
 export interface HistorySchema {
     key: string,
     name: string,
-    id: string,
+    itemId: string,
     borrower: string,
     action: "borrow" | "return",
     notes: string,
