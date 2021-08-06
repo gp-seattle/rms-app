@@ -44,7 +44,7 @@ describe('Amplify Tests', () => {
 
     /**
      * add item using api
-
+    */
     test('will add item when api is called', async() => {
             await expect(
                 Auth.currentCredentials()
@@ -72,11 +72,11 @@ describe('Amplify Tests', () => {
                     })
             ).resolves.toEqual(`"Created Item with RMS ID: ${TestConstants.ITEM_ID}"`)
     })
-    */
+
 
     /**
      * delete item using api
-
+    */
     test('will delete item when api is called', async() => {
         await expect(
             Auth.currentCredentials()
@@ -104,7 +104,6 @@ describe('Amplify Tests', () => {
             })
         ).resolves.toEqual(`"Deleted a '${TestConstants.NAME}' from the inventory."`)
     })
-    */
 
     /**
      * AUTH: Sign Out
