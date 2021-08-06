@@ -58,7 +58,7 @@ type PaginatedTags {
 type History @model @auth(rules: [{allow: public, operations: [read]}]) {
     key: ID!
     name: String!
-    id: String!
+    itemId: String!
     borrower: String!
     action: Action!
     notes: String
