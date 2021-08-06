@@ -1,12 +1,11 @@
 import React from 'react';
 import { StyleSheet, Button, Text, View } from 'react-native';
-import {Picker} from '@react-native-picker/picker'
 import GroupSelector from '../GroupSelector';
 import ItemTypeButton from '../ItemTypeButton';
-import { TextInput } from 'react-native-paper';
+import { TextInput, withTheme } from 'react-native-paper';
 import RMSToggleButton from '../RMSToggleButton';
 
-const NewItemForm = () => {
+const NewItemForm = withTheme((props) => {
 	return (
 		<View style={styles.formBody}>
 			<View>
@@ -17,11 +16,20 @@ const NewItemForm = () => {
 					label="Description"
 					style={styles.input}
 				/>
-				<View>
-					<Text>Loctation drop down</Text>
-          <Picker></Picker>
+				<View
+					style={{
+						...styles.itemEditors,
+						backgroundColor: props.theme.colors.secondary,
+					}}>
+					<Text style={styles.itemText}>Loctation</Text>
 				</View>
-				<Text>Quanity</Text>
+				<View
+					style={{
+						...styles.itemEditors,
+						backgroundColor: props.theme.colors.secondary,
+					}}>
+					<Text style={styles.itemText}>Amount of Items</Text>
+				</View>
 			</View>
 			<View style={styles.categoriesSelector}>
 				<Text style={styles.categoriesText}>Catagories</Text>
@@ -47,7 +55,7 @@ const NewItemForm = () => {
 			</View>
 		</View>
 	);
-};
+});
 
 const styles = StyleSheet.create({
 	formBody: {
@@ -56,18 +64,33 @@ const styles = StyleSheet.create({
 		marginTop: '7%',
 	},
 	input: {
-		width: '80%',
-		marginLeft: '10%',
+		width: '90%',
+		marginLeft: '5%',
 	},
 	categoriesSelector: {
 		// borderWidth: 2,
 		// borderColor: 'black',
-		height: 200,
+		height: 150,
+		marginLeft: '5%',
+    marginRight: '5%',
+    marginTop: '3%'
 	},
 	categoriesText: {
 		fontWeight: 'bold',
 		fontSize: 18,
 		justifyContent: 'flex-start',
+	},
+	itemEditors: {
+		borderRadius: 12,
+		width: '90%',
+		marginLeft: '5%',
+		padding: 20,
+		marginTop: '3%',
+	},
+	itemText: {
+		fontSize: 12,
+		fontWeight: 'bold',
+		color: '#00b3a6',
 	},
 });
 

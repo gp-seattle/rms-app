@@ -15,7 +15,6 @@ function App() {
 					<NewItem />
 				</View>
 				<View style={styles.container}>
-					<Text>I am an app now powered by Redux!</Text>
 					<StatusBar style="auto" />
 				</View>
 			</PaperProvider>
@@ -33,6 +32,7 @@ const theme = {
 		surfaceOverlay: 'rgba(33, 33, 33, 0.08)',
 		primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
 		accent: '#03DAC5',
+		secondary: '#C8FFF4'
 	},
 	fonts: {
 		regular: 'Roboto',
