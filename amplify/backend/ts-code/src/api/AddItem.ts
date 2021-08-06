@@ -2,7 +2,7 @@ import { MainTable } from "../db/MainTable"
 import { ItemTable } from "../db/ItemTable"
 import { TagTable } from "../db/TagTable"
 import { TransactionsTable } from "../db/TransactionsTable"
-import { MainSchema } from "../db/Schemas"
+import { MainSchema, ItemsSchema } from "../db/Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
@@ -102,6 +102,25 @@ export class AddItem {
             AddItem.NAME, this.metrics
         )
     }
+
+    /**
+     * @private Generates random unique Id
+     * @param id Random Id generator
+     */
+    private getUniqueId(): Promise<string> {
+        const id = Math.floor((Math.random() * Date.now()) % 10).toString(36).substring(0, 5)
+        return this.itemTable.get(id)
+            .then((item: ItemsSchema) => {
+                if (item) {
+                    // Item Returned
+                    return this.getUniqueId()
+                } else {
+                    // No Item Returned
+                    return id;
+                }
+            })
+    }
+
     private performAllFVAs(input: AddItemInput): Promise<void> {
         return new Promise((resolve, reject) => {
             if (input.id == undefined) {
