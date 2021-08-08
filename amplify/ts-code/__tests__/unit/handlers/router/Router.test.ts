@@ -120,6 +120,9 @@ test('will add item correctly when name does not exist', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
     const router: Router = new Router(dbClient)
 
+    // Mock ID
+    AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
+
     await router.processRequest(AddItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
             expect(output).toEqual("Name of item:")
@@ -130,9 +133,6 @@ test('will add item correctly when name does not exist', async () => {
         }).then((output: string) => {
             expect(output).toEqual("Optional description of this item:")
             return router.processRequest(TestConstants.DESCRIPTION, TestConstants.NUMBER)
-        }).then((output: string) => {
-            expect(output).toEqual("Intended Unique RMS ID number:")
-            return router.processRequest(TestConstants.ITEM_ID, TestConstants.NUMBER)
         }).then((output: string) => {
             expect(output).toEqual("Owner of this item (or location where it's stored if church owned):")
             return router.processRequest(TestConstants.OWNER, TestConstants.NUMBER)
@@ -149,13 +149,13 @@ test('will add item correctly when name exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const router: Router = new Router(dbClient)
 
+    // Mock ID
+    AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID_2));
+
     await router.processRequest(AddItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
             expect(output).toEqual("Name of item:")
             return router.processRequest(TestConstants.NAME, TestConstants.NUMBER)
-        }).then((output: string) => {
-            expect(output).toEqual("Intended Unique RMS ID number:")
-            return router.processRequest(TestConstants.ITEM_ID_2, TestConstants.NUMBER)
         }).then((output: string) => {
             expect(output).toEqual("Owner of this item (or location where it's stored if church owned):")
             return router.processRequest(TestConstants.OWNER_2, TestConstants.NUMBER)

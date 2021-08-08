@@ -7,6 +7,7 @@ import Lambda = require( 'aws-sdk/clients/lambda')
 const AWSConfig = require('../../../../src/aws-exports').default
 
 const ENV_SUFFIX = '-alpha'
+const ENV_REGION = 'us-west-2'
 
 describe('Amplify Tests', () => {
     beforeAll(() => {
@@ -51,8 +52,8 @@ describe('Amplify Tests', () => {
                     .then((credentials:ICredentials) => {
                         AWS.config.credentials = credentials
                         const lambda = new Lambda({
-                            credentials:credentials,
-                            region: "us-west-2"
+                            credentials: credentials,
+                            region: ENV_REGION
                         })
                         return lambda.invoke({
                             FunctionName: `AddItem${ENV_SUFFIX}`,
@@ -81,8 +82,8 @@ describe('Amplify Tests', () => {
                 .then((credentials:ICredentials) => {
                     AWS.config.credentials = credentials
                     const lambda = new Lambda({
-                        credentials:credentials,
-                        region: "us-west-2"
+                        credentials: credentials,
+                        region: ENV_REGION
                     })
                     return lambda.invoke({
                         FunctionName: `DeleteItem${ENV_SUFFIX}`,

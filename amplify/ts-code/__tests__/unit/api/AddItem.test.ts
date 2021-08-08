@@ -6,9 +6,11 @@ test('will add item correctly when name does not exist', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
     const api: AddItem = new AddItem(dbClient)
 
+    // Mock ID
+    AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
+
     await expect(
         api.execute({
-            id: TestConstants.ITEM_ID,
             name: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION,
             tags: [TestConstants.TAG],
@@ -23,9 +25,11 @@ test('will add additional item correctly when item already exist', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: AddItem = new AddItem(dbClient)
 
+    // Mock ID
+    AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID_2));
+
     await expect(
         api.execute({
-            id: TestConstants.ITEM_ID_2,
             name: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
@@ -40,9 +44,11 @@ test('will fail to add item when id is not unique', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: AddItem = new AddItem(dbClient)
 
+    // Mock ID
+    AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
+
     await expect(
         api.execute({
-            id: TestConstants.ITEM_ID,
             name: TestConstants.DISPLAYNAME,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
@@ -57,9 +63,11 @@ test('will add different name correctly when name already exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: AddItem = new AddItem(dbClient)
 
+    // Mock ID
+    AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID_2));
+
     await expect(
         api.execute({
-            id: TestConstants.ITEM_ID_2,
             name: TestConstants.NAME_2,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
@@ -74,9 +82,11 @@ test('will fail to add name when id is not unique', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: AddItem = new AddItem(dbClient)
     
+    // Mock ID
+    AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
+
     await expect(
         api.execute({
-            id: TestConstants.ITEM_ID,
             name: TestConstants.NAME_2,
             description: TestConstants.DESCRIPTION_2,
             tags: [TestConstants.TAG, TestConstants.TAG_2],
@@ -87,29 +97,15 @@ test('will fail to add name when id is not unique', async () => {
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_FAIL_CREATE)
 })
 
-test('will fail to add item when item id not passed in', async () => {
-    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
-    const api: AddItem = new AddItem(dbClient)
-
-    await expect(
-        api.execute({
-            name: TestConstants.DISPLAYNAME,
-            description: TestConstants.DESCRIPTION,
-            tags: [TestConstants.TAG],
-            owner: TestConstants.OWNER,
-            notes: TestConstants.NOTES
-        })
-    ).rejects.toThrow("Missing required field 'id'")
-    expect(dbClient.getDB()).toEqual(DBSeed.EMPTY)
-})
-
 test('will fail to add item when item name not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
     const api: AddItem = new AddItem(dbClient)
 
+    // Mock ID
+    AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
+
     await expect(
         api.execute({
-            id: TestConstants.ITEM_ID,
             description: TestConstants.DESCRIPTION,
             tags: [TestConstants.TAG],
             owner: TestConstants.OWNER,

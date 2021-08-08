@@ -38,7 +38,7 @@ export class AddItem {
                     if (item) {
                         // Item already exists. Just append new item.
                         return this.transactionsTable.appendToScratch(number, "createItem", false)
-                            .then(() => "Intended Unique RMS ID number:")
+                            .then(() => "Owner of this item (or location where it's stored if church owned):")
                     } else {
                         // Item doesn't exist, so need to create new item.
                         return this.transactionsTable.appendToScratch(number, "createItem", true)
@@ -53,9 +53,6 @@ export class AddItem {
                 .then(() => "Optional description of this item:")
         } else if (scratch.createItem && scratch.description == undefined) {
             return this.transactionsTable.appendToScratch(number, "description", request)
-            .then(() => "Intended Unique RMS ID number:")
-        } else if (scratch.id === undefined) {
-            return this.transactionsTable.appendToScratch(number, "id", request)
                 .then(() => "Owner of this item (or location where it's stored if church owned):")
         } else if (scratch.owner === undefined) {
             return this.transactionsTable.appendToScratch(number, "owner", request)
@@ -83,21 +80,21 @@ export class AddItem {
         return emitAPIMetrics(
             () => {
                 return this.performAllFVAs(input)
-                    .then(()=>{
-                        this.mainTable.get(input.name)
-                        .then((entry: MainSchema) => {
+                    .then(()=> this.mainTable.get(input.name))
+                    .then((entry: MainSchema) => {
                         if (entry) {
                         // Object Exists. No need to add description
                             return
-                    }   else {
+                        } else {
                         // Add new Object
                         return this.mainTable.create(input.name, input.description)
                             .then(() => this.tagTable.create(input.name, input.tags))
-                    }})
-                }).then(() => {
-                    return this.itemTable.create(input.id, input.name, input.owner, input.notes)
-                        .then(() => `Created Item with RMS ID: ${input.id}`)
-                })
+                        }
+                    }).then(() => this.getUniqueId())
+                    .then((id: string) => {
+                        return this.itemTable.create(id, input.name, input.owner, input.notes)
+                            .then(() => `Created Item with RMS ID: ${id}`)
+                    })
             },
             AddItem.NAME, this.metrics
         )
@@ -107,7 +104,7 @@ export class AddItem {
      * @private Generates random unique Id
      * @param id Random Id generator
      */
-    private getUniqueId(): Promise<string> {
+    public getUniqueId(): Promise<string> {
         const id = Math.floor((Math.random() * Date.now()) % 10).toString(36).substring(0, 5)
         return this.itemTable.get(id)
             .then((item: ItemsSchema) => {
@@ -123,9 +120,7 @@ export class AddItem {
 
     private performAllFVAs(input: AddItemInput): Promise<void> {
         return new Promise((resolve, reject) => {
-            if (input.id == undefined) {
-                reject(new Error("Missing required field 'id'"))
-            } else if (input.name == undefined) {
+            if (input.name == undefined) {
                 reject(new Error("Missing required field 'name'"))
             }
             resolve()
@@ -134,7 +129,6 @@ export class AddItem {
 }
 
 export interface AddItemInput {
-    id?: string,
     name?: string,
     displayName?:string,
     createItem?: boolean,
