@@ -58,6 +58,10 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
+      - name: integration test after push
+        run: |
+          npm run test
+
       - name: Report Status
         uses: ravsamhq/notify-slack-action@v1
         if: always()
@@ -66,7 +70,3 @@ jobs:
           notify_when: 'failure'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
-
-      - name: integration test after push
-        run: |
-          npm run test
