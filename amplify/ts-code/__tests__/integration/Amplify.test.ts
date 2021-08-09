@@ -7,7 +7,7 @@ import Lambda = require( 'aws-sdk/clients/lambda')
 const AWSConfig = require('../../../../src/aws-exports').default
 
 const ENV_SUFFIX = '-alpha'
-const ENV_REGION = 'us-west-2'
+let itemId: string;
 
 describe('Amplify Tests', () => {
     beforeAll(() => {
@@ -35,7 +35,7 @@ describe('Amplify Tests', () => {
      */
     test('will sign in when api is called', async () => {
         await expect(
-            Auth.signIn({
+            await Auth.signIn({
                 username: TestConstants.EMAIL,
                 password: TestConstants.PASSWORD
             }).then(() => Auth.currentCredentials())
@@ -48,17 +48,16 @@ describe('Amplify Tests', () => {
     */
     test('will add item when api is called', async() => {
             await expect(
-                Auth.currentCredentials()
+                await Auth.currentCredentials()
                     .then((credentials:ICredentials) => {
                         AWS.config.credentials = credentials
                         const lambda = new Lambda({
                             credentials: credentials,
-                            region: ENV_REGION
+                            region: AWSConfig.aws_project_region
                         })
                         return lambda.invoke({
                             FunctionName: `AddItem${ENV_SUFFIX}`,
                             Payload: JSON.stringify({
-                                id: TestConstants.ITEM_ID,
                                 name: TestConstants.DISPLAYNAME,
                                 description: TestConstants.DESCRIPTION,
                                 tags: [TestConstants.TAG],
@@ -67,9 +66,10 @@ describe('Amplify Tests', () => {
                             })
                         }).promise()
                     }).then((response: InvocationResponse) => {
-                        return response.Payload
+                        itemId = response.Payload.toString()
+                        return response.Payload.toString()
                     })
-            ).resolves.toEqual(`"Created Item with RMS ID: ${TestConstants.ITEM_ID}"`)
+            ).resolves
     })
 
 
@@ -78,17 +78,17 @@ describe('Amplify Tests', () => {
     */
     test('will delete item when api is called', async() => {
         await expect(
-            Auth.currentCredentials()
+            await Auth.currentCredentials()
                 .then((credentials:ICredentials) => {
                     AWS.config.credentials = credentials
                     const lambda = new Lambda({
                         credentials: credentials,
-                        region: ENV_REGION
+                        region: AWSConfig.aws_project_region
                     })
                     return lambda.invoke({
                         FunctionName: `DeleteItem${ENV_SUFFIX}`,
                         Payload: JSON.stringify({
-                            id: TestConstants.ITEM_ID,
+                            id: itemId,
                             name: TestConstants.DISPLAYNAME,
                             description: TestConstants.DESCRIPTION,
                             tags: [TestConstants.TAG],
@@ -107,9 +107,9 @@ describe('Amplify Tests', () => {
      */
     test('will sign out when api is called', async () => {
         await expect(
-            Auth.signOut()
-            .then(() => Auth.currentCredentials())
-            .then((exception: any) => exception.name)
+            await Auth.signOut()
+                .then(() => Auth.currentCredentials())
+                .then((exception: any) => exception.name)
         ).resolves.toEqual("NotAuthorizedException")
     })
 });

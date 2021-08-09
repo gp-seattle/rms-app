@@ -17,7 +17,7 @@ test('will add item correctly when name does not exist', async () => {
             owner: TestConstants.OWNER,
             notes: TestConstants.NOTES
         })
-    ).resolves.toEqual(`Created Item with RMS ID: ${TestConstants.ITEM_ID}`)
+    ).resolves.toEqual(`${TestConstants.ITEM_ID}`)
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
 })
 
@@ -36,7 +36,7 @@ test('will add additional item correctly when item already exist', async () => {
             owner: TestConstants.OWNER_2,
             notes: TestConstants.NOTES_2
         })
-    ).resolves.toEqual(`Created Item with RMS ID: ${TestConstants.ITEM_ID_2}`)
+    ).resolves.toEqual(`${TestConstants.ITEM_ID_2}`)
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME_TWO_ITEMS)
 })
 
@@ -74,7 +74,7 @@ test('will add different name correctly when name already exists', async () => {
             owner: TestConstants.OWNER_2,
             notes: TestConstants.NOTES_2
         })
-    ).resolves.toEqual(`Created Item with RMS ID: ${TestConstants.ITEM_ID_2}`)
+    ).resolves.toEqual(`${TestConstants.ITEM_ID_2}`)
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES)
 })
 
