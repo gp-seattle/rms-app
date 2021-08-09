@@ -35,7 +35,7 @@ describe('Amplify Tests', () => {
      */
     test('will sign in when api is called', async () => {
         await expect(
-            await Auth.signIn({
+            Auth.signIn({
                 username: TestConstants.EMAIL,
                 password: TestConstants.PASSWORD
             }).then(() => Auth.currentCredentials())
@@ -48,7 +48,7 @@ describe('Amplify Tests', () => {
     */
     test('will add item when api is called', async() => {
             await expect(
-                await Auth.currentCredentials()
+                Auth.currentCredentials()
                     .then((credentials:ICredentials) => {
                         AWS.config.credentials = credentials
                         const lambda = new Lambda({
@@ -78,7 +78,7 @@ describe('Amplify Tests', () => {
     */
     test('will delete item when api is called', async() => {
         await expect(
-            await Auth.currentCredentials()
+            Auth.currentCredentials()
                 .then((credentials:ICredentials) => {
                     AWS.config.credentials = credentials
                     const lambda = new Lambda({
@@ -107,7 +107,7 @@ describe('Amplify Tests', () => {
      */
     test('will sign out when api is called', async () => {
         await expect(
-            await Auth.signOut()
+            Auth.signOut()
                 .then(() => Auth.currentCredentials())
                 .then((exception: any) => exception.name)
         ).resolves.toEqual("NotAuthorizedException")
