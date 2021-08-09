@@ -94,7 +94,7 @@ export class AddItem {
                     }).then(() => this.getUniqueId())
                     .then((id: string) => {
                         return this.itemTable.create(id, input.name, input.owner, input.notes)
-                            .then(() => `Created Item with RMS ID: ${id}`)
+                            .then(() => id)
                     })
             },
             AddItem.NAME, this.metrics
