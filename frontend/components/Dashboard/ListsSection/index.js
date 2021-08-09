@@ -1,30 +1,30 @@
-import { Picker } from '@react-native-picker/picker';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import ListDropdown from '../ListDropdown';
 import ListGroup from '../ListGroup';
 
 const ListsSection = ({ categories, lists, onNewSelection }) => {
 	const [categorySelected, setCategorySelected] = useState(categories[0]);
 
-	useEffect(() => {
-		if (onNewSelection) {
-			onNewSelection(categorySelected);
-		}
-	}, [categorySelected]);
+	const dropdownList = categories.map((categoryStr) => ({
+		label: categoryStr,
+		value: categoryStr.toLowerCase().trim(),
+	}));
 
 	return (
 		<View>
 			<View style={styles.section}>
 				<Text style={styles.title}>Lists</Text>
-				<Picker
-					selectedValue={categorySelected}
-					style={{ height: 50, width: 150 }}
-					mode="dropdown"
-					onValueChange={(category) => setCategorySelected(category)}>
-					{categories.map((category) => {
-						return <Picker.Item label={category} value={category} key={category} />;
-					})}
-				</Picker>
+				<ListDropdown
+					list={dropdownList}
+					style={{ borderRadius: 10, width: 150 }}
+					onValueChange={(value) => {
+						if(onNewSelection) {
+							onNewSelection(value);
+						}
+						setCategorySelected(value);
+					}}
+				/>
 			</View>
 			<ListGroup lists={lists} spaceBetween={10} />
 		</View>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 	section: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginTop: 20,
+		alignItems: 'center',
 	},
 	title: {
 		fontWeight: 'bold',

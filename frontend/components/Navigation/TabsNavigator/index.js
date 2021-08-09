@@ -1,11 +1,10 @@
-import * as React from "react";
-
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React from "react";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Navigator from "../Navigator";
 
 const TabsNavigator = (props = { children }) => {
   const newProps = { ...props };
-  newProps.navigatorComponents = createBottomTabNavigator();
+  newProps.navigatorComponents = createMaterialBottomTabNavigator();
   return (
     <Navigator {...newProps} />
   );
