@@ -7,7 +7,6 @@ import Lambda = require( 'aws-sdk/clients/lambda')
 const AWSConfig = require('../../../../src/aws-exports').default
 
 const ENV_SUFFIX = '-alpha'
-const ENV_REGION = 'us-west-2'
 
 describe('Amplify Tests', () => {
     beforeAll(() => {
@@ -44,51 +43,23 @@ describe('Amplify Tests', () => {
     })
 
     /**
-     * add item using api
+     * add item and delete item using api
     */
-    test('will add item when api is called', async() => {
-            await expect(
-                Auth.currentCredentials()
-                    .then((credentials:ICredentials) => {
-                        AWS.config.credentials = credentials
-                        const lambda = new Lambda({
-                            credentials: credentials,
-                            region: ENV_REGION
-                        })
-                        return lambda.invoke({
-                            FunctionName: `AddItem${ENV_SUFFIX}`,
-                            Payload: JSON.stringify({
-                                id: TestConstants.ITEM_ID,
-                                name: TestConstants.DISPLAYNAME,
-                                description: TestConstants.DESCRIPTION,
-                                tags: [TestConstants.TAG],
-                                owner: TestConstants.OWNER,
-                                notes: TestConstants.NOTES
-                            })
-                        }).promise()
-                    }).then((response: InvocationResponse) => {
-                        return response.Payload
-                    })
-            ).resolves.toEqual(`"Created Item with RMS ID: ${TestConstants.ITEM_ID}"`)
-    })
+    test('will add and delete item when api is called', async() => {
+        jest.setTimeout(2 * 5000)
 
-
-    /**
-     * delete item using api
-    */
-    test('will delete item when api is called', async() => {
+        // Add Item
         await expect(
             Auth.currentCredentials()
                 .then((credentials:ICredentials) => {
                     AWS.config.credentials = credentials
                     const lambda = new Lambda({
                         credentials: credentials,
-                        region: ENV_REGION
+                        region: AWSConfig.aws_project_region
                     })
                     return lambda.invoke({
-                        FunctionName: `DeleteItem${ENV_SUFFIX}`,
+                        FunctionName: `AddItem${ENV_SUFFIX}`,
                         Payload: JSON.stringify({
-                            id: TestConstants.ITEM_ID,
                             name: TestConstants.DISPLAYNAME,
                             description: TestConstants.DESCRIPTION,
                             tags: [TestConstants.TAG],
@@ -96,8 +67,22 @@ describe('Amplify Tests', () => {
                             notes: TestConstants.NOTES
                         })
                     }).promise()
-                }).then((response: InvocationResponse) => {
-                    return response.Payload
+                    .then((response: InvocationResponse) => {
+                        return response.Payload.toString().substr(1, response.Payload.toString().length - 2)
+                    }).then((itemId: string) => lambda.invoke({
+                        FunctionName: `DeleteItem${ENV_SUFFIX}`,
+                        Payload: JSON.stringify({
+                            id: itemId,
+                            name: TestConstants.DISPLAYNAME,
+                            description: TestConstants.DESCRIPTION,
+                            tags: [TestConstants.TAG],
+                            owner: TestConstants.OWNER,
+                            notes: TestConstants.NOTES
+                        })
+                    }).promise())
+                    .then((response: InvocationResponse) => {
+                        return response.Payload.toString()
+                    })
                 })
         ).resolves.toEqual(`"Deleted a '${TestConstants.NAME}' from the inventory."`)
     })
@@ -108,8 +93,8 @@ describe('Amplify Tests', () => {
     test('will sign out when api is called', async () => {
         await expect(
             Auth.signOut()
-            .then(() => Auth.currentCredentials())
-            .then((exception: any) => exception.name)
+                .then(() => Auth.currentCredentials())
+                .then((exception: any) => exception.name)
         ).resolves.toEqual("NotAuthorizedException")
     })
 });

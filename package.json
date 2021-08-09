@@ -3,6 +3,8 @@
   "scripts": {
     "build": "node backend-build.js",
     "test": "node backend-test.js",
+    "test:unit": "node backend-unit-test.js",
+    "test:integ": "node backend-integ-test.js",
     "start": "expo start -c",
     "android": "expo start -c --android",
     "ios": "expo start -c --ios",
@@ -10,7 +12,6 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@react-navigation/bottom-tabs": "^6.0.1",
     "@react-navigation/material-bottom-tabs": "^6.0.1",
     "@react-navigation/native": "^6.0.1",
     "@react-navigation/stack": "^6.0.1",

@@ -7,7 +7,11 @@ import QuantityBar from '../../QuantityBar';
 import RMSToggleButton from '../../RMSToggleButton';
 
 const NewItemForm = withTheme((props) => {
-	const [dropdownValue, setDropdownValue] = useState();
+	const [location, setLocation] = useState();
+	const [decription, setDescription] = useState();
+	const [name, setName] = useState();
+	const [amount, setAmount] = useState();
+	const [categories, setCategories] = useState();
 	const locations = [
 		{
 			label: 'Wedgewood',
@@ -31,12 +35,14 @@ const NewItemForm = withTheme((props) => {
 						mode="outlined"
 						label="Name"
 						style={styles.input}
+						onChangeText={setName}
 					/>
 					<TextInput
 						placeholder="Item Description"
 						mode="outlined"
 						label="Description"
 						style={styles.input}
+						onChangeText={setDescription}
 					/>
 					<View
 						style={{
@@ -47,7 +53,7 @@ const NewItemForm = withTheme((props) => {
 						<ListDropdown
 							list={locations}
 							style={{ borderRadius: 10, width: 150, ...styles.itemDropDown }}
-							onValueChange={(itemSelected) => setDropdownValue(itemSelected)}
+							onValueChange={(itemSelected) => setLocation(itemSelected)}
 							dropdownStyle={{ borderRadius: 20 }}
 							textStyle={{ fontSize: 14 }}
 						/>
@@ -64,6 +70,7 @@ const NewItemForm = withTheme((props) => {
 							iconColor="grey"
 							textSize={20}
 							min={0}
+							onValueChanged={setAmount}
 						/>
 					</View>
 				</View>
@@ -81,6 +88,7 @@ const NewItemForm = withTheme((props) => {
 						]}
 						ButtonComponent={RMSToggleButton}
 						style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
+						onSelectedChange={setCategories}
 					/>
 				</View>
 			</View>
@@ -109,7 +117,6 @@ const styles = StyleSheet.create({
 	categoriesText: {
 		fontWeight: 'bold',
 		fontSize: 18,
-		justifyContent: 'flex-start',
 	},
 	itemEditors: {
 		borderRadius: 12,
