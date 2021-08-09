@@ -59,7 +59,7 @@ jobs:
 
       - name: integration test after push
         run: |
-          npm run test
+          npm run test:integ
 
       - name: Report Status
         uses: ravsamhq/notify-slack-action@v1

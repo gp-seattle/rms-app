@@ -3,6 +3,8 @@
   "scripts": {
     "build": "node backend-build.js",
     "test": "node backend-test.js",
+    "test:unit": "node backend-unit-test.js",
+    "test:integ": "node backend-integ-test.js",
     "start": "expo start -c",
     "android": "expo start -c --android",
     "ios": "expo start -c --ios",
