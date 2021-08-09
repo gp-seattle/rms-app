@@ -8,8 +8,6 @@ const AWSConfig = require('../../../../src/aws-exports').default
 
 const ENV_SUFFIX = '-alpha'
 
-jest.setTimeout(10000)
-
 describe('Amplify Tests', () => {
     beforeAll(() => {
         Amplify.configure(AWSConfig)
@@ -48,6 +46,8 @@ describe('Amplify Tests', () => {
      * add item and delete item using api
     */
     test('will add and delete item when api is called', async() => {
+        jest.setTimeout(2 * 5000)
+
         // Add Item
         await expect(
             Auth.currentCredentials()
