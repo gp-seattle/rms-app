@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
 import Dashboard from './components/Dashboard/DashboardScreen';

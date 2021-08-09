@@ -62,6 +62,7 @@ export class AddItem {
 
             return this.transactionsTable.delete(number)
                 .then(() => this.execute(scratch))
+                .then((id: string) => `Created Item with RMS ID: ${id}`)
         }
     }
 

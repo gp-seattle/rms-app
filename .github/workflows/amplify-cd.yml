@@ -1,7 +1,7 @@
 # Workflow to push to Amplify on commit
 name: Amplify CD
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push events but only for the master branch
   push:
@@ -46,7 +46,7 @@ jobs:
         run: |
           npm install
           npm run build
-          npm run test
+          npm run test:unit
 
       - name: deploy
         uses: ambientlight/amplify-cli-action@0.2.2

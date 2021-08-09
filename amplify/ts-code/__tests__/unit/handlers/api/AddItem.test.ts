@@ -24,7 +24,7 @@ test('will add item correctly when using handler', async () => {
             owner: TestConstants.OWNER,
             notes: TestConstants.NOTES
         }, null, null)
-    ).resolves.toEqual(`Created Item with RMS ID: ${TestConstants.ITEM_ID}`)
+    ).resolves.toEqual(`${TestConstants.ITEM_ID}`)
     expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME)
     metricsClient.assureState(0)
 })
