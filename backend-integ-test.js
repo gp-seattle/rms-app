@@ -6,7 +6,7 @@ const { exec } = require("child_process")
 const MASTER_PATH = __dirname
 
 // Compile Typescript
-exec("jest --coverage=false --testPathPattern='.*/integration/.*.test.js'",
+exec("jest --coverage=false --colors --testPathPattern='.*/integration/.*.test.js'",
     {
         cwd: MASTER_PATH
     },
