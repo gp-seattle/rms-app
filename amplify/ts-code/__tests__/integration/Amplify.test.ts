@@ -7,7 +7,8 @@ import Lambda = require( 'aws-sdk/clients/lambda')
 const AWSConfig = require('../../../../src/aws-exports').default
 
 const ENV_SUFFIX = '-alpha'
-let itemId: string;
+
+jest.setTimeout(100000)
 
 describe('Amplify Tests', () => {
     beforeAll(() => {
@@ -44,39 +45,10 @@ describe('Amplify Tests', () => {
     })
 
     /**
-     * add item using api
+     * add item and delete item using api
     */
-    test('will add item when api is called', async() => {
-            await expect(
-                Auth.currentCredentials()
-                    .then((credentials:ICredentials) => {
-                        AWS.config.credentials = credentials
-                        const lambda = new Lambda({
-                            credentials: credentials,
-                            region: AWSConfig.aws_project_region
-                        })
-                        return lambda.invoke({
-                            FunctionName: `AddItem${ENV_SUFFIX}`,
-                            Payload: JSON.stringify({
-                                name: TestConstants.DISPLAYNAME,
-                                description: TestConstants.DESCRIPTION,
-                                tags: [TestConstants.TAG],
-                                owner: TestConstants.OWNER,
-                                notes: TestConstants.NOTES
-                            })
-                        }).promise()
-                    }).then((response: InvocationResponse) => {
-                        itemId = response.Payload.toString()
-                        return response.Payload.toString()
-                    })
-            ).resolves
-    })
-
-
-    /**
-     * delete item using api
-    */
-    test('will delete item when api is called', async() => {
+    test('will add and delete item when api is called', async() => {
+        // Add Item
         await expect(
             Auth.currentCredentials()
                 .then((credentials:ICredentials) => {
@@ -86,6 +58,18 @@ describe('Amplify Tests', () => {
                         region: AWSConfig.aws_project_region
                     })
                     return lambda.invoke({
+                        FunctionName: `AddItem${ENV_SUFFIX}`,
+                        Payload: JSON.stringify({
+                            name: TestConstants.DISPLAYNAME,
+                            description: TestConstants.DESCRIPTION,
+                            tags: [TestConstants.TAG],
+                            owner: TestConstants.OWNER,
+                            notes: TestConstants.NOTES
+                        })
+                    }).promise()
+                    .then((response: InvocationResponse) => {
+                        return response.Payload.toString()
+                    }).then((itemId: string) => lambda.invoke({
                         FunctionName: `DeleteItem${ENV_SUFFIX}`,
                         Payload: JSON.stringify({
                             id: itemId,
@@ -95,9 +79,10 @@ describe('Amplify Tests', () => {
                             owner: TestConstants.OWNER,
                             notes: TestConstants.NOTES
                         })
-                    }).promise()
-                }).then((response: InvocationResponse) => {
-                    return response.Payload
+                    }).promise())
+                    .then((response: InvocationResponse) => {
+                        return response.Payload.toString()
+                    })
                 })
         ).resolves.toEqual(`"Deleted a '${TestConstants.NAME}' from the inventory."`)
     })
