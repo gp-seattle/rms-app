@@ -8,8 +8,6 @@ const AWSConfig = require('../../../../src/aws-exports').default
 
 const ENV_SUFFIX = '-alpha'
 
-jest.setTimeout(100000)
-
 describe('Amplify Tests', () => {
     beforeAll(() => {
         Amplify.configure(AWSConfig)
@@ -68,7 +66,7 @@ describe('Amplify Tests', () => {
                         })
                     }).promise()
                     .then((response: InvocationResponse) => {
-                        return response.Payload.toString()
+                        return response.Payload.toString().substr(1, response.Payload.toString().length - 2)
                     }).then((itemId: string) => lambda.invoke({
                         FunctionName: `DeleteItem${ENV_SUFFIX}`,
                         Payload: JSON.stringify({
