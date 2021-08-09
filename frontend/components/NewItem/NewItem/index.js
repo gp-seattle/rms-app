@@ -1,20 +1,12 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import SubmitBar from '../../SubmitBar';
+import { ScrollView, StyleSheet } from 'react-native';
 import NewItemForm from '../NewItemForm';
 
-const NewItem = ({ navigation }) => {
+const NewItem = () => {
 	return (
-		<View>
-			<ScrollView style={styles.container} contentContainerStyle={styles.container}>
-				<NewItemForm />
-			</ScrollView>
-			<SubmitBar
-				onCancel={navigation.goBack}
-				iconName="plus"
-				submitText="Save Item"
-				cancelText="Cancel" />
-		</View>
+		<ScrollView  style={styles.container} contentContainerStyle={styles.container} >
+			<NewItemForm />
+		</ScrollView>
 	);
 };
 
@@ -27,7 +19,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FFF',
 		paddingLeft: '3%',
 		paddingRight: '3%',
-		height: '100%',
 	},
 	contentContainer: {
 		alignItems: 'center',

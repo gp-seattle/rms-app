@@ -24,7 +24,7 @@ const RMSTabsNavigator = ({ children, theme }) => {
 				inactiveColor: theme.colors.primaryMediumEmphasis,
 			}}
 			barStyle={{
-				backgroundColor: theme.colors.primaryFiveHundred,
+				backgroundColor: theme.colors.primary,
 			}}>
 			{!isChildren
 				? children
