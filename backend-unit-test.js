@@ -13,7 +13,7 @@ const STORAGE_HISTORY_NAME="history"
 const STORAGE_TRANSACTIONS_NAME="transactions"
 
 // Compile Typescript
-exec("jest --json --outputFile=report.json --colors",
+exec("jest --json --outputFile=report.json --colors --testPathPattern='.*/unit/.*.test.js'",
     {
         cwd: MASTER_PATH,
         env: {

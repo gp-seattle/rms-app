@@ -46,7 +46,7 @@ jobs:
         run: |
           npm install
           npm run build
-          npm run test
+          npm run test:unit
 
       - name: deploy
         uses: ambientlight/amplify-cli-action@0.2.2
@@ -60,7 +60,7 @@ jobs:
 
       - name: integration test after push
         run: |
-          npm run test
+          npm run test:integ
 
       - name: Report Status
         uses: ravsamhq/notify-slack-action@v1
