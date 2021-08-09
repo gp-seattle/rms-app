@@ -8,6 +8,8 @@ const AWSConfig = require('../../../../src/aws-exports').default
 
 const ENV_SUFFIX = '-alpha'
 
+jest.setTimeout(10000)
+
 describe('Amplify Tests', () => {
     beforeAll(() => {
         Amplify.configure(AWSConfig)
