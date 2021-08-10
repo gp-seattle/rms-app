@@ -19,8 +19,8 @@ const ListCard = withTheme(({ title, favorite, theme }) => {
 				<RMSIcon
 					iconName={favorite ? 'star' : 'star-outline'}
 					size={25}
-					color={theme.colors.surfaceHighEmphasis}
-					focusColor={theme.colors.surfaceHighEmphasis}
+					color={"#000"}
+					focusColor={"#000"}
 				/>
 			</View>
 		</View>
@@ -30,7 +30,7 @@ const ListCard = withTheme(({ title, favorite, theme }) => {
 const styles = StyleSheet.create({
 	itemCard: {
 		flexDirection: 'column',
-		height: 225,
+		height: 175,
 		width: 125,
 		borderRadius: 10,
 		justifyContent: 'flex-end',

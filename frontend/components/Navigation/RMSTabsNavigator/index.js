@@ -20,10 +20,11 @@ const RMSTabsNavigator = ({ children, theme }) => {
 		<TabsNavigator
 			screenOptions={{
 				headerShown: false,
-				tabBarActiveBackgroundColor: theme.colors.primary,
-				tabBarActiveTintColor: theme.colors.surface,
-				tabBarInactiveBackgroundColor: theme.colors.primary,
-				tabBarInactiveTintColor: theme.colors.primaryMediumEmphasis,
+				activeColor: theme.colors.surface,
+				inactiveColor: theme.colors.primaryMediumEmphasis,
+			}}
+			barStyle={{
+				backgroundColor: theme.colors.primary,
 			}}>
 			{!isChildren
 				? children
@@ -38,7 +39,7 @@ const RMSTabsNavigator = ({ children, theme }) => {
 											<RMSIcon
 												iconName={child.props.iconName}
 												focused={focused}
-												size={size}
+												size={size || 20}
 											/>
 										);
 									},

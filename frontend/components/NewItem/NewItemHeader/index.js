@@ -10,9 +10,6 @@ const NewItemHeader = ({ onBackPress, onCancelPress }) => {
 				</Text>
 				<Text style={styles.text}>New Item</Text>
 			</View>
-			<View style={styles.button}>
-				<Button title="cancel" onPress={onCancelPress} color="purple" />
-			</View>
 		</View>
 	);
 };

@@ -1,24 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { registerRootComponent } from 'expo';
-import { Provider } from 'react-redux';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { Provider as ReduxProvider } from 'react-redux';
+import Dashboard from './components/Dashboard/DashboardScreen';
+import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
+import StackNavigator from './components/Navigation/StackNavigator';
 import store from './store/store';
-import NewItem from './components/NewItem';
-import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import NewItem from './components/NewItem/NewItem';
+import RMSIcon from './components/RMSIcon';
+
+function BackButton({ onPress }) {
+	return (
+		<TouchableOpacity onPress={onPress} style={{ marginLeft: 10 }}>
+			<RMSIcon iconName="chevron-left" color="black" size={25} />
+		</TouchableOpacity>
+	);
+}
+
+function MainTabs({ navigation }) {
+	return (
+		<RMSTabsNavigator>
+			<Dashboard
+				name="dashboard"
+				title="Dash"
+				iconName="home"
+				onAddItem={() => navigation.navigate('addItem')}
+			/>
+			<View name="inv" title="Inventory" iconName="format-list-bulleted" />
+			<View name="info" title="Info" iconName="alert-circle" />
+		</RMSTabsNavigator>
+	);
+}
 
 function App() {
 	return (
-		<Provider store={store}>
+		<ReduxProvider store={store}>
 			<PaperProvider theme={theme}>
-				<View>
-					<NewItem />
-				</View>
-				<View style={styles.container}>
-					<StatusBar style="auto" />
-				</View>
+				<StackNavigator
+					screenOptions={({ navigation }) => ({
+						headerLeft: () => <BackButton onPress={navigation.goBack} />,
+						headerTintColor: "black"
+					})}>
+					<MainTabs name="mainTabs" options={{ headerShown: false }} />
+					<NewItem name="addItem" title="New Item" />
+				</StackNavigator>
 			</PaperProvider>
-		</Provider>
+		</ReduxProvider>
 	);
 }
 
@@ -32,20 +60,8 @@ const theme = {
 		surfaceOverlay: 'rgba(33, 33, 33, 0.08)',
 		primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
 		accent: '#03DAC5',
-		secondary: '#C8FFF4'
-	},
-	fonts: {
-		regular: 'Roboto',
+		secondary: '#C8FFF4',
 	},
 };
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#ccc',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});
 
 export default registerRootComponent(App);

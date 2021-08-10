@@ -1,11 +1,27 @@
-import React from 'react';
-import { StyleSheet, Button, Text, View } from 'react-native';
-import GroupSelector from '../GroupSelector';
-import ItemTypeButton from '../ItemTypeButton';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { TextInput, withTheme } from 'react-native-paper';
-import RMSToggleButton from '../RMSToggleButton';
+import ListDropdown from '../../Dashboard/ListDropdown';
+import GroupSelector from '../../GroupSelector';
+import QuantityBar from '../../QuantityBar';
+import RMSToggleButton from '../../RMSToggleButton';
 
 const NewItemForm = withTheme((props) => {
+	const [dropdownValue, setDropdownValue] = useState();
+	const locations = [
+		{
+			label: 'Wedgewood',
+			value: 'Wedgwood',
+		},
+		{
+			label: '100s',
+			value: '100s',
+		},
+		{
+			label: "Yeh's",
+			value: "Yeh's",
+		},
+	];
 	return (
 		<View style={styles.formBody}>
 			<View>
@@ -21,7 +37,14 @@ const NewItemForm = withTheme((props) => {
 						...styles.itemEditors,
 						backgroundColor: props.theme.colors.secondary,
 					}}>
-					<Text style={styles.itemText}>Loctation</Text>
+					<Text style={styles.itemText}>Location</Text>
+					<ListDropdown
+						style={styles.itemDropDown}
+						textStyle={{ fontSize: 14 }}
+						dropdownStyle={{ borderRadius: 100 }}
+						list={locations}
+						onValueChange={(itemSelected) => setDropdownValue(itemSelected)}
+					/>
 				</View>
 				<View
 					style={{
@@ -29,10 +52,17 @@ const NewItemForm = withTheme((props) => {
 						backgroundColor: props.theme.colors.secondary,
 					}}>
 					<Text style={styles.itemText}>Amount of Items</Text>
+					<QuantityBar
+						style={{ ...styles.itemDropDown, ...styles.quantity }}
+						textColor="black"
+						iconColor="grey"
+						textSize={20}
+						min={0}
+					/>
 				</View>
 			</View>
 			<View style={styles.categoriesSelector}>
-				<Text style={styles.categoriesText}>Catagories</Text>
+				<Text style={styles.categoriesText}>Categories</Text>
 				<GroupSelector
 					items={[
 						'Video',
@@ -46,12 +76,6 @@ const NewItemForm = withTheme((props) => {
 					ButtonComponent={RMSToggleButton}
 					style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
 				/>
-			</View>
-			<View>
-				<Text>Cancel Button, and Save Item button </Text>
-			</View>
-			<View style={{ justifyContent: 'flex-end' }}>
-				<Text>Nav Bar</Text>
 			</View>
 		</View>
 	);
@@ -72,25 +96,39 @@ const styles = StyleSheet.create({
 		// borderColor: 'black',
 		height: 150,
 		marginLeft: '5%',
-    marginRight: '5%',
-    marginTop: '3%'
+		marginRight: '5%',
+		marginTop: '3%',
 	},
 	categoriesText: {
 		fontWeight: 'bold',
 		fontSize: 18,
-		justifyContent: 'flex-start',
 	},
 	itemEditors: {
 		borderRadius: 12,
 		width: '90%',
 		marginLeft: '5%',
-		padding: 20,
+		paddingLeft: '3%',
+		paddingRight: '3%',
 		marginTop: '3%',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		height: 70,
+	},
+	itemDropDown: {
+		backgroundColor: 'white',
+		borderRadius: 20,
+		width: 150,
+		height: '60%',
+		justifyContent: 'center',
 	},
 	itemText: {
 		fontSize: 12,
 		fontWeight: 'bold',
 		color: '#00b3a6',
+	},
+	quantity: {
+		alignItems: 'center',
 	},
 });
 
