@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
 import Dashboard from './components/Dashboard/DashboardScreen';
@@ -54,13 +54,15 @@ const theme = {
 	...DefaultTheme,
 	colors: {
 		...DefaultTheme.colors,
-		primary: '#6200EE',
+		primaryFiveHundred: '#6200EE',
+		primaryNineHundred: '#23036A',
 		surface: '#FFF',
 		surfaceMediumEmphasis: 'rgba(0, 0, 0, 0.6)',
 		surfaceOverlay: 'rgba(33, 33, 33, 0.08)',
 		primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
-		accent: '#03DAC5',
-		secondary: '#C8FFF4',
+		secondaryTwoHundred: '#03DAC5',
+		secondaryFifty: '#C8FFF4',
+		text: '#000',
 	},
 };
 
