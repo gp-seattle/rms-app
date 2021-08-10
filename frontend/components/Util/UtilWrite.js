@@ -1,12 +1,15 @@
+import AWS from 'aws-sdk';
+
 const ENV_SUFFIX = '-alpha'
 const ENV_REGION = 'us-west-2'
 
 function UtilWrite(props) {
     const lambda = new AWS.Lambda({
-        acessKeyId: 'AKIA3VBTB7LD2WMDBRDH',
-        secretAccessKey: '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',
+        acessKeyId: 'test',
+        secretAccessKey: 'test',
         region: ENV_REGION
     })
+    console.log("lambda", lambda);
 
     var params = {
         FunctionName: `AddItem${ENV_SUFFIX}`,
@@ -19,16 +22,18 @@ function UtilWrite(props) {
             notes: "test notes"
         })
     };
+    console.log("params", params);
 
     function AddItem() {
-        return lambda.invoke(params,function (err, data) {
+        return lambda.invoke(params, function(err, data) {
+            console.log('running!');
             if (err) {
                 console.log(err, err.stack);
             }
             else {
                 console.log(data);
             }
-        });
+        }).promise();
     }
 
     AddItem();
@@ -47,3 +52,5 @@ function UtilWrite(props) {
         });
     }
 }
+
+export default UtilWrite;
