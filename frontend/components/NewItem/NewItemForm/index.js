@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
 	categoriesText: {
 		fontWeight: 'bold',
 		fontSize: 18,
+		justifyContent: 'flex-start',
 	},
 	itemEditors: {
 		borderRadius: 12,
@@ -121,6 +122,8 @@ const styles = StyleSheet.create({
 		width: 150,
 		height: '60%',
 		justifyContent: 'center',
+		padding: 20,
+		marginTop: '3%',
 	},
 	itemText: {
 		fontSize: 12,

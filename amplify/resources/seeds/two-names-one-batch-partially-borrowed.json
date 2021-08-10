@@ -1,0 +1,65 @@
+{
+    "main":{
+        "test name":{
+            "name":"test name",
+            "displayName": "Test Name",
+            "description":"test description",
+            "items":{"type": "String", "values": ["123"]},
+            "tags":{"type": "String", "values": ["tag1"]}
+        },
+        "test name 2":{
+            "name":"test name 2",
+            "displayName": "test name 2",
+            "description":"test description 2",
+            "items":{"type": "String", "values": ["12345"]},
+            "tags":{"type": "String", "values": ["tag1", "tag2"]}
+        }
+    },
+    "items":{
+        "123":{
+            "id":"123",
+            "name":"test name",
+            "owner":"test owner",
+            "notes":"test note",
+            "borrower":"test borrower",
+            "batch": {"type":"String","values":["test batch"]},
+            "history": {"type":"String","values":["1000000000000-123"]}
+        },
+        "12345":{
+            "id":"12345",
+            "name":"test name 2",
+            "owner":"test owner 2",
+            "notes":"test note 2",
+            "borrower":"",
+            "batch": {"type":"String","values":["test batch"]}
+        }
+    },
+    "batch":{
+        "test batch": {
+            "key": "test batch",
+            "val": {"type":"String","values":["123", "12345"]}
+        }
+    },
+    "tags":{
+        "tag1":{
+            "key":"tag1",
+            "val":{"type":"String","values":["test name", "test name 2"]}
+        },
+        "tag2":{
+            "key":"tag2",
+            "val":{"type":"String","values":["test name 2"]}
+        }
+    },
+    "history":{
+        "1000000000000-123": {
+            "action": "borrow",
+            "borrower": "test borrower",
+            "itemId": "123",
+            "key": "1000000000000-123",
+            "name": "test name",
+            "notes": "test note",
+            "timestamp": 1000000000000
+        }
+    },
+    "transactions":{}
+}

@@ -6,7 +6,7 @@ const fs = require("fs");
 const path = require("path")
 const { exec } = require("child_process")
 
-const MASTER_PATH = path.join(__dirname, "amplify", "backend")
+const MASTER_PATH = path.join(__dirname, "amplify")
 
 
 const API_NAMES = [
@@ -79,40 +79,40 @@ exec("tsc", { cwd: MASTER_PATH },
         // Move to Lambda Folders
         copyEntireDirectory(
             path.join(MASTER_PATH, "ts-output", "src"),
-            path.join(MASTER_PATH, "function", "smsrouter", "src", "ts-output")
+            path.join(MASTER_PATH, "backend", "function", "smsrouter", "src", "ts-output")
         )
 
         API_NAMES.forEach((apiName) => {
             copyEntireDirectory(
                 path.join(MASTER_PATH, "ts-output", "src", "db"),
-                path.join(MASTER_PATH, "function", apiName, "src", "ts-output", "db")
+                path.join(MASTER_PATH, "backend", "function", apiName, "src", "ts-output", "db")
             )
             copyEntireDirectory(
                 path.join(MASTER_PATH, "ts-output", "src", "metrics"),
-                path.join(MASTER_PATH, "function", apiName, "src", "ts-output", "metrics")
+                path.join(MASTER_PATH, "backend", "function", apiName, "src", "ts-output", "metrics")
             )
             copyEntireDirectory(
                 path.join(MASTER_PATH, "ts-output", "src", "injection"),
-                path.join(MASTER_PATH, "function", apiName, "src", "ts-output", "injection")
+                path.join(MASTER_PATH, "backend", "function", apiName, "src", "ts-output", "injection")
             )
             copySingleFile(
                 path.join(MASTER_PATH, "ts-output", "src", "api"),
-                path.join(MASTER_PATH, "function", apiName, "src", "ts-output", "api"),
+                path.join(MASTER_PATH, "backend", "function", apiName, "src", "ts-output", "api"),
                 apiName
             )
             copySingleFile(
                 path.join(MASTER_PATH, "ts-output", "src", "api"),
-                path.join(MASTER_PATH, "function", apiName, "src", "ts-output", "api"),
+                path.join(MASTER_PATH, "backend", "function", apiName, "src", "ts-output", "api"),
                 apiName
             )
             copySingleFile(
                 path.join(MASTER_PATH, "ts-output", "src", "handlers", "api"),
-                path.join(MASTER_PATH, "function", apiName, "src", "ts-output", "handlers", "api"),
+                path.join(MASTER_PATH, "backend", "function", apiName, "src", "ts-output", "handlers", "api"),
                 "APIHelper"
             )
             copySingleFile(
                 path.join(MASTER_PATH, "ts-output", "src", "handlers", "api"),
-                path.join(MASTER_PATH, "function", apiName, "src", "ts-output", "handlers", "api"),
+                path.join(MASTER_PATH, "backend", "function", apiName, "src", "ts-output", "handlers", "api"),
                 apiName
             )
         })
