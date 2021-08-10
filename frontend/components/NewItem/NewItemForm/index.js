@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { TextInput, withTheme } from 'react-native-paper';
+import { Button, TextInput, withTheme } from 'react-native-paper';
 import ListDropdown from '../../Dashboard/ListDropdown';
 import GroupSelector from '../../GroupSelector';
 import QuantityBar from '../../QuantityBar';
@@ -23,61 +23,68 @@ const NewItemForm = withTheme((props) => {
 		},
 	];
 	return (
-		<View style={styles.formBody}>
-			<View>
-				<TextInput placeholder="Name" mode="outlined" label="Name" style={styles.input} />
-				<TextInput
-					placeholder="Item Description"
-					mode="outlined"
-					label="Description"
-					style={styles.input}
-				/>
-				<View
-					style={{
-						...styles.itemEditors,
-						backgroundColor: props.theme.colors.secondary,
-					}}>
-					<Text style={styles.itemText}>Location</Text>
-					<ListDropdown
-						style={styles.itemDropDown}
-						textStyle={{ fontSize: 14 }}
-						dropdownStyle={{ borderRadius: 100 }}
-						list={locations}
-						onValueChange={(itemSelected) => setDropdownValue(itemSelected)}
+		<>
+			<View style={styles.formBody}>
+				<View>
+					<TextInput
+						placeholder="Name"
+						mode="outlined"
+						label="Name"
+						style={styles.input}
 					/>
+					<TextInput
+						placeholder="Item Description"
+						mode="outlined"
+						label="Description"
+						style={styles.input}
+					/>
+					<View
+						style={{
+							...styles.itemEditors,
+							backgroundColor: props.theme.colors.secondaryFifty,
+						}}>
+						<Text style={styles.itemText}>Location</Text>
+						<ListDropdown
+							list={locations}
+							style={{ borderRadius: 10, width: 150, ...styles.itemDropDown }}
+							onValueChange={(itemSelected) => setDropdownValue(itemSelected)}
+							dropdownStyle={{ borderRadius: 20 }}
+							textStyle={{ fontSize: 14 }}
+						/>
+					</View>
+					<View
+						style={{
+							...styles.itemEditors,
+							backgroundColor: props.theme.colors.secondaryFifty,
+						}}>
+						<Text style={styles.itemText}>Amount of Items</Text>
+						<QuantityBar
+							style={{ ...styles.itemDropDown, ...styles.quantity }}
+							textColor="black"
+							iconColor="grey"
+							textSize={20}
+							min={0}
+						/>
+					</View>
 				</View>
-				<View
-					style={{
-						...styles.itemEditors,
-						backgroundColor: props.theme.colors.secondary,
-					}}>
-					<Text style={styles.itemText}>Amount of Items</Text>
-					<QuantityBar
-						style={{ ...styles.itemDropDown, ...styles.quantity }}
-						textColor="black"
-						iconColor="grey"
-						textSize={20}
-						min={0}
+				<View style={styles.categoriesSelector}>
+					<Text style={styles.categoriesText}>Categories</Text>
+					<GroupSelector
+						items={[
+							'Video',
+							'Audio',
+							'Sports',
+							'Tech',
+							'Ambiance',
+							'Instruments',
+							'Lighting',
+						]}
+						ButtonComponent={RMSToggleButton}
+						style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
 					/>
 				</View>
 			</View>
-			<View style={styles.categoriesSelector}>
-				<Text style={styles.categoriesText}>Categories</Text>
-				<GroupSelector
-					items={[
-						'Video',
-						'Audio',
-						'Sports',
-						'Tech',
-						'Ambiance',
-						'Instruments',
-						'Lighting',
-					]}
-					ButtonComponent={RMSToggleButton}
-					style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
-				/>
-			</View>
-		</View>
+		</>
 	);
 });
 
@@ -122,7 +129,7 @@ const styles = StyleSheet.create({
 		width: 150,
 		height: '60%',
 		justifyContent: 'center',
-		padding: 20,
+		paddingLeft: 2,
 		marginTop: '3%',
 	},
 	itemText: {
