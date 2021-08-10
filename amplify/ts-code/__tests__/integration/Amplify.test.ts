@@ -90,13 +90,12 @@ describe('Amplify Tests', () => {
     })
 
     /**
-     * read from table empty table using DataStore
+     * read from empty table using DataStore
      */
-    test('will return empty when whole table is queried', async () => {
-        jest.setTimeout(10 * 5000)
+     test('will return empty when whole table is queried', async () => {
         await expect(
-            DataStore.query(Items)
-        ).resolves.toEqual("")
+            JSON.stringify(DataStore.query(Items))
+        ).toEqual("{}")
     })
 
     /**
