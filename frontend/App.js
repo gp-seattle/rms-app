@@ -1,5 +1,5 @@
 import { registerRootComponent } from 'expo';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -10,6 +10,8 @@ import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
 import store from './store/store';
 import Inventory from './components/Inventory';
+
+import UtilWrite from './components/Util/UtilWrite';
 
 function BackButton({ onPress }) {
 	return (
@@ -35,6 +37,14 @@ function MainTabs({ navigation }) {
 }
 
 function App() {
+	useEffect(() => {
+        const testAPI = async () => {
+			console.log("testAPI useEffect")
+            await UtilWrite();
+        };
+        testAPI();
+    }, []);
+
 	return (
 		<ReduxProvider store={store}>
 			<PaperProvider theme={theme}>
