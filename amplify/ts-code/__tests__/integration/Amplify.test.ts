@@ -1,8 +1,10 @@
 import { ICredentials } from '@aws-amplify/core'
 import { Amplify, Auth } from 'aws-amplify'
 import { InvocationResponse } from 'aws-sdk/clients/lambda'
-import { TestConstants } from "../../__dev__/db/DBTestConstants"
+import { TestConstants } from '../../__dev__/db/DBTestConstants'
 import AWS = require('aws-sdk')
+import { DataStore } from 'aws-amplify';
+import { Items } from '../../../../src/models'
 import Lambda = require( 'aws-sdk/clients/lambda')
 const AWSConfig = require('../../../../src/aws-exports').default
 
@@ -85,6 +87,16 @@ describe('Amplify Tests', () => {
                     })
                 })
         ).resolves.toEqual(`"Deleted a '${TestConstants.NAME}' from the inventory."`)
+    })
+
+    /**
+     * read from table empty table using DataStore
+     */
+    test('will return empty when whole table is queried', async () => {
+        jest.setTimeout(10 * 5000)
+        await expect(
+            DataStore.query(Items)
+        ).resolves.toEqual("")
     })
 
     /**
