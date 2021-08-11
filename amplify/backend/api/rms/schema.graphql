@@ -1,22 +1,9 @@
-type Query {
-    allMain(count: Int, nextToken: String): PaginatedMains!
-    allItems(count: Int, nextToken: String): PaginatedItems!
-    allBatch(count: Int, nextToken: String): PaginatedBatches!
-    allTags(count: Int, nextToken: String): PaginatedTags!
-    allHistory(count: Int, nextToken: String): PaginatedHistories!
-}
-
 type Main @model @auth(rules: [{allow: public, operations: [read]}]) {
     name: ID!
     displayName: String!
     description: String
     tags: [String!]
     items: [String!]
-}
-
-type PaginatedMains {
-    mains: [Main!]!
-    nextToken: String
 }
 
 type Items @model @auth(rules: [{allow: public, operations: [read]}]) {
@@ -30,29 +17,14 @@ type Items @model @auth(rules: [{allow: public, operations: [read]}]) {
     notes: String
 }
 
-type PaginatedItems {
-    items: [Items!]!
-    nextToken: String
-}
-
 type Batch @model @auth(rules: [{allow: public, operations: [read]}]) {
     key: ID!
     val: [String!]
-} 
-
-type PaginatedBatches {
-    batches: [Batch!]!
-    nextToken: String
 }
 
 type Tags @model @auth(rules: [{allow: public, operations: [read]}]) {
     key: ID!
     val: [String!]
-}
-
-type PaginatedTags {
-    tags: [Tags!]!
-    nextToken: String
 }
 
 type History @model @auth(rules: [{allow: public, operations: [read]}]) {
@@ -63,11 +35,6 @@ type History @model @auth(rules: [{allow: public, operations: [read]}]) {
     action: Action!
     notes: String
     timestamp: Int!
-}
-
-type PaginatedHistories {
-    histories: [History!]!
-    nextToken: String
 }
 
 enum Action {
