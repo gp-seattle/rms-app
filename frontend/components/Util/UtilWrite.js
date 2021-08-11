@@ -1,15 +1,22 @@
 import AWS from 'aws-sdk';
+import { Auth } from 'aws-amplify';
+import { TestConstants } from '../../../amplify/ts-code/__dev__/db/DBTestConstants';
 
 const ENV_SUFFIX = '-alpha'
 const ENV_REGION = 'us-west-2'
 
 function UtilWrite(props) {
+    Auth.signIn({
+        username: TestConstants.EMAIL,
+        password: TestConstants.PASSWORD
+    }).then(() => Auth.currentCredentials())
+    .then((credentials) => credentials.authenticated);
+    
+    AWS.config.credentials = credentials;
     const lambda = new AWS.Lambda({
-        acessKeyId: 'test',
-        secretAccessKey: 'test',
+        credentials: credentials,
         region: ENV_REGION
     })
-    console.log("lambda", lambda);
 
     var params = {
         FunctionName: `AddItem${ENV_SUFFIX}`,
@@ -22,18 +29,16 @@ function UtilWrite(props) {
             notes: "test notes"
         })
     };
-    console.log("params", params);
 
     function AddItem() {
         return lambda.invoke(params, function(err, data) {
-            console.log('running!');
             if (err) {
                 console.log(err, err.stack);
             }
             else {
                 console.log(data);
             }
-        }).promise();
+        });
     }
 
     AddItem();
@@ -51,6 +56,10 @@ function UtilWrite(props) {
             })
         });
     }
+
+    Auth.signOut()
+        .then(() => Auth.currentCredentials())
+        .then((exception) => exception.name);
 }
 
 export default UtilWrite;
