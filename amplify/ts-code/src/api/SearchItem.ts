@@ -45,7 +45,7 @@ export class SearchItem {
                             search.entries.forEach((entry: MainSchema) =>
                                 returnString += searchItemItem(
                                     entry,
-                                    search.map[entry.name].occurrences
+                                    search.map[entry.id].occurrences
                             ))
     
                             return returnString

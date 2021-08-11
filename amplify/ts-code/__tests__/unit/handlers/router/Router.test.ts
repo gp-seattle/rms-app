@@ -173,7 +173,7 @@ test('will get item correctly when given valid id', async () => {
     const router: Router = new Router(dbClient)
 
     const expectedMain: MainSchema = {
-        name: TestConstants.NAME,
+        id: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
@@ -273,7 +273,7 @@ test('will search item correctly when using router', async () => {
     const router: Router = new Router(dbClient)
 
     const expected: MainSchema = {
-        name: TestConstants.NAME,
+        id: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),

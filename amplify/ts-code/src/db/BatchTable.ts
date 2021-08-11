@@ -22,7 +22,7 @@ export class BatchTable {
         return Promise.all(ids.map((id: string) => this.attachBatchToItem(name, id)))
             .then(() => {
                 const item: SearchIndexSchema = {
-                    key: name.toLowerCase(),
+                    id: name.toLowerCase(),
                     val: this.client.createSet(ids)
                 }
 
@@ -92,7 +92,7 @@ export class BatchTable {
                             const params: DocumentClient.DeleteItemInput = {
                                 TableName: BATCH_TABLE,
                                 Key: {
-                                    "key": name.toLowerCase()
+                                    "id": name.toLowerCase()
                                 }
                             }
                             
@@ -133,7 +133,7 @@ export class BatchTable {
         const params: DocumentClient.GetItemInput = {
             TableName: BATCH_TABLE,
             Key: {
-                "key": name.toLowerCase()
+                "id": name.toLowerCase()
             }
         }
         return this.client.get(params)

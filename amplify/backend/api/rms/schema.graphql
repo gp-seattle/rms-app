@@ -1,5 +1,5 @@
 type Main @model @auth(rules: [{allow: public, operations: [read]}]) {
-    name: ID!
+    id: ID!
     displayName: String!
     description: String
     tags: [String!]
@@ -18,17 +18,17 @@ type Items @model @auth(rules: [{allow: public, operations: [read]}]) {
 }
 
 type Batch @model @auth(rules: [{allow: public, operations: [read]}]) {
-    key: ID!
+    id: ID!
     val: [String!]
 }
 
 type Tags @model @auth(rules: [{allow: public, operations: [read]}]) {
-    key: ID!
+    id: ID!
     val: [String!]
 }
 
 type History @model @auth(rules: [{allow: public, operations: [read]}]) {
-    key: ID!
+    id: ID!
     name: String!
     itemId: String!
     borrower: String!

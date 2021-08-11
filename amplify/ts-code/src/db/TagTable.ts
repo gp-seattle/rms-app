@@ -32,7 +32,7 @@ export class TagTable {
                     const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": name.toLowerCase()
+                            "id": name.toLowerCase()
                         },
                         UpdateExpression: "ADD #key :val",
                         ExpressionAttributeNames: {
@@ -50,7 +50,7 @@ export class TagTable {
                                 const updateParam: DocumentClient.UpdateItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
-                                        "key": tag
+                                        "id": tag
                                     },
                                     UpdateExpression: "ADD #key :val",
                                     ExpressionAttributeNames: {
@@ -64,7 +64,7 @@ export class TagTable {
                             } else {
                                 // Index doesn't exists, so put
                                 const putItem: SearchIndexSchema = {
-                                    key: tag,
+                                    id: tag,
                                     val: this.client.createSet([name.toLowerCase()])
                                 }
                                 const putParam: DocumentClient.PutItemInput = {
@@ -98,7 +98,7 @@ export class TagTable {
                     const mainUpdateParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": name.toLowerCase()
+                            "id": name.toLowerCase()
                         },
                         UpdateExpression: "DELETE #key :val",
                         ExpressionAttributeNames: {
@@ -115,7 +115,7 @@ export class TagTable {
                                 const tagDeleteParams: DocumentClient.DeleteItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
-                                        "key": tag
+                                        "id": tag
                                     }
                                 }
                                 return this.client.delete(tagDeleteParams)
@@ -123,7 +123,7 @@ export class TagTable {
                                 const tagUpdateParams: DocumentClient.UpdateItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
-                                        "key": tag
+                                        "id": tag
                                     },
                                     UpdateExpression: "DELETE #key :val",
                                     ExpressionAttributeNames: {
@@ -150,7 +150,7 @@ export class TagTable {
         const mainParam: DocumentClient.GetItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name.toLowerCase()
+                "id": name.toLowerCase()
             }
         }
         return this.client.get(mainParam)
@@ -176,7 +176,7 @@ export class TagTable {
         const params: DocumentClient.GetItemInput = {
             TableName: TAGS_TABLE,
             Key: {
-                "key": tag
+                "id": tag
             }
         }
         return this.client.get(params)

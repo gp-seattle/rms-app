@@ -1,7 +1,7 @@
 {
     "main":{
         "test name":{
-            "name":"test name",
+            "id":"test name",
             "displayName": "Test Name",
             "description":"test description",
             "items":{"type": "String", "values": ["123"]},
@@ -20,7 +20,7 @@
     "batch":{},
     "tags":{
         "tag2":{
-            "key":"tag2",
+            "id":"tag2",
             "val":{"type":"String","values":["test name"]}
         }
     },

@@ -26,7 +26,7 @@ export class ItemTable {
                     const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": name.toLowerCase()
+                            "id": name.toLowerCase()
                         },
                         UpdateExpression: "ADD #key :val",
                         ExpressionAttributeNames: {
@@ -79,7 +79,7 @@ export class ItemTable {
                     const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": entry.name
+                            "id": entry.name
                         },
                         UpdateExpression: "DELETE #key :val",
                         ExpressionAttributeNames: {
@@ -237,7 +237,7 @@ export class ItemTable {
         const curEpochMs: number = Date.now()
         const key: string = `${curEpochMs}-${id}`
         const item: HistorySchema = {
-            key: key,
+            id: key,
             name: name,
             itemId: id,
             borrower: borrower,

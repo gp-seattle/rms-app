@@ -62,7 +62,7 @@ export class LocalDBClient implements DBClient {
         return this.newPromise(() => {
             if (params.TableName === MAIN_TABLE) {
                 const val: MainSchema = params.Item as MainSchema
-                const key: string = val.name
+                const key: string = val.id
                 this.db.main[key] = val
             } else if (params.TableName === ITEMS_TABLE) {
                 const val: ItemsSchema = params.Item as ItemsSchema
@@ -70,15 +70,15 @@ export class LocalDBClient implements DBClient {
                 this.db.items[id] = val
             } else if (params.TableName === BATCH_TABLE) {
                 const val: SearchIndexSchema = params.Item as SearchIndexSchema
-                const key: string = val.key
+                const key: string = val.id
                 this.db.batch[key] = val
             } else if (params.TableName === TAGS_TABLE) {
                 const val: SearchIndexSchema = params.Item as SearchIndexSchema
-                const key: string = val.key
+                const key: string = val.id
                 this.db.tags[key] = val
             } else if (params.TableName === HISTORY_TABLE) {
                 const val: HistorySchema = params.Item as HistorySchema
-                const key: string = val.key
+                const key: string = val.id
                 this.db.history[key] = val
             } else if (params.TableName == TRANSACTIONS_TABLE) {
                 const val: TransactionsSchema = params.Item as TransactionsSchema

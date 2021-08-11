@@ -19,7 +19,7 @@ export class MainTable {
         description: string
     ): Promise<DocumentClient.PutItemOutput> {
         const item: MainSchema = {
-            name: name.toLowerCase(),
+            id: name.toLowerCase(),
             displayName: name,
             description: description
         }
@@ -65,7 +65,7 @@ export class MainTable {
         const params: DocumentClient.GetItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name.toLowerCase()
+                "id": name.toLowerCase()
             }
         }
         return this.client.get(params)
@@ -83,7 +83,7 @@ export class MainTable {
         const params: DocumentClient.UpdateItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name.toLowerCase()
+                "id": name.toLowerCase()
             },
             UpdateExpression: "SET #key = :val",
             ConditionExpression: 'attribute_exists(#key)',

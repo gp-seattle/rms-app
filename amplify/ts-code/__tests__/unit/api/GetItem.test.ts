@@ -8,7 +8,7 @@ test('will get item correctly when id exists', async () => {
     const api: GetItem = new GetItem(dbClient)
     
     const expectedMain: MainSchema = {
-        name: TestConstants.NAME,
+        id: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),
@@ -38,7 +38,7 @@ test('will get item correctly when name exists', async () => {
     const api: GetItem = new GetItem(dbClient)
 
     const expectedMain: MainSchema = {
-        name: TestConstants.NAME,
+        id: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: dbClient.createSet([TestConstants.TAG]),

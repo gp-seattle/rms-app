@@ -1,7 +1,7 @@
 {
     "main":{
         "test name":{
-            "name":"test name",
+            "id":"test name",
             "displayName": "Test Name",
             "description":"test description",
             "items":{"type": "String", "values": ["123"]},
@@ -21,7 +21,7 @@
     "batch":{},
     "tags":{
         "tag1":{
-            "key":"tag1",
+            "id":"tag1",
             "val":{"type":"String","values":["test name"]}
         }
     },
@@ -30,7 +30,7 @@
             "action": "borrow",
             "borrower": "test borrower",
             "itemId": "123",
-            "key": "1000000000000-123",
+            "id": "1000000000000-123",
             "name": "test name",
             "notes": "test note",
             "timestamp": 1000000000000
