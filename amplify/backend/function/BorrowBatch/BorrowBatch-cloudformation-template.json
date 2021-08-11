@@ -16,45 +16,33 @@
     "s3Key": {
       "Type": "String"
     },
-    "storagemainName": {
+    "apirmsGetAttMainTableName": {
       "Type": "String",
-      "Default": "storagemainName"
+      "Default": "apirmsGetAttMainTableName"
     },
-    "storagemainArn": {
+    "apirmsGetAttItemsTableName": {
       "Type": "String",
-      "Default": "storagemainArn"
+      "Default": "apirmsGetAttItemsTableName"
     },
-    "storageitemsName": {
+    "apirmsGetAttBatchTableName": {
       "Type": "String",
-      "Default": "storageitemsName"
+      "Default": "apirmsGetAttBatchTableName"
     },
-    "storageitemsArn": {
+    "apirmsGetAttTagsTableName": {
       "Type": "String",
-      "Default": "storageitemsArn"
+      "Default": "apirmsGetAttTagsTableName"
     },
-    "storagebatchName": {
+    "apirmsGetAttHistoryTableName": {
       "Type": "String",
-      "Default": "storagebatchName"
+      "Default": "apirmsGetAttHistoryTableName"
     },
-    "storagebatchArn": {
+    "storagetransactionsName": {
       "Type": "String",
-      "Default": "storagebatchArn"
+      "Default": "storagetransactionsName"
     },
-    "storagetagsName": {
+    "storagetransactionsArn": {
       "Type": "String",
-      "Default": "storagetagsName"
-    },
-    "storagetagsArn": {
-      "Type": "String",
-      "Default": "storagetagsArn"
-    },
-    "storagehistoryName": {
-      "Type": "String",
-      "Default": "storagehistoryName"
-    },
-    "storagehistoryArn": {
-      "Type": "String",
-      "Default": "storagehistoryArn"
+      "Default": "storagetransactionsArn"
     }
   },
   "Conditions": {
@@ -275,14 +263,55 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storagemainArn"
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttMainTableName"
+                      }
+                    ]
+                  ]
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storagemainArn"
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttMainTableName"
                       },
                       "index/*"
                     ]
@@ -308,14 +337,55 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storageitemsArn"
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttItemsTableName"
+                      }
+                    ]
+                  ]
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storageitemsArn"
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttItemsTableName"
                       },
                       "index/*"
                     ]
@@ -341,14 +411,55 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storagebatchArn"
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttBatchTableName"
+                      }
+                    ]
+                  ]
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storagebatchArn"
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttBatchTableName"
                       },
                       "index/*"
                     ]
@@ -374,14 +485,55 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storagetagsArn"
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttTagsTableName"
+                      }
+                    ]
+                  ]
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storagetagsArn"
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttTagsTableName"
                       },
                       "index/*"
                     ]
@@ -407,14 +559,129 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storagehistoryArn"
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttHistoryTableName"
+                      }
+                    ]
+                  ]
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storagehistoryArn"
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "apirmsGetAttHistoryTableName"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "storagetransactionsName"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Fn::Join": [
+                          ":",
+                          [
+                            "arn",
+                            "aws",
+                            "dynamodb",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            "table"
+                          ]
+                        ]
+                      },
+                      {
+                        "Ref": "storagetransactionsName"
                       },
                       "index/*"
                     ]
