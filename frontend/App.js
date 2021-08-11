@@ -6,9 +6,10 @@ import { Provider as ReduxProvider } from 'react-redux';
 import Dashboard from './components/Dashboard/DashboardScreen';
 import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
 import StackNavigator from './components/Navigation/StackNavigator';
-import store from './store/store';
 import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
+import store from './store/store';
+import Inventory from './components/Inventory';
 
 function BackButton({ onPress }) {
 	return (
@@ -27,8 +28,8 @@ function MainTabs({ navigation }) {
 				iconName="home"
 				onAddItem={() => navigation.navigate('addItem')}
 			/>
-			<View name="inv" title="Inventory" iconName="format-list-bulleted" />
-			<View name="info" title="Info" iconName="alert-circle" />
+			<Inventory name="inv" title="Inventory" iconName="format-list-bulleted" />
+			<View name="account" title="Account" iconName="account" />
 		</RMSTabsNavigator>
 	);
 }
@@ -40,7 +41,17 @@ function App() {
 				<StackNavigator
 					screenOptions={({ navigation }) => ({
 						headerLeft: () => <BackButton onPress={navigation.goBack} />,
-						headerTintColor: "black"
+						headerTintColor: "black",
+						headerTitleAlign: 'left',
+						headerTitleStyle: {
+							fontSize: 22,
+							fontWeight: "bold"
+						},
+						headerStyle: {
+							shadowColor: "transparent",
+							borderBottomWidth: 0,
+							elevation: 0
+						}
 					})}>
 					<MainTabs name="mainTabs" options={{ headerShown: false }} />
 					<NewItem name="addItem" title="New Item" />
@@ -54,13 +65,15 @@ const theme = {
 	...DefaultTheme,
 	colors: {
 		...DefaultTheme.colors,
-		primary: '#6200EE',
+		primaryFiveHundred: '#6200EE',
+		primaryNineHundred: '#23036A',
 		surface: '#FFF',
 		surfaceMediumEmphasis: 'rgba(0, 0, 0, 0.6)',
 		surfaceOverlay: 'rgba(33, 33, 33, 0.08)',
 		primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
-		accent: '#03DAC5',
-		secondary: '#C8FFF4',
+		secondaryTwoHundred: '#03DAC5',
+		secondaryFifty: '#C8FFF4',
+		text: '#000',
 	},
 };
 
