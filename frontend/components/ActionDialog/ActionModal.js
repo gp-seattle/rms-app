@@ -3,9 +3,9 @@ import { View, StyleSheet, Button, TouchableOpacity, Modal } from 'react-native'
 
 function ActionModal(props) {
     return(
-        <Modal 
+        <Modal
             transparent = {true}
-            visible={props.visible} 
+            visible={props.visible}
             animationType = "slide"
         >
             <TouchableOpacity style = {styles.modalContainer} onPress ={props.onCancel} >

@@ -16,7 +16,7 @@ const useComponentSize = () => {
 /*
   list is an array of objects, each with a label and value key
 */
-const ListDropdown = ({ list, onValueChange, placeholder, style, dropdownStyle }) => {
+const ListDropdown = ({ list, onValueChange, placeholder, style, dropdownStyle, textStyle }) => {
 	const [value, setValue] = useState();
 	const [showDropdown, setShowDropdown] = useState(false);
   const [size, onLayout] = useComponentSize();
@@ -39,6 +39,7 @@ const ListDropdown = ({ list, onValueChange, placeholder, style, dropdownStyle }
 		<Menu
 			visible={showDropdown}
 			onDismiss={() => setShowDropdown(false)}
+			contentStyle={dropdownStyle}
 			anchor={
 				<TouchableRipple
 					onPress={() => setShowDropdown(true)}
