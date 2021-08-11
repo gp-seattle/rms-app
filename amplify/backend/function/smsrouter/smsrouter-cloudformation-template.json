@@ -43,6 +43,10 @@
     "storagetransactionsName": {
       "Type": "String",
       "Default": "storagetransactionsName"
+    },
+    "storagetransactionsArn": {
+      "Type": "String",
+      "Default": "storagetransactionsArn"
     }
   },
   "Conditions": {
