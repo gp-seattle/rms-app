@@ -32,43 +32,14 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "storage",
-          "resourceName": "main",
+          "category": "api",
+          "resourceName": "rms",
           "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "items",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "batch",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "tags",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "history",
-          "attributes": [
-            "Name",
-            "Arn"
+            "GetAttBatchTableName",
+            "GetAttHistoryTableName",
+            "GetAttItemsTableName",
+            "GetAttMainTableName",
+            "GetAttTagsTableName"
           ]
         },
         {

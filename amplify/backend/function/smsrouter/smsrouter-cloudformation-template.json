@@ -20,53 +20,29 @@
       "Type": "String",
       "Default": "7fa21ff37f0f4da7acce588bcae6faec"
     },
-    "storagemainName": {
+    "apirmsGetAttMainTableName": {
       "Type": "String",
-      "Default": "storagemainName"
+      "Default": "apirmsGetAttMainTableName"
     },
-    "storagemainArn": {
+    "apirmsGetAttItemsTableName": {
       "Type": "String",
-      "Default": "storagemainArn"
+      "Default": "apirmsGetAttItemsTableName"
     },
-    "storageitemsName": {
+    "apirmsGetAttBatchTableName": {
       "Type": "String",
-      "Default": "storageitemsName"
+      "Default": "apirmsGetAttBatchTableName"
     },
-    "storageitemsArn": {
+    "apirmsGetAttTagsTableName": {
       "Type": "String",
-      "Default": "storageitemsArn"
+      "Default": "apirmsGetAttTagsTableName"
     },
-    "storagebatchName": {
+    "apirmsGetAttHistoryTableName": {
       "Type": "String",
-      "Default": "storagebatchName"
-    },
-    "storagebatchArn": {
-      "Type": "String",
-      "Default": "storagebatchArn"
-    },
-    "storagetagsName": {
-      "Type": "String",
-      "Default": "storagetagsName"
-    },
-    "storagetagsArn": {
-      "Type": "String",
-      "Default": "storagetagsArn"
-    },
-    "storagehistoryName": {
-      "Type": "String",
-      "Default": "storagehistoryName"
-    },
-    "storagehistoryArn": {
-      "Type": "String",
-      "Default": "storagehistoryArn"
+      "Default": "apirmsGetAttHistoryTableName"
     },
     "storagetransactionsName": {
       "Type": "String",
       "Default": "storagetransactionsName"
-    },
-    "storagetransactionsArn": {
-      "Type": "String",
-      "Default": "storagetransactionsArn"
     }
   },
   "Conditions": {
@@ -126,40 +102,22 @@
               "Ref": "pinpointAppId"
             },
             "STORAGE_MAIN_NAME": {
-              "Ref": "storagemainName"
-            },
-            "STORAGE_MAIN_ARN": {
-              "Ref": "storagemainArn"
+              "Ref": "apirmsGetAttMainTableName"
             },
             "STORAGE_ITEMS_NAME": {
-              "Ref": "storageitemsName"
-            },
-            "STORAGE_ITEMS_ARN": {
-              "Ref": "storageitemsArn"
+              "Ref": "apirmsGetAttItemsTableName"
             },
             "STORAGE_BATCH_NAME": {
-              "Ref": "storagebatchName"
-            },
-            "STORAGE_BATCH_ARN": {
-              "Ref": "storagebatchArn"
+              "Ref": "apirmsGetAttBatchTableName"
             },
             "STORAGE_TAGS_NAME": {
-              "Ref": "storagetagsName"
-            },
-            "STORAGE_TAGS_ARN": {
-              "Ref": "storagetagsArn"
+              "Ref": "apirmsGetAttTagsTableName"
             },
             "STORAGE_HISTORY_NAME": {
-              "Ref": "storagehistoryName"
-            },
-            "STORAGE_HISTORY_ARN": {
-              "Ref": "storagehistoryArn"
+              "Ref": "apirmsGetAttHistoryTableName"
             },
             "STORAGE_TRANSACTIONS_NAME": {
               "Ref": "storagetransactionsName"
-            },
-            "STORAGE_TRANSACTIONS_ARN": {
-              "Ref": "storagetransactionsArn"
             }
           }
         },
