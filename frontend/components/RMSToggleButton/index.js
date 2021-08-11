@@ -10,7 +10,11 @@ const RMSToggleButton = withTheme(({ title, theme, onPress, style }) => {
 			style={{
 				...styles.buttonContainer,
 				backgroundColor: toggled ? theme.colors.primaryFiveHundred : theme.colors.surface,
+<<<<<<< HEAD
 				...style,
+=======
+				...style
+>>>>>>> 9447aec (Initial Redux work)
 			}}
 			onPress={() => {
 				setToggled((lastState) => !lastState);
@@ -21,9 +25,13 @@ const RMSToggleButton = withTheme(({ title, theme, onPress, style }) => {
 			{toggled ? (
 				<Text style={{ ...styles.button, color: theme.colors.surface }}>{title}</Text>
 			) : (
+<<<<<<< HEAD
 				<Text style={{ ...styles.button, color: theme.colors.primaryFiveHundred }}>
 					{title}
 				</Text>
+=======
+				<Text style={{ ...styles.button, color: theme.colors.primaryFiveHundred }}>{title}</Text>
+>>>>>>> 9447aec (Initial Redux work)
 			)}
 		</TouchableOpacity>
 	);

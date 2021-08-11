@@ -24,7 +24,7 @@ const ModalButton = withTheme(({ onPress, onModalClose, icon, theme, children, }
 	);
 });
 
-const ActionModal= withTheme(({ visible, onCreateList, onAddItem, onCancel, theme}) => {
+const ActionModal = withTheme(({ visible, onCreateList, onAddItem, onCancel, theme }) => {
 	return (
 		<Modal transparent={true} visible={visible} animationType="slide">
 			<Pressable style={styles.modalContainer} onPress={onCancel}></Pressable>
@@ -40,14 +40,13 @@ const ActionModal= withTheme(({ visible, onCreateList, onAddItem, onCancel, them
 			</View>
 		</Modal>
 	);
-})
+});
 
 const styles = StyleSheet.create({
 	modalContainer: {
 		flex: 1,
 	},
 	container: {
-		backgroundColor: '#23036A',
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
 		justifyContent: 'flex-start',

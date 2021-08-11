@@ -6,9 +6,10 @@ import { Provider as ReduxProvider } from 'react-redux';
 import Dashboard from './components/Dashboard/DashboardScreen';
 import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
 import StackNavigator from './components/Navigation/StackNavigator';
-import store from './store/store';
 import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
+import store from './store/store';
+import Inventory from './components/Inventory';
 
 function BackButton({ onPress }) {
 	return (
@@ -27,8 +28,8 @@ function MainTabs({ navigation }) {
 				iconName="home"
 				onAddItem={() => navigation.navigate('addItem')}
 			/>
-			<View name="inv" title="Inventory" iconName="format-list-bulleted" />
-			<View name="info" title="Info" iconName="alert-circle" />
+			<Inventory name="inv" title="Inventory" iconName="format-list-bulleted" />
+			<View name="account" title="Account" iconName="account" />
 		</RMSTabsNavigator>
 	);
 }
