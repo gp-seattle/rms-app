@@ -10,17 +10,17 @@ function UtilWrite(props) {
         username: TestConstants.EMAIL,
         password: TestConstants.PASSWORD
     }).then(() => Auth.currentCredentials())
-    .then((credentials) => credentials.authenticated);
+    .then((credentials) => credentials.authenticated)
 
     Auth.currentCredentials()
-                .then((credentials) => {
-                    AWS.config.credentials = credentials
-                    const lambda = new AWS.Lambda({
-                        credentials: credentials,
-                        region: ENV_REGION
-                    })
-                    AddItem(lambda);
-                });
+    .then((credentials) => {
+        AWS.config.credentials = credentials
+        const lambda = new AWS.Lambda({
+            credentials: credentials,
+            region: ENV_REGION
+        })
+        AddNewItem(lamdba);
+    });                
 
     var params = {
         FunctionName: `AddItem${ENV_SUFFIX}`,
@@ -34,7 +34,7 @@ function UtilWrite(props) {
         })
     };
 
-    function AddItem(lambda) {
+    function AddNewItem(lambda) {
         return lambda.invoke(params, function(err, data) {
             if (err) {
                 console.log(err, err.stack);
@@ -61,7 +61,7 @@ function UtilWrite(props) {
 
     Auth.signOut()
         .then(() => Auth.currentCredentials())
-        .then((exception) => exception.name);
+        .then((exception) => exception.name)
 }
 
 export default UtilWrite;
