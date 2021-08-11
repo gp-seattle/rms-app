@@ -38,7 +38,6 @@ function MainTabs({ navigation }) {
 function App() {
 	useEffect(() => {
         const testAPI = async () => {
-			console.log("testAPI useEffect")
             await UtilWrite();
         };
         testAPI();
