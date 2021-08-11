@@ -13,7 +13,7 @@ const NewItem = ({ navigation }) => {
 				onCancel={navigation.goBack}
 				iconName="plus"
 				submitText="Save Item"
-				cancelText="Cancel"></SubmitBar>
+				cancelText="Cancel" />
 		</View>
 	);
 };
