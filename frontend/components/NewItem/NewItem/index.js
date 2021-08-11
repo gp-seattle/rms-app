@@ -9,7 +9,11 @@ const NewItem = ({ navigation }) => {
 			<ScrollView style={styles.container} contentContainerStyle={styles.container}>
 				<NewItemForm />
 			</ScrollView>
-			<SubmitBar onCancel={navigation.goBack} iconName="plus" submitText="Save Item" cancelText="Cancel"></SubmitBar>
+			<SubmitBar
+				onCancel={navigation.goBack}
+				iconName="plus"
+				submitText="Save Item"
+				cancelText="Cancel"></SubmitBar>
 		</View>
 	);
 };
