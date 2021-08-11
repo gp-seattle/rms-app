@@ -9,7 +9,7 @@ const RMSToggleButton = withTheme(({ title, theme, onPress, style }) => {
 		<TouchableOpacity
 			style={{
 				...styles.buttonContainer,
-				backgroundColor: toggled ? theme.colors.primary : theme.colors.surface,
+				backgroundColor: toggled ? theme.colors.primaryFiveHundred : theme.colors.surface,
 				...style
 			}}
 			onPress={() => {
@@ -21,7 +21,7 @@ const RMSToggleButton = withTheme(({ title, theme, onPress, style }) => {
 			{toggled ? (
 				<Text style={{ ...styles.button, color: theme.colors.surface }}>{title}</Text>
 			) : (
-				<Text style={{ ...styles.button, color: theme.colors.primary }}>{title}</Text>
+				<Text style={{ ...styles.button, color: theme.colors.primaryFiveHundred }}>{title}</Text>
 			)}
 		</TouchableOpacity>
 	);
