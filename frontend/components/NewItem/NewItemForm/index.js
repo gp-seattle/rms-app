@@ -69,7 +69,7 @@ const NewItemForm = withTheme((props) => {
 							textColor="black"
 							iconColor="grey"
 							textSize={20}
-							min={0}
+							min={1}
 							onValueChanged={setAmount}
 						/>
 					</View>
@@ -88,6 +88,7 @@ const NewItemForm = withTheme((props) => {
 						]}
 						ButtonComponent={RMSToggleButton}
 						style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
+						buttonStyle={{ marginTop: 7,}}
 						onSelectedChange={setCategories}
 					/>
 				</View>
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
 	input: {
 		width: '90%',
 		marginLeft: '5%',
+		backgroundColor: 'white',
 	},
 	categoriesSelector: {
 		// borderWidth: 2,
@@ -113,6 +115,7 @@ const styles = StyleSheet.create({
 		marginLeft: '5%',
 		marginRight: '5%',
 		marginTop: '3%',
+		justifyContent: 'space-evenly',
 	},
 	categoriesText: {
 		fontWeight: 'bold',

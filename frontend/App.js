@@ -40,7 +40,17 @@ function App() {
 				<StackNavigator
 					screenOptions={({ navigation }) => ({
 						headerLeft: () => <BackButton onPress={navigation.goBack} />,
-						headerTintColor: "black"
+						headerTintColor: 'black',
+						headerTitleAlign: 'left',
+						headerTitleStyle: {
+							fontSize: 22,
+							fontWeight: 'bold',
+						},
+						headerStyle: {
+							shadowColor: 'transparent',
+							borderBottomWidth: 0,
+							elevation: 0,
+						},
 					})}>
 					<MainTabs name="mainTabs" options={{ headerShown: false }} />
 					<NewItem name="addItem" title="New Item" />
