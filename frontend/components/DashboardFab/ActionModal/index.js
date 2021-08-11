@@ -2,14 +2,14 @@ import React from 'react';
 import { Modal, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, withTheme } from 'react-native-paper';
 
-const ModalButton = withTheme(({ onPress, onModalClose, icon, theme, children }) => {
+const ModalButton = withTheme(({ onPress, onModalClose, icon, theme, children, }) => {
 	return (
 		<TouchableOpacity style={styles.button}>
 			<Button
 				mode="contained"
-				color={theme.colors.primary}
+				color={theme.colors.primaryFiveHundred}
 				icon={icon}
-				contentStyle={{ flexDirection: "row-reverse" }}
+				contentStyle={{ flexDirection: 'row-reverse' }}
 				onPress={() => {
 					if (onPress) {
 						onPress();
@@ -24,11 +24,11 @@ const ModalButton = withTheme(({ onPress, onModalClose, icon, theme, children })
 	);
 });
 
-function ActionModal({ visible, onCreateList, onAddItem, onCancel }) {
+const ActionModal= withTheme(({ visible, onCreateList, onAddItem, onCancel, theme}) => {
 	return (
 		<Modal transparent={true} visible={visible} animationType="slide">
 			<Pressable style={styles.modalContainer} onPress={onCancel}></Pressable>
-			<View style={styles.container}>
+			<View style={{backgroundColor: theme.colors.primaryNineHundred, ...styles.container}}>
 				<View style={styles.buttonContainer}>
 					<ModalButton onPress={onCreateList} onModalClose={onCancel} icon="plus">
 						Create List
@@ -40,7 +40,7 @@ function ActionModal({ visible, onCreateList, onAddItem, onCancel }) {
 			</View>
 		</Modal>
 	);
-}
+})
 
 const styles = StyleSheet.create({
 	modalContainer: {
