@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { Auth } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import { TestConstants } from '../../../amplify/ts-code/__dev__/db/DBTestConstants';
 
 const ENV_SUFFIX = '-alpha'
@@ -11,12 +11,16 @@ function UtilWrite(props) {
         password: TestConstants.PASSWORD
     }).then(() => Auth.currentCredentials())
     .then((credentials) => credentials.authenticated);
-    
-    AWS.config.credentials = credentials;
-    const lambda = new AWS.Lambda({
-        credentials: credentials,
-        region: ENV_REGION
-    })
+
+    Auth.currentCredentials()
+                .then((credentials) => {
+                    AWS.config.credentials = credentials
+                    const lambda = new AWS.Lambda({
+                        credentials: credentials,
+                        region: ENV_REGION
+                    })
+                    AddItem(lambda);
+                });
 
     var params = {
         FunctionName: `AddItem${ENV_SUFFIX}`,
@@ -30,7 +34,7 @@ function UtilWrite(props) {
         })
     };
 
-    function AddItem() {
+    function AddItem(lambda) {
         return lambda.invoke(params, function(err, data) {
             if (err) {
                 console.log(err, err.stack);
@@ -40,8 +44,6 @@ function UtilWrite(props) {
             }
         });
     }
-
-    AddItem();
 
     function DeleteItem() {
         lambda.invoke({
