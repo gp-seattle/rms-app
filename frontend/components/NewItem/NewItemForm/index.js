@@ -8,7 +8,7 @@ import RMSToggleButton from '../../RMSToggleButton';
 
 const NewItemForm = withTheme((props) => {
 	const [location, setLocation] = useState();
-	const [decription, setDescription] = useState();
+	const [description, setDescription] = useState();
 	const [name, setName] = useState();
 	const [amount, setAmount] = useState();
 	const [categories, setCategories] = useState();
