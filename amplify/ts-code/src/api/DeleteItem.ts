@@ -51,17 +51,17 @@ export class DeleteItem {
         return emitAPIMetrics(
             () => {
                 return this.performAllFVAs(input)
-                    .then(() =>this.itemTable.delete(input.id)
-                        .then((name: string) => this.mainTable.get(name))
-                        .then((entry: MainSchema) => {
-                        if (entry.items == undefined) {
-                            return this.tagTable.delete(entry.name, entry.tags.values)
-                                .then(() => this.mainTable.delete(entry.name))
-                                .then(() => entry.name)
+                    .then(() => this.itemTable.delete(input.id))
+                    .then((name: string) => this.mainTable.get(name))
+                    .then((entry: MainSchema) => {
+                        if (entry.items.length == 0) {
+                            return this.tagTable.delete(entry.id, entry.tags)
+                                .then(() => this.mainTable.delete(entry.id))
+                                .then(() => entry.id)
                         } else {
-                            return entry.name
+                            return entry.id
                         }
-                    }))
+                    })
                     .then((name: string) => `Deleted a '${name}' from the inventory.`)
             },
             DeleteItem.NAME, this.metrics

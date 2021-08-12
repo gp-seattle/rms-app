@@ -58,7 +58,7 @@ export class GetItem {
                             return this.mainTable.get(scratch.key)
                                 .then((entry: MainSchema) => {
                                     if (entry) {
-                                        return Promise.all(entry.items?.values.map((id: string) => this.itemTable.get(id)))
+                                        return Promise.all(entry.items?.map((id: string) => this.itemTable.get(id)))
                                             .then((items: ItemsSchema[]) => new ReturnObject(entry, items))
                                     } else {
                                         throw Error(`Couldn't find item '${scratch.key}'`)
@@ -89,18 +89,16 @@ interface ScratchInterface {
 // Output Formatting Functions. Exporting them to be used for testing.
 
 export function getItemHeader(entry: MainSchema): string {
-    const tags: string[] = entry.tags ? entry.tags.values : []
     return `name: ${entry.displayName}`
         + `\ndescription: ${entry.description}`
-        + `\ntags: ${tags.toString()}`
+        + `\ntags: ${entry.tags.toString()}`
         + `\nitems:`
 }
 
 export function getItemItem(entry: ItemsSchema) {
-    const batch: string[] = entry.batch ? entry.batch.values : []
     return `\n  id: ${entry.id}`
         + `\n    owner: ${entry.owner}`
         + `\n    borrower: ${entry.borrower}`
-        + `\n    batch: ${batch}`
+        + `\n    batch: ${entry.batch.toString()}`
         + `\n    notes: ${entry.notes}`
 }

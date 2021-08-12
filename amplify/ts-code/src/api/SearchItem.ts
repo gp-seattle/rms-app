@@ -45,7 +45,7 @@ export class SearchItem {
                             search.entries.forEach((entry: MainSchema) =>
                                 returnString += searchItemItem(
                                     entry,
-                                    search.map[entry.name].occurrences
+                                    search.map[entry.id].occurrences
                             ))
     
                             return returnString
@@ -67,7 +67,7 @@ export class SearchItem {
                     return this.tagTable.get(tag)
                         .then((search: SearchIndexSchema) => {
                             if (search && search.val) {
-                                search.val.values.forEach((name: string) => {
+                                search.val.forEach((name: string) => {
                                     if (Object.keys(names).includes(name)) {
                                         names[name] = {
                                             name: name,

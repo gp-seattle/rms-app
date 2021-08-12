@@ -25,21 +25,21 @@ export class TagTable {
     ): Promise<any> {
         return this.get(tag)
             .then((tagEntry: SearchIndexSchema) => {
-                if (tagEntry && tagEntry.val.values.includes(name)) {
+                if (tagEntry && tagEntry.val.includes(name)) {
                     // Contains tag already. Do nothing.
                     return
                 } else {
                     const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": name.toLowerCase()
+                            "id": name.toLowerCase()
                         },
-                        UpdateExpression: "ADD #key :val",
+                        UpdateExpression: "SET #key = list_append(#key, :val)",
                         ExpressionAttributeNames: {
                             "#key": "tags"
                         },
                         ExpressionAttributeValues: {
-                            ":val": this.client.createSet([tag])
+                            ":val": [tag]
                         }
                     }
 
@@ -50,22 +50,22 @@ export class TagTable {
                                 const updateParam: DocumentClient.UpdateItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
-                                        "key": tag
+                                        "id": tag
                                     },
-                                    UpdateExpression: "ADD #key :val",
+                                    UpdateExpression: "SET #key = list_append(#key, :val)",
                                     ExpressionAttributeNames: {
                                         "#key": "val"
                                     },
                                     ExpressionAttributeValues: {
-                                        ":val": this.client.createSet([name.toLowerCase()])
+                                        ":val": [name.toLowerCase()]
                                     }
                                 }
                                 return this.client.update(updateParam)
                             } else {
                                 // Index doesn't exists, so put
                                 const putItem: SearchIndexSchema = {
-                                    key: tag,
-                                    val: this.client.createSet([name.toLowerCase()])
+                                    id: tag,
+                                    val: [name.toLowerCase()]
                                 }
                                 const putParam: DocumentClient.PutItemInput = {
                                     TableName: TAGS_TABLE,
@@ -94,43 +94,64 @@ export class TagTable {
     ): Promise<any> {
         return this.get(tag)
             .then((tagEntry: SearchIndexSchema) => {
-                if (tagEntry && tagEntry.val.values.includes(name)) {
-                    const mainUpdateParams: DocumentClient.UpdateItemInput = {
+                if (tagEntry && tagEntry.val.includes(name)) {
+                    const mainGetParams: DocumentClient.GetItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "name": name.toLowerCase()
-                        },
-                        UpdateExpression: "DELETE #key :val",
-                        ExpressionAttributeNames: {
-                            "#key": "tags"
-                        },
-                        ExpressionAttributeValues: {
-                            ":val": this.client.createSet([tag])
+                            "id": name.toLowerCase()
                         }
                     }
 
-                    return this.client.update(mainUpdateParams)
-                        .then(() => {
-                            if (tagEntry.val.values.length === 1) {
+                    return this.client.get(mainGetParams)
+                        .then((output: DocumentClient.GetItemOutput) => {
+                            const item: MainSchema = output.Item as MainSchema
+                            
+                            if (item) {
+                                const idx: number = item.tags.indexOf(tag)
+
+                                if (idx < 0 || idx >= item.tags.length) {
+                                    throw Error(`Unable to find id ${tag} in main`)
+                                }
+
+                                
+                                const updateMainParams: DocumentClient.UpdateItemInput = {
+                                    TableName: MAIN_TABLE,
+                                    Key: {
+                                        "id": name.toLowerCase()
+                                    },
+                                    UpdateExpression: `REMOVE #key[${idx}]`,
+                                    ExpressionAttributeNames: {
+                                        "#key": "tags"
+                                    }
+                                }
+                                return this.client.update(updateMainParams)
+                            } else {
+                                throw Error(`Unable to find name ${name.toLowerCase()}`)
+                            }
+                        }).then(() => {
+                            if (tagEntry.val.length === 1) {
                                 const tagDeleteParams: DocumentClient.DeleteItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
-                                        "key": tag
+                                        "id": tag
                                     }
                                 }
                                 return this.client.delete(tagDeleteParams)
                             } else {
+                                const idx: number = tagEntry.val.indexOf(name)
+
+                                if (idx < 0 || idx >= tagEntry.val.length) {
+                                    throw Error(`Unable to find id ${tag} in main`)
+                                }
+
                                 const tagUpdateParams: DocumentClient.UpdateItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
-                                        "key": tag
+                                        "id": tag
                                     },
-                                    UpdateExpression: "DELETE #key :val",
+                                    UpdateExpression: `REMOVE #key[${idx}]`,
                                     ExpressionAttributeNames: {
                                         "#key": "val"
-                                    },
-                                    ExpressionAttributeValues: {
-                                        ":val": this.client.createSet(([name]))
                                     }
                                 }
                                 return this.client.update(tagUpdateParams)
@@ -150,17 +171,17 @@ export class TagTable {
         const mainParam: DocumentClient.GetItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name.toLowerCase()
+                "id": name.toLowerCase()
             }
         }
         return this.client.get(mainParam)
             .then((data: DocumentClient.GetItemOutput) => {
                 if (data.Item) {
                     const entry: MainSchema = data.Item as MainSchema
-                    const curTags = entry.tags ? entry.tags.values : []
-                    const createTags = tags.filter((newTag: string) => !curTags.includes(newTag))
-                    const deleteTags = curTags.filter((curTag: string) => !tags.includes(curTag))
-                    return Promise.all([this.create(name, createTags), this.delete(name, deleteTags)])
+                    const createTags = tags.filter((newTag: string) => !entry.tags.includes(newTag))
+                    const deleteTags = entry.tags.filter((curTag: string) => !tags.includes(curTag))
+                    return this.delete(name, deleteTags)
+                        .then(() => this.create(name, createTags))
                 } else {
                     throw Error(`Could not find '${name}' in the database.`)
                 }
@@ -176,7 +197,7 @@ export class TagTable {
         const params: DocumentClient.GetItemInput = {
             TableName: TAGS_TABLE,
             Key: {
-                "key": tag
+                "id": tag
             }
         }
         return this.client.get(params)

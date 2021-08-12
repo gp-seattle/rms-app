@@ -1,4 +1,4 @@
-import { BATCH_TABLE, SearchIndexSchema, ITEMS_TABLE } from "./Schemas"
+import { BATCH_TABLE, SearchIndexSchema, ITEMS_TABLE, ItemsSchema } from "./Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 
@@ -22,8 +22,8 @@ export class BatchTable {
         return Promise.all(ids.map((id: string) => this.attachBatchToItem(name, id)))
             .then(() => {
                 const item: SearchIndexSchema = {
-                    key: name.toLowerCase(),
-                    val: this.client.createSet(ids)
+                    id: name.toLowerCase(),
+                    val: ids
                 }
 
                 const params: DocumentClient.PutItemInput = {
@@ -57,12 +57,12 @@ export class BatchTable {
             Key: {
                 "id": id
             },
-            UpdateExpression: "ADD #key :val",
+            UpdateExpression: "SET #key = list_append(#key, :val)",
             ExpressionAttributeNames: {
                 "#key": "batch"
             },
             ExpressionAttributeValues: {
-                ":val": this.client.createSet([batchName])
+                ":val": [batchName]
             }
         }
         return this.client.get(getParams)
@@ -87,12 +87,12 @@ export class BatchTable {
         return this.get(name)
             .then((entry: SearchIndexSchema) => {
                 if (entry) {
-                    return Promise.all(entry.val.values.map((id: string) => this.detachBatchFromItem(name, id)))
+                    return Promise.all(entry.val.map((id: string) => this.detachBatchFromItem(name, id)))
                         .then(() => {
                             const params: DocumentClient.DeleteItemInput = {
                                 TableName: BATCH_TABLE,
                                 Key: {
-                                    "key": name.toLowerCase()
+                                    "id": name.toLowerCase()
                                 }
                             }
                             
@@ -108,20 +108,38 @@ export class BatchTable {
         batchName: string,
         id: string
     ): Promise<any> {
-        const params: DocumentClient.UpdateItemInput = {
+        const getParams: DocumentClient.GetItemInput = {
             TableName: ITEMS_TABLE,
             Key: {
                 "id": id
-            },
-            UpdateExpression: "DELETE #key :val",
-            ExpressionAttributeNames: {
-                "#key": "batch"
-            },
-            ExpressionAttributeValues: {
-                ":val": this.client.createSet([batchName])
             }
         }
-        return this.client.update(params)
+        
+        return this.client.get(getParams)
+            .then((output: DocumentClient.GetItemOutput) => {
+                const item: ItemsSchema = output.Item as ItemsSchema
+                if (item) {
+                    const idx: number = item.batch.indexOf(batchName)
+
+                    if (idx < 0 || idx >= item.batch.length) {
+                        throw Error(`Unable to find batch ${batchName} in item`)
+                    }
+
+                    const deleteParams: DocumentClient.UpdateItemInput = {
+                        TableName: ITEMS_TABLE,
+                        Key: {
+                            "id": id
+                        },
+                        UpdateExpression: `REMOVE #key[${idx}]`,
+                        ExpressionAttributeNames: {
+                            "#key": "batch"
+                        }
+                    }
+                    return this.client.update(deleteParams)
+                } else {
+                    throw Error(`Unable to find item ${id}`)
+                }
+            })
     }
 
     /**
@@ -133,7 +151,7 @@ export class BatchTable {
         const params: DocumentClient.GetItemInput = {
             TableName: BATCH_TABLE,
             Key: {
-                "key": name.toLowerCase()
+                "id": name.toLowerCase()
             }
         }
         return this.client.get(params)

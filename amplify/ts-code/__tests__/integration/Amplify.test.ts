@@ -1,16 +1,17 @@
 import { ICredentials } from '@aws-amplify/core'
-import { Amplify, Auth } from 'aws-amplify'
+import { Amplify, Auth, DataStore } from 'aws-amplify'
 import { InvocationResponse } from 'aws-sdk/clients/lambda'
 import { TestConstants } from "../../__dev__/db/DBTestConstants"
+import { Main } from '../../../../src/models/index'
 import AWS = require('aws-sdk')
 import Lambda = require( 'aws-sdk/clients/lambda')
-const AWSConfig = require('../../../../src/aws-exports').default
+const awsExports = require('../../../../src/aws-exports').default
 
 const ENV_SUFFIX = '-alpha'
 
 describe('Amplify Tests', () => {
-    beforeAll(() => {
-        Amplify.configure(AWSConfig)
+    beforeAll(async () => {
+        Amplify.configure(awsExports)
     })
 
     /**
@@ -31,7 +32,7 @@ describe('Amplify Tests', () => {
 
     /**
      * AUTH: Sign In
-     */
+    */
     test('will sign in when api is called', async () => {
         await expect(
             Auth.signIn({
@@ -46,8 +47,6 @@ describe('Amplify Tests', () => {
      * add item and delete item using api
     */
     test('will add and delete item when api is called', async() => {
-        jest.setTimeout(2 * 5000)
-
         // Add Item
         await expect(
             Auth.currentCredentials()
@@ -55,7 +54,7 @@ describe('Amplify Tests', () => {
                     AWS.config.credentials = credentials
                     const lambda = new Lambda({
                         credentials: credentials,
-                        region: AWSConfig.aws_project_region
+                        region: awsExports.aws_project_region
                     })
                     return lambda.invoke({
                         FunctionName: `AddItem${ENV_SUFFIX}`,
@@ -85,7 +84,20 @@ describe('Amplify Tests', () => {
                     })
                 })
         ).resolves.toEqual(`"Deleted a '${TestConstants.NAME}' from the inventory."`)
-    })
+    }, 10000)
+
+    /**
+      * read from empty table using DataStore
+      * TODO: Fix this test. Doesn't work. Jeremy thinks that it's because it's unable to spin up a local Datastore.
+     test('will return data when datastore is called', async () => {
+        await expect(
+            DataStore.query(Main)
+                .then((output: Main[]) => {
+                    return output
+                })
+        ).resolves.toBeDefined()
+    }, 10000)
+    */
 
     /**
      * AUTH: Sign Out

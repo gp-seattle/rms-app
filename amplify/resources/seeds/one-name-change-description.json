@@ -1,11 +1,11 @@
 {
     "main":{
         "test name":{
-            "name":"test name",
+            "id":"test name",
             "displayName": "Test Name",
             "description":"test description 2",
-            "items":{"type": "String", "values": ["123"]},
-            "tags":{"type": "String", "values": ["tag1"]}
+            "items":["123"],
+            "tags":["tag1"]
         }
     },
     "items":{
@@ -14,14 +14,17 @@
             "name":"test name",
             "owner":"test owner",
             "notes":"test note",
-            "borrower":""
+            "borrower":"",
+            "batch": [],
+            "history": [],
+            "schedule": []
         }
     },
     "batch":{},
     "tags":{
         "tag1":{
-            "key":"tag1",
-            "val":{"type":"String","values":["test name"]}
+            "id":"tag1",
+            "val":["test name"]
         }
     },
     "history":{},

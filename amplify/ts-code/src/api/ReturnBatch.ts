@@ -54,7 +54,7 @@ export class ReturnBatch {
                     .then(() => this.batchTable.get(input.name))
                     .then((entry: SearchIndexSchema) => {
                         if (entry) {
-                            return Promise.all(entry.val.values.map((id: string) =>
+                            return Promise.all(entry.val.map((id: string) =>
                                 this.itemTable.changeBorrower(id, input.borrower, "return", input.notes)
                             ))
                         } else {

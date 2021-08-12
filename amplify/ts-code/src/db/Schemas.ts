@@ -1,20 +1,18 @@
-import { DocumentClient } from "aws-sdk/clients/dynamodb"
-
 export const MAIN_TABLE: string = process.env.STORAGE_MAIN_NAME
 
 /**
- * @param name Name of item type. This needs to be unique.
+ * @param id Name of item type. This needs to be unique.
  * @param description Optional description of item.
  * @param tags Tags to categorize item.
  * @param items List of IDs of all items of this item type.
  * @param id ID of item. User specified.
  */
 export interface MainSchema {
-    name: string,
+    id: string,
     displayName: string,
     description: string,
-    tags?: DocumentClient.StringSet,
-    items?: DocumentClient.StringSet
+    tags: string[],
+    items: string[]
 }
 
 /**
@@ -31,22 +29,22 @@ export interface ItemsSchema {
     name: string,
     owner: string,
     borrower: string,
-    batch?: DocumentClient.StringSet,
-    history?: DocumentClient.StringSet,
-    schedule?: DocumentClient.StringSet,
+    batch: string[],
+    history: string[],
+    schedule: string[],
     notes: string
 }
 
 export const BATCH_TABLE: string = process.env.STORAGE_BATCH_NAME
 export const TAGS_TABLE: string = process.env.STORAGE_TAGS_NAME
 export interface SearchIndexSchema {
-    key: string,
-    val?: DocumentClient.StringSet
+    id: string,
+    val: string[]
 }
 
 export const HISTORY_TABLE: string = process.env.STORAGE_HISTORY_NAME
 /**
- * @param key Random Time Related Unique Key, where the first part of the key is the creation time.
+ * @param id Random Time Related Unique Key, where the first part of the key is the creation time.
  * @param name Name of Item
  * @param id ID of Item
  * @param borrower Name of Borrower
@@ -55,7 +53,7 @@ export const HISTORY_TABLE: string = process.env.STORAGE_HISTORY_NAME
  * @param timestamp Time when item was created (in epoch milliseconds)
  */
 export interface HistorySchema {
-    key: string,
+    id: string,
     name: string,
     itemId: string,
     borrower: string,

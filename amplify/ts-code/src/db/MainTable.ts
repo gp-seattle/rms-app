@@ -19,9 +19,11 @@ export class MainTable {
         description: string
     ): Promise<DocumentClient.PutItemOutput> {
         const item: MainSchema = {
-            name: name.toLowerCase(),
+            id: name.toLowerCase(),
             displayName: name,
-            description: description
+            description: description,
+            tags: [],
+            items: []
         }
         const params: DocumentClient.PutItemInput = {
             TableName: MAIN_TABLE,
@@ -40,9 +42,9 @@ export class MainTable {
     ): Promise<DocumentClient.DeleteItemOutput> {
         return this.get(name)
             .then((entry: MainSchema) => {
-                if (entry.items !== undefined) {
+                if (entry.items.length !== 0) {
                     throw Error(`Entry '${name}' still contains items.`)
-                } else if (entry.tags !== undefined) {
+                } else if (entry.tags.length !== 0) {
                     throw Error(`Entry '${name}' still contains tags.`)
                 } else {
                     const params: DocumentClient.DeleteItemInput = {
@@ -65,7 +67,7 @@ export class MainTable {
         const params: DocumentClient.GetItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name.toLowerCase()
+                "id": name.toLowerCase()
             }
         }
         return this.client.get(params)
@@ -83,7 +85,7 @@ export class MainTable {
         const params: DocumentClient.UpdateItemInput = {
             TableName: MAIN_TABLE,
             Key: {
-                "name": name.toLowerCase()
+                "id": name.toLowerCase()
             },
             UpdateExpression: "SET #key = :val",
             ConditionExpression: 'attribute_exists(#key)',

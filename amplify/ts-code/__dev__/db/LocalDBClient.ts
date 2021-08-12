@@ -38,13 +38,6 @@ export class LocalDBClient implements DBClient {
         return this.db
     }
 
-    public createSet(list: string[]): DocumentClient.StringSet {
-        return {
-            type: "String",
-            values: list
-        }
-    }
-
     public delete(params: DocumentClient.DeleteItemInput): Promise<PromiseResult<DocumentClient.DeleteItemOutput, AWSError>> {
         return this.newPromise(() => {
             delete this.getTable(params.TableName)[Object.values(params.Key)[0]]
@@ -62,7 +55,7 @@ export class LocalDBClient implements DBClient {
         return this.newPromise(() => {
             if (params.TableName === MAIN_TABLE) {
                 const val: MainSchema = params.Item as MainSchema
-                const key: string = val.name
+                const key: string = val.id
                 this.db.main[key] = val
             } else if (params.TableName === ITEMS_TABLE) {
                 const val: ItemsSchema = params.Item as ItemsSchema
@@ -70,15 +63,15 @@ export class LocalDBClient implements DBClient {
                 this.db.items[id] = val
             } else if (params.TableName === BATCH_TABLE) {
                 const val: SearchIndexSchema = params.Item as SearchIndexSchema
-                const key: string = val.key
+                const key: string = val.id
                 this.db.batch[key] = val
             } else if (params.TableName === TAGS_TABLE) {
                 const val: SearchIndexSchema = params.Item as SearchIndexSchema
-                const key: string = val.key
+                const key: string = val.id
                 this.db.tags[key] = val
             } else if (params.TableName === HISTORY_TABLE) {
                 const val: HistorySchema = params.Item as HistorySchema
-                const key: string = val.key
+                const key: string = val.id
                 this.db.history[key] = val
             } else if (params.TableName == TRANSACTIONS_TABLE) {
                 const val: TransactionsSchema = params.Item as TransactionsSchema
@@ -98,8 +91,8 @@ export class LocalDBClient implements DBClient {
                 // TODO: Maybe a bug, where concatenation is not working
                 const key: string = params.ExpressionAttributeNames["#key"]
                 const val: string[] = params.ExpressionAttributeValues[":val"]
-                this.getTable(params.TableName)[Object.values(params.Key)[0]][key]
-                    = this.getTable(params.TableName)[Object.values(params.Key)[0]][key].concat(val)
+                const cur: string[] = this.getTable(params.TableName)[Object.values(params.Key)[0]][key]
+                this.getTable(params.TableName)[Object.values(params.Key)[0]][key] = cur.concat(val)
             } else if (params.UpdateExpression === "SET #key = :val") {
                 const key: string = params.ExpressionAttributeNames["#key"]
                 const val: any = params.ExpressionAttributeValues[":val"]
@@ -119,9 +112,9 @@ export class LocalDBClient implements DBClient {
                 const attr: string = params.ExpressionAttributeNames["#attr"]
                 const id: string = params.ExpressionAttributeNames["#id"]
                 delete this.getTable(params.TableName)[Object.values(params.Key)[0]][attr][id]
-            } else if (params.UpdateExpression === "REMOVE #key[:idx]") {
+            } else if (params.UpdateExpression.substr(0, 12) === "REMOVE #key[") {
                 const key: string = params.ExpressionAttributeNames["#key"]
-                const idx: string = params.ExpressionAttributeValues[":idx"]
+                const idx: string = params.UpdateExpression.substr(12, 1)
                 this.getTable(params.TableName)[Object.values(params.Key)[0]][key].splice(idx, 1)
             } else if (params.UpdateExpression === "ADD #key :val") {
                 const key: string = params.ExpressionAttributeNames["#key"]
