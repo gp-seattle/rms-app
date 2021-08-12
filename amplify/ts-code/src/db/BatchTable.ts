@@ -1,4 +1,4 @@
-import { BATCH_TABLE, SearchIndexSchema, ITEMS_TABLE } from "./Schemas"
+import { BATCH_TABLE, SearchIndexSchema, ITEMS_TABLE, ItemsSchema } from "./Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 
@@ -23,7 +23,7 @@ export class BatchTable {
             .then(() => {
                 const item: SearchIndexSchema = {
                     id: name.toLowerCase(),
-                    val: this.client.createSet(ids)
+                    val: ids
                 }
 
                 const params: DocumentClient.PutItemInput = {
@@ -57,12 +57,12 @@ export class BatchTable {
             Key: {
                 "id": id
             },
-            UpdateExpression: "ADD #key :val",
+            UpdateExpression: "SET #key = list_append(#key, :val)",
             ExpressionAttributeNames: {
                 "#key": "batch"
             },
             ExpressionAttributeValues: {
-                ":val": this.client.createSet([batchName])
+                ":val": [batchName]
             }
         }
         return this.client.get(getParams)
@@ -87,7 +87,7 @@ export class BatchTable {
         return this.get(name)
             .then((entry: SearchIndexSchema) => {
                 if (entry) {
-                    return Promise.all(entry.val.values.map((id: string) => this.detachBatchFromItem(name, id)))
+                    return Promise.all(entry.val.map((id: string) => this.detachBatchFromItem(name, id)))
                         .then(() => {
                             const params: DocumentClient.DeleteItemInput = {
                                 TableName: BATCH_TABLE,
@@ -108,20 +108,35 @@ export class BatchTable {
         batchName: string,
         id: string
     ): Promise<any> {
-        const params: DocumentClient.UpdateItemInput = {
+        const getParams: DocumentClient.GetItemInput = {
             TableName: ITEMS_TABLE,
             Key: {
                 "id": id
-            },
-            UpdateExpression: "DELETE #key :val",
-            ExpressionAttributeNames: {
-                "#key": "batch"
-            },
-            ExpressionAttributeValues: {
-                ":val": this.client.createSet([batchName])
             }
         }
-        return this.client.update(params)
+        
+        return this.client.get(getParams)
+            .then((output: DocumentClient.GetItemOutput) => {
+                const item: ItemsSchema = output.Item as ItemsSchema
+                if (item) {
+                    const deleteParams: DocumentClient.UpdateItemInput = {
+                        TableName: ITEMS_TABLE,
+                        Key: {
+                            "id": id
+                        },
+                        UpdateExpression: "REMOVE #key[:idx]",
+                        ExpressionAttributeNames: {
+                            "#key": "batch"
+                        },
+                        ExpressionAttributeValues: {
+                            ":idx": item.batch.indexOf(batchName)
+                        }
+                    }
+                    return this.client.update(deleteParams)
+                } else {
+                    throw Error(`Unable to find item ${id}`)
+                }
+            })
     }
 
     /**

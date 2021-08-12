@@ -176,8 +176,8 @@ test('will get item correctly when given valid id', async () => {
         id: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
-        tags: dbClient.createSet([TestConstants.TAG]),
-        items: dbClient.createSet([TestConstants.ITEM_ID])
+        tags: [TestConstants.TAG],
+        items: [TestConstants.ITEM_ID]
     }
     const expectedItem: ItemsSchema = {
         id: TestConstants.ITEM_ID,
@@ -185,6 +185,9 @@ test('will get item correctly when given valid id', async () => {
         owner: TestConstants.OWNER,
         borrower: "",
         notes: TestConstants.NOTES,
+        batch: [],
+        history: [],
+        schedule: []
     }
     const expectedStr: string = getItemHeader(expectedMain) + getItemItem(expectedItem)
 
@@ -276,8 +279,8 @@ test('will search item correctly when using router', async () => {
         id: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
-        tags: dbClient.createSet([TestConstants.TAG]),
-        items: dbClient.createSet([TestConstants.ITEM_ID])
+        tags: [TestConstants.TAG],
+        items: [TestConstants.ITEM_ID]
     }
 
     await router.processRequest(SearchItem.NAME, TestConstants.NUMBER)

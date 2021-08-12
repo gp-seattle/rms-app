@@ -10,10 +10,6 @@ export class DDBClient implements DBClient {
         this.docClient = new DocumentClient(options)
     }
 
-    public createSet(list: string[]): DocumentClient.StringSet {
-        return this.docClient.createSet(list) as DocumentClient.StringSet
-    }
-
     public delete(params: DocumentClient.DeleteItemInput): Promise<PromiseResult<DocumentClient.DeleteItemOutput, AWSError>> {
         return this.docClient.delete(params).promise()
     }

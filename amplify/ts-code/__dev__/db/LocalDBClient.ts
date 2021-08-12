@@ -38,13 +38,6 @@ export class LocalDBClient implements DBClient {
         return this.db
     }
 
-    public createSet(list: string[]): DocumentClient.StringSet {
-        return {
-            type: "String",
-            values: list
-        }
-    }
-
     public delete(params: DocumentClient.DeleteItemInput): Promise<PromiseResult<DocumentClient.DeleteItemOutput, AWSError>> {
         return this.newPromise(() => {
             delete this.getTable(params.TableName)[Object.values(params.Key)[0]]
@@ -98,8 +91,8 @@ export class LocalDBClient implements DBClient {
                 // TODO: Maybe a bug, where concatenation is not working
                 const key: string = params.ExpressionAttributeNames["#key"]
                 const val: string[] = params.ExpressionAttributeValues[":val"]
-                this.getTable(params.TableName)[Object.values(params.Key)[0]][key]
-                    = this.getTable(params.TableName)[Object.values(params.Key)[0]][key].concat(val)
+                const cur: string[] = this.getTable(params.TableName)[Object.values(params.Key)[0]][key]
+                this.getTable(params.TableName)[Object.values(params.Key)[0]][key] = cur.concat(val)
             } else if (params.UpdateExpression === "SET #key = :val") {
                 const key: string = params.ExpressionAttributeNames["#key"]
                 const val: any = params.ExpressionAttributeValues[":val"]

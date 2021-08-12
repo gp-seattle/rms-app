@@ -11,8 +11,8 @@ test('will get item correctly when id exists', async () => {
         id: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
-        tags: dbClient.createSet([TestConstants.TAG]),
-        items: dbClient.createSet([TestConstants.ITEM_ID, TestConstants.ITEM_ID_2])
+        tags: [TestConstants.TAG],
+        items: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2]
     }
     const expectedItems: ItemsSchema[] = [
         {
@@ -21,6 +21,9 @@ test('will get item correctly when id exists', async () => {
             owner: TestConstants.OWNER,
             borrower: "",
             notes: TestConstants.NOTES,
+            batch: [],
+            history: [],
+            schedule: []
         }
     ]
     const expected: ReturnObject = new ReturnObject(expectedMain, expectedItems)
@@ -41,8 +44,8 @@ test('will get item correctly when name exists', async () => {
         id: TestConstants.NAME,
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
-        tags: dbClient.createSet([TestConstants.TAG]),
-        items: dbClient.createSet([TestConstants.ITEM_ID, TestConstants.ITEM_ID_2])
+        tags: [TestConstants.TAG],
+        items: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2]
     }
     const expectedItems: ItemsSchema[] = [
         {
@@ -51,6 +54,9 @@ test('will get item correctly when name exists', async () => {
             owner: TestConstants.OWNER,
             borrower: "",
             notes: TestConstants.NOTES,
+            batch: [],
+            history: [],
+            schedule: []
         },
         {
             id: TestConstants.ITEM_ID_2,
@@ -58,6 +64,9 @@ test('will get item correctly when name exists', async () => {
             owner: TestConstants.OWNER_2,
             borrower: "",
             notes: TestConstants.NOTES_2,
+            batch: [],
+            history: [],
+            schedule: []
         }
     ]
     const expected: ReturnObject = new ReturnObject(expectedMain, expectedItems)

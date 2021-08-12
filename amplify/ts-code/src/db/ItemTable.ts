@@ -1,4 +1,4 @@
-import { MAIN_TABLE, ITEMS_TABLE, ItemsSchema, HistorySchema, HISTORY_TABLE } from "./Schemas";
+import { MAIN_TABLE, ITEMS_TABLE, ItemsSchema, HistorySchema, HISTORY_TABLE, MainSchema } from "./Schemas";
 import { DBClient } from "../injection/db/DBClient"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 
@@ -28,12 +28,12 @@ export class ItemTable {
                         Key: {
                             "id": name.toLowerCase()
                         },
-                        UpdateExpression: "ADD #key :val",
+                        UpdateExpression: "SET #key = list_append(#key, :val)",
                         ExpressionAttributeNames: {
                             "#key": "items"
                         },
                         ExpressionAttributeValues: {
-                            ":val": this.client.createSet([id])
+                            ":val": [id]
                         }
                     }
 
@@ -42,7 +42,10 @@ export class ItemTable {
                         name: name.toLowerCase(),
                         owner: owner,
                         notes: notes,
-                        borrower: ""
+                        borrower: "",
+                        batch: [],
+                        history: [],
+                        schedule: []
                     }
 
                     const indexParams: DocumentClient.PutItemInput = {
@@ -65,7 +68,7 @@ export class ItemTable {
         return this.get(id)
             .then((entry: ItemsSchema) => {
                 if (entry) {
-                    if (entry.batch != undefined) {
+                    if (entry.batch.length !== 0) {
                         throw Error(`Item ${id} still belongs to batches. Need to remove item from batch before proceeding with removal.`)
                     }
 
@@ -76,23 +79,37 @@ export class ItemTable {
                         }
                     }
 
-                    const mainParams: DocumentClient.UpdateItemInput = {
+                    const getMainParams: DocumentClient.GetItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
                             "id": entry.name
-                        },
-                        UpdateExpression: "DELETE #key :val",
-                        ExpressionAttributeNames: {
-                            "#key": "items"
-                        },
-                        ExpressionAttributeValues: {
-                            ":val": this.client.createSet(([id]))
                         }
                     }
 
                     return this.client.delete(itemsParams)
-                        .then(() => this.client.update(mainParams))
-                        .then(() => entry.name)
+                        .then(() => this.client.get(getMainParams))
+                        .then((output: DocumentClient.GetItemOutput) => {
+                            const item: MainSchema = output.Item as MainSchema
+                            
+                            if (item) {
+                                const updateMainParams: DocumentClient.UpdateItemInput = {
+                                    TableName: MAIN_TABLE,
+                                    Key: {
+                                        "id": entry.name
+                                    },
+                                    UpdateExpression: "REMOVE #key[:idx]",
+                                    ExpressionAttributeNames: {
+                                        "#key": "items"
+                                    },
+                                    ExpressionAttributeValues: {
+                                        ":idx": item.items.indexOf(id)
+                                    }
+                                }
+                                return this.client.update(updateMainParams)
+                            } else {
+                                throw Error(`Unable to find name ${entry.name}`)
+                            }
+                        }).then(() => entry.name)
                 } else {
                     throw Error(`Item ${id} doesn't exist.`)
                 }
@@ -255,12 +272,12 @@ export class ItemTable {
             Key: {
                 "id": id
             },
-            UpdateExpression: "ADD #key :val",
+            UpdateExpression: "SET #key = list_append(#key, :val)",
             ExpressionAttributeNames: {
                 "#key": "history"
             },
             ExpressionAttributeValues: {
-                ":val": this.client.createSet([key])
+                ":val": [key]
             }
         }
 

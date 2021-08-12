@@ -4,8 +4,8 @@
             "id":"test name",
             "displayName": "Test Name",
             "description":"test description",
-            "items":{"type": "String", "values": ["123"]},
-            "tags":{"type": "String", "values": ["tag2"]}
+            "items":["123"],
+            "tags":["tag2"]
         }
     },
     "items":{
@@ -14,14 +14,17 @@
             "name":"test name",
             "owner":"test owner",
             "notes":"test note",
-            "borrower":""
+            "borrower":"",
+            "batch": [],
+            "history": [],
+            "schedule": []
         }
     },
     "batch":{},
     "tags":{
         "tag2":{
             "id":"tag2",
-            "val":{"type":"String","values":["test name"]}
+            "val":["test name"]
         }
     },
     "history":{},

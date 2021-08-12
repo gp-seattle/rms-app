@@ -58,7 +58,7 @@ export class GetBatch {
                 return this.batchTable.get(scratch.name)
                     .then((batchEntry: SearchIndexSchema) => {
                         if (batchEntry) {
-                            return batchEntry.val.values
+                            return batchEntry.val
                         } else {
                             throw new Error(`Unable to find Batch '${scratch.name}'`)
                         }

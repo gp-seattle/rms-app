@@ -21,7 +21,9 @@ export class MainTable {
         const item: MainSchema = {
             id: name.toLowerCase(),
             displayName: name,
-            description: description
+            description: description,
+            tags: [],
+            items: []
         }
         const params: DocumentClient.PutItemInput = {
             TableName: MAIN_TABLE,
@@ -40,9 +42,9 @@ export class MainTable {
     ): Promise<DocumentClient.DeleteItemOutput> {
         return this.get(name)
             .then((entry: MainSchema) => {
-                if (entry.items !== undefined) {
+                if (entry.items.length !== 0) {
                     throw Error(`Entry '${name}' still contains items.`)
-                } else if (entry.tags !== undefined) {
+                } else if (entry.tags.length !== 0) {
                     throw Error(`Entry '${name}' still contains tags.`)
                 } else {
                     const params: DocumentClient.DeleteItemInput = {

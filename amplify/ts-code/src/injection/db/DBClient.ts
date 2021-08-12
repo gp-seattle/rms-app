@@ -9,10 +9,6 @@ import { PromiseResult } from "aws-sdk/lib/request"
  */
 export interface DBClient {
     /**
-     * Creates a set of elements inferring the type of set from the type of the first element. Amazon DynamoDB currently supports the number sets, string sets, and binary sets. For more information about DynamoDB data types see the documentation on the Amazon DynamoDB Data Model.
-     */
-    createSet(list: string[]): DocumentClient.StringSet;
-    /**
      * Deletes a single item in a table by primary key by delegating to AWS.DynamoDB.deleteItem().
      */
     delete(params: DocumentClient.DeleteItemInput): Promise<PromiseResult<DocumentClient.DeleteItemOutput, AWSError>>;

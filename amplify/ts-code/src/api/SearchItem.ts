@@ -67,7 +67,7 @@ export class SearchItem {
                     return this.tagTable.get(tag)
                         .then((search: SearchIndexSchema) => {
                             if (search && search.val) {
-                                search.val.values.forEach((name: string) => {
+                                search.val.forEach((name: string) => {
                                     if (Object.keys(names).includes(name)) {
                                         names[name] = {
                                             name: name,
