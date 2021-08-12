@@ -50,7 +50,7 @@ export class MainTable {
                     const params: DocumentClient.DeleteItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            name: name.toLowerCase()
+                            "id": name.toLowerCase()
                         }
                     }
                     return this.client.delete(params)
