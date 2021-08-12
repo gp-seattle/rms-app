@@ -122,9 +122,6 @@ export class TagTable {
                                     UpdateExpression: `REMOVE #key[${idx}]`,
                                     ExpressionAttributeNames: {
                                         "#key": "tags"
-                                    },
-                                    ExpressionAttributeValues: {
-                                        ":idx": idx
                                     }
                                 }
                                 return this.client.update(updateMainParams)
@@ -155,9 +152,6 @@ export class TagTable {
                                     UpdateExpression: `REMOVE #key[${idx}]`,
                                     ExpressionAttributeNames: {
                                         "#key": "val"
-                                    },
-                                    ExpressionAttributeValues: {
-                                        ":idx": idx
                                     }
                                 }
                                 return this.client.update(tagUpdateParams)

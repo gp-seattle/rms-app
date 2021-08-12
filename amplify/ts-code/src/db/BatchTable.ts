@@ -133,9 +133,6 @@ export class BatchTable {
                         UpdateExpression: `REMOVE #key[${idx}]`,
                         ExpressionAttributeNames: {
                             "#key": "batch"
-                        },
-                        ExpressionAttributeValues: {
-                            ":idx": idx
                         }
                     }
                     return this.client.update(deleteParams)

@@ -106,9 +106,6 @@ export class ItemTable {
                                     UpdateExpression: `REMOVE #key[${idx}]`,
                                     ExpressionAttributeNames: {
                                         "#key": "items"
-                                    },
-                                    ExpressionAttributeValues: {
-                                        ":idx": idx
                                     }
                                 }
                                 return this.client.update(updateMainParams)
