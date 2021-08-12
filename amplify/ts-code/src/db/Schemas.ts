@@ -62,6 +62,24 @@ export interface HistorySchema {
     timestamp: number
 }
 
+export const SCHEDULE_TABLE: string = process.env.STORAGE_SCHEDULE_NAME
+/**
+ * @param id Random Time Related Unique Key, where the first part of the key is the creation time.
+ * @param borrower Email of person reserving the Item.
+ * @param itemId ID of Item.
+ * @param startTime Time reservation starts.
+ * @param endTime Time reservation end.
+ * @param notes Optional notes about this action.
+ */
+export interface ScheduleSchema {
+    id: string,
+    borrower: string,
+    itemId: string,
+    startTime: string,
+    endTime: string,
+    notes?: string
+}
+
 export const TRANSACTIONS_TABLE: string = process.env.STORAGE_TRANSACTIONS_NAME
 /**
  * @param number Phone Number being used for response.
