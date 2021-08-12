@@ -3,6 +3,10 @@
     "transactions": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
+    },
+    "rms": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
     }
   },
   "function": {
