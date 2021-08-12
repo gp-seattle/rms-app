@@ -130,7 +130,7 @@ export class BatchTable {
                         Key: {
                             "id": id
                         },
-                        UpdateExpression: `REMOVE #key[:idx]`,
+                        UpdateExpression: "REMOVE #key[:idx]",
                         ExpressionAttributeNames: {
                             "#key": "batch"
                         },
