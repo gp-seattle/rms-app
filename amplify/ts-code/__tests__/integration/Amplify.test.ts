@@ -47,8 +47,6 @@ describe('Amplify Tests', () => {
      * add item and delete item using api
     */
     test('will add and delete item when api is called', async() => {
-        jest.setTimeout(2 * 5000)
-
         // Add Item
         await expect(
             Auth.currentCredentials()
@@ -86,11 +84,11 @@ describe('Amplify Tests', () => {
                     })
                 })
         ).resolves.toEqual(`"Deleted a '${TestConstants.NAME}' from the inventory."`)
-    })
+    }, 10000)
 
     /**
       * read from empty table using DataStore
-      
+    */
      test('will return data when datastore is called', async () => {
         await expect(
             DataStore.query(Main)
@@ -98,8 +96,7 @@ describe('Amplify Tests', () => {
                     return output
                 })
         ).resolves.toBeDefined()
-    })
-    */
+    }, 10000)
 
     /**
      * AUTH: Sign Out
