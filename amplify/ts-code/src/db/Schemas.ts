@@ -1,5 +1,3 @@
-import { DocumentClient } from "aws-sdk/clients/dynamodb"
-
 export const MAIN_TABLE: string = process.env.STORAGE_MAIN_NAME
 
 /**
