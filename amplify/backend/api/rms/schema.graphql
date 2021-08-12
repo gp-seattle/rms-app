@@ -37,6 +37,15 @@ type History @model @auth(rules: [{allow: public, operations: [read]}]) {
     timestamp: Int!
 }
 
+type Schedule @model @auth(rules: [{allow: public, operations: [read]}]) {
+    id: ID!
+    borrower: String!
+    itemId: String!
+    startTime: String!
+    endTime: String!
+    notes: String
+}
+
 enum Action {
     borrow 
     return
