@@ -27,7 +27,7 @@ function UtilWrite(props) {
         AddNewItem(lambda);
     });                
 
-    var paramsAdd = {
+    const paramsAdd = {
         FunctionName: `AddItem${ENV_SUFFIX}`,
         Payload: JSON.stringify({
             id: 2,
@@ -39,7 +39,7 @@ function UtilWrite(props) {
         })
     };
 
-    var paramsDelete = {
+    const paramsDelete = {
         FunctionName: `DeleteItem${ENV_SUFFIX}`,
             Payload: JSON.stringify({
                 id: '2',

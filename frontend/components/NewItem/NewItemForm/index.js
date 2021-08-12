@@ -46,13 +46,13 @@ const NewItemForm = withTheme((props) => {
 					/>
 					<View
 						style={{
-							...styles.itemEditors,
+							...styles.item.editors,
 							backgroundColor: props.theme.colors.secondaryFifty,
 						}}>
 						<Text style={styles.item.text}>Location</Text>
 						<ListDropdown
 							list={locations}
-							style={{ borderRadius: 10, width: 150, ...styles.itemDropDown }}
+							style={{ borderRadius: 10, width: 150, ...styles.item.dropDown }}
 							onValueChange={(itemSelected) => setLocation(itemSelected)}
 							dropdownStyle={{ borderRadius: 20 }}
 							textStyle={{ fontSize: 14 }}
@@ -60,12 +60,12 @@ const NewItemForm = withTheme((props) => {
 					</View>
 					<View
 						style={{
-							...styles.itemEditors,
+							...styles.item.editors,
 							backgroundColor: props.theme.colors.secondaryFifty,
 						}}>
 						<Text style={styles.item.text}>Amount of Items</Text>
 						<QuantityBar
-							style={{ ...styles.itemDropDown, ...styles.quantity }}
+							style={{ ...styles.item.dropDown, ...styles.quantity }}
 							textColor="black"
 							iconColor="grey"
 							textSize={20}
@@ -74,8 +74,8 @@ const NewItemForm = withTheme((props) => {
 						/>
 					</View>
 				</View>
-				<View style={styles.categoriesSelector}>
-					<Text style={styles.categoriesText}>Categories</Text>
+				<View style={styles.categories.selector}>
+					<Text style={styles.categories.text}>Categories</Text>
 					<GroupSelector
 						items={[
 							'Video',
@@ -108,44 +108,48 @@ const styles = StyleSheet.create({
 		marginLeft: '5%',
 		backgroundColor: 'white',
 	},
-	categoriesSelector: {
-		// borderWidth: 2,
-		// borderColor: 'black',
-		height: 150,
-		marginLeft: '5%',
-		marginRight: '5%',
-		marginTop: '3%',
-		justifyContent: 'space-evenly',
+	categories: {
+		selector: {
+			// borderWidth: 2,
+			// borderColor: 'black',
+			height: 150,
+			marginLeft: '5%',
+			marginRight: '5%',
+			marginTop: '3%',
+			justifyContent: 'space-evenly',
+		},
+		text: {
+			fontWeight: 'bold',
+			fontSize: 18,
+		},
 	},
-	categoriesText: {
-		fontWeight: 'bold',
-		fontSize: 18,
-	},
-	itemEditors: {
-		borderRadius: 12,
-		width: '90%',
-		marginLeft: '5%',
-		paddingLeft: '3%',
-		paddingRight: '3%',
-		marginTop: '3%',
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		height: 70,
-	},
-	itemDropDown: {
-		backgroundColor: 'white',
-		borderRadius: 20,
-		width: 150,
-		height: '60%',
-		justifyContent: 'center',
-		paddingLeft: 2,
-		marginTop: '3%',
-	},
-	itemText: {
-		fontSize: 12,
-		fontWeight: 'bold',
-		color: '#00b3a6',
+	item: {
+		editors: {
+			borderRadius: 12,
+			width: '90%',
+			marginLeft: '5%',
+			paddingLeft: '3%',
+			paddingRight: '3%',
+			marginTop: '3%',
+			flexDirection: 'row',
+			justifyContent: 'space-between',
+			alignItems: 'center',
+			height: 70,
+		},
+		dropDown: {
+			backgroundColor: 'white',
+			borderRadius: 20,
+			width: 150,
+			height: '60%',
+			justifyContent: 'center',
+			paddingLeft: 2,
+			marginTop: '3%',
+		},
+		text: {
+			fontSize: 12,
+			fontWeight: 'bold',
+			color: '#00b3a6',
+		},
 	},
 	quantity: {
 		alignItems: 'center',

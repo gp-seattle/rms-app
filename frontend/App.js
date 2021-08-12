@@ -42,7 +42,6 @@ function App() {
         };
         testAPI();
     }, []);
-
 	return (
 		<ReduxProvider store={store}>
 			<PaperProvider theme={theme}>
