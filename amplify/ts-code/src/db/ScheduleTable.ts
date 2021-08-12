@@ -10,7 +10,7 @@ export class ScheduleTable {
     }
 
     /**
-     * Adds item to inventory
+     * Adds reservation to Schedule Table
      */
     public create(
         id: string,
@@ -53,14 +53,14 @@ export class ScheduleTable {
                         Item: reservation
                     }
 
-                    return this.client.update(itemsParams)
-                        .then(() => this.client.put(indexParams))
+                    return this.client.put(indexParams)
+                        .then(() => this.client.update(itemsParams))
                 }
             })
     }
 
     /**
-     * Delete Schedule if exists. Returns corresponding name of Schedule
+     * Delete Schedule if it exists. Returns corresponding name of Schedule
      */
     public delete(
         id: string
