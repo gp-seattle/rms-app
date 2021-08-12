@@ -2,15 +2,20 @@ import AWS from 'aws-sdk';
 import { Amplify, Auth } from 'aws-amplify';
 import { TestConstants } from '../../../amplify/ts-code/__dev__/db/DBTestConstants';
 
+import awsconfig from '../../../src/aws-exports';
+
 const ENV_SUFFIX = '-alpha'
 const ENV_REGION = 'us-west-2'
 
 function UtilWrite(props) {
+    Amplify.configure(awsconfig);
+
     Auth.signIn({
         username: TestConstants.EMAIL,
         password: TestConstants.PASSWORD
     }).then(() => Auth.currentCredentials())
-    .then((credentials) => credentials.authenticated)
+    .then((credentials) => credentials.authenticated);
+
 
     Auth.currentCredentials()
     .then((credentials) => {
@@ -19,23 +24,35 @@ function UtilWrite(props) {
             credentials: credentials,
             region: ENV_REGION
         })
-        AddNewItem(lamdba);
+        AddNewItem(lambda);
     });                
 
-    var params = {
+    var paramsAdd = {
         FunctionName: `AddItem${ENV_SUFFIX}`,
         Payload: JSON.stringify({
             id: 2,
             name: "test front-end",
             description: "pls work",
             tags: ["test1", "test2"],
-            owner: "annie",
+            owner: "front-end team",
             notes: "test notes"
         })
     };
 
+    var paramsDelete = {
+        FunctionName: `DeleteItem${ENV_SUFFIX}`,
+            Payload: JSON.stringify({
+                id: '2',
+                name: "test front-end",
+                description: "pls work",
+                tags: ["test1", "test2"],
+                owner: "front-end team",
+                notes: "test notes"
+            })
+    };
+
     function AddNewItem(lambda) {
-        return lambda.invoke(params, function(err, data) {
+        return lambda.invoke(paramsAdd, function(err, data) {
             if (err) {
                 console.log(err, err.stack);
             }
@@ -45,17 +62,14 @@ function UtilWrite(props) {
         });
     }
 
-    function DeleteItem() {
-        lambda.invoke({
-            FunctionName: `DeleteItem${ENV_SUFFIX}`,
-            Payload: JSON.stringify({
-                id: props.id,
-                name: props.name,
-                description: props.description,
-                tags: [props.tags],
-                owner: props.owner,
-                notes: props.notes
-            })
+    function DeleteItem(lambda) {
+        return lambda.invoke(paramsDelete, function(err, data) {
+            if (err) {
+                console.log(err, err.stack);
+            }
+            else {
+                console.log(data);
+            }
         });
     }
 
