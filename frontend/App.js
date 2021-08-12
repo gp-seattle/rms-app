@@ -36,12 +36,6 @@ function MainTabs({ navigation }) {
 }
 
 function App() {
-	useEffect(() => {
-        const testAPI = async () => {
-            await UtilWrite();
-        };
-        testAPI();
-    }, []);
 	return (
 		<ReduxProvider store={store}>
 			<PaperProvider theme={theme}>
