@@ -112,7 +112,7 @@ export class LocalDBClient implements DBClient {
                 const attr: string = params.ExpressionAttributeNames["#attr"]
                 const id: string = params.ExpressionAttributeNames["#id"]
                 delete this.getTable(params.TableName)[Object.values(params.Key)[0]][attr][id]
-            } else if (params.UpdateExpression === "REMOVE #key[:idx]") {
+            } else if (params.UpdateExpression.substr(0, 12) === "REMOVE #key[") {
                 const key: string = params.ExpressionAttributeNames["#key"]
                 const idx: string = params.ExpressionAttributeValues[":idx"]
                 this.getTable(params.TableName)[Object.values(params.Key)[0]][key].splice(idx, 1)

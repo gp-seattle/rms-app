@@ -119,7 +119,7 @@ export class TagTable {
                                     Key: {
                                         "id": name.toLowerCase()
                                     },
-                                    UpdateExpression: "REMOVE #key[:idx]",
+                                    UpdateExpression: `REMOVE #key[${idx}]`,
                                     ExpressionAttributeNames: {
                                         "#key": "tags"
                                     },
@@ -152,7 +152,7 @@ export class TagTable {
                                     Key: {
                                         "id": tag
                                     },
-                                    UpdateExpression: "REMOVE #key[:idx]",
+                                    UpdateExpression: `REMOVE #key[${idx}]`,
                                     ExpressionAttributeNames: {
                                         "#key": "val"
                                     },

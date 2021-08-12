@@ -103,7 +103,7 @@ export class ItemTable {
                                     Key: {
                                         "id": entry.name
                                     },
-                                    UpdateExpression: "REMOVE #key[:idx]",
+                                    UpdateExpression: `REMOVE #key[${idx}]`,
                                     ExpressionAttributeNames: {
                                         "#key": "items"
                                     },
