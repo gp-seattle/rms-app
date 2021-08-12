@@ -32,7 +32,7 @@ describe('Amplify Tests', () => {
 
     /**
      * AUTH: Sign In
-     */
+    */
     test('will sign in when api is called', async () => {
         await expect(
             Auth.signIn({
@@ -91,14 +91,13 @@ describe('Amplify Tests', () => {
     /**
       * read from empty table using DataStore
       */
-     test('will return empty when whole table is queried', async () => {
+     test('will return data when datastore is called', async () => {
         await expect(
             DataStore.query(Main)
                 .then((output: Main[]) => {
-                    console.log(JSON.stringify(output))
                     return output
                 })
-        ).resolves
+        ).resolves.toBeDefined()
     })
 
     /**
