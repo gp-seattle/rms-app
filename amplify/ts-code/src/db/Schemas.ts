@@ -13,8 +13,8 @@ export interface MainSchema {
     id: string,
     displayName: string,
     description: string,
-    tags?: DocumentClient.StringSet,
-    items?: DocumentClient.StringSet
+    tags: string[],
+    items: string[]
 }
 
 /**
@@ -31,9 +31,9 @@ export interface ItemsSchema {
     name: string,
     owner: string,
     borrower: string,
-    batch?: DocumentClient.StringSet,
-    history?: DocumentClient.StringSet,
-    schedule?: DocumentClient.StringSet,
+    batch: string[],
+    history: string[],
+    schedule: string[],
     notes: string
 }
 
@@ -41,7 +41,7 @@ export const BATCH_TABLE: string = process.env.STORAGE_BATCH_NAME
 export const TAGS_TABLE: string = process.env.STORAGE_TAGS_NAME
 export interface SearchIndexSchema {
     id: string,
-    val?: DocumentClient.StringSet
+    val: string[]
 }
 
 export const HISTORY_TABLE: string = process.env.STORAGE_HISTORY_NAME
