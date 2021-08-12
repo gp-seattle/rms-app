@@ -7,7 +7,7 @@ const Action = {
   "RETURN": "return"
 };
 
-const { Main, Items, Batch, Tags, History } = initSchema(schema);
+const { Main, Items, Batch, Tags, History, Schedule } = initSchema(schema);
 
 export {
   Main,
@@ -15,5 +15,6 @@ export {
   Batch,
   Tags,
   History,
+  Schedule,
   Action
 };
