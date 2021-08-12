@@ -119,17 +119,23 @@ export class BatchTable {
             .then((output: DocumentClient.GetItemOutput) => {
                 const item: ItemsSchema = output.Item as ItemsSchema
                 if (item) {
+                    const idx: number = item.batch.indexOf(batchName)
+
+                    if (idx < 0 || idx >= item.batch.length) {
+                        throw Error(`Unable to find batch ${batchName} in item`)
+                    }
+
                     const deleteParams: DocumentClient.UpdateItemInput = {
                         TableName: ITEMS_TABLE,
                         Key: {
                             "id": id
                         },
-                        UpdateExpression: "REMOVE #key[:idx]",
+                        UpdateExpression: `REMOVE #key[:idx]`,
                         ExpressionAttributeNames: {
                             "#key": "batch"
                         },
                         ExpressionAttributeValues: {
-                            ":idx": item.batch.indexOf(batchName)
+                            ":idx": idx
                         }
                     }
                     return this.client.update(deleteParams)

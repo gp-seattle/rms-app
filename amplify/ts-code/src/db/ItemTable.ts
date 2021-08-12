@@ -92,6 +92,12 @@ export class ItemTable {
                             const item: MainSchema = output.Item as MainSchema
                             
                             if (item) {
+                                const idx: number = item.items.indexOf(id)
+
+                                if (idx < 0 || idx >= item.items.length) {
+                                    throw Error(`Unable to find id ${id} in main`)
+                                }
+
                                 const updateMainParams: DocumentClient.UpdateItemInput = {
                                     TableName: MAIN_TABLE,
                                     Key: {
@@ -102,7 +108,7 @@ export class ItemTable {
                                         "#key": "items"
                                     },
                                     ExpressionAttributeValues: {
-                                        ":idx": item.items.indexOf(id)
+                                        ":idx": idx
                                     }
                                 }
                                 return this.client.update(updateMainParams)

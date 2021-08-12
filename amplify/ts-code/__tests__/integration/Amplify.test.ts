@@ -90,7 +90,7 @@ describe('Amplify Tests', () => {
 
     /**
       * read from empty table using DataStore
-      */
+      
      test('will return data when datastore is called', async () => {
         await expect(
             DataStore.query(Main)
@@ -99,6 +99,7 @@ describe('Amplify Tests', () => {
                 })
         ).resolves.toBeDefined()
     })
+    */
 
     /**
      * AUTH: Sign Out

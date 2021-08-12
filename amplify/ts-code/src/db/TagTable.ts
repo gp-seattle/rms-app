@@ -107,6 +107,13 @@ export class TagTable {
                             const item: MainSchema = output.Item as MainSchema
                             
                             if (item) {
+                                const idx: number = item.tags.indexOf(tag)
+
+                                if (idx < 0 || idx >= item.tags.length) {
+                                    throw Error(`Unable to find id ${tag} in main`)
+                                }
+
+                                
                                 const updateMainParams: DocumentClient.UpdateItemInput = {
                                     TableName: MAIN_TABLE,
                                     Key: {
@@ -117,7 +124,7 @@ export class TagTable {
                                         "#key": "tags"
                                     },
                                     ExpressionAttributeValues: {
-                                        ":idx": item.items.indexOf(tag)
+                                        ":idx": idx
                                     }
                                 }
                                 return this.client.update(updateMainParams)
@@ -134,6 +141,12 @@ export class TagTable {
                                 }
                                 return this.client.delete(tagDeleteParams)
                             } else {
+                                const idx: number = tagEntry.val.indexOf(name)
+
+                                if (idx < 0 || idx >= tagEntry.val.length) {
+                                    throw Error(`Unable to find id ${tag} in main`)
+                                }
+
                                 const tagUpdateParams: DocumentClient.UpdateItemInput = {
                                     TableName: TAGS_TABLE,
                                     Key: {
@@ -144,7 +157,7 @@ export class TagTable {
                                         "#key": "val"
                                     },
                                     ExpressionAttributeValues: {
-                                        ":idx": tagEntry.val.indexOf(name)
+                                        ":idx": idx
                                     }
                                 }
                                 return this.client.update(tagUpdateParams)
