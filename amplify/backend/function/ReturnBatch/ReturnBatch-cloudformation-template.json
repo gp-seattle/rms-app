@@ -36,21 +36,9 @@
       "Type": "String",
       "Default": "apirmsGetAttHistoryTableName"
     },
-    "storagetransactionsName": {
+    "apirmsGetAttScheduleTableName": {
       "Type": "String",
-      "Default": "storagetransactionsName"
-    },
-    "storagetransactionsArn": {
-      "Type": "String",
-      "Default": "storagetransactionsArn"
-    },
-    "storagetransactionsName": {
-      "Type": "String",
-      "Default": "storagetransactionsName"
-    },
-    "storagetransactionsArn": {
-      "Type": "String",
-      "Default": "storagetransactionsArn"
+      "Default": "apirmsGetAttScheduleTableName"
     }
   },
   "Conditions": {
@@ -121,8 +109,8 @@
             "STORAGE_HISTORY_NAME": {
               "Ref": "apirmsGetAttHistoryTableName"
             },
-            "STORAGE_TRANSACTIONS_NAME": {
-              "Ref": "storagetransactionsName"
+            "STORAGE_SCHEDULE_NAME": {
+              "Ref": "apirmsGetAttScheduleTableName"
             }
           }
         },
@@ -643,7 +631,7 @@
                         ]
                       },
                       {
-                        "Ref": "storagetransactionsName"
+                        "Ref": "apirmsGetAttScheduleTableName"
                       }
                     ]
                   ]
@@ -670,7 +658,7 @@
                         ]
                       },
                       {
-                        "Ref": "storagetransactionsName"
+                        "Ref": "apirmsGetAttScheduleTableName"
                       },
                       "index/*"
                     ]

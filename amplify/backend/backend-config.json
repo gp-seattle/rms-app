@@ -23,6 +23,7 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
           ]
         },
@@ -49,15 +50,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -75,15 +69,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -101,15 +88,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -127,15 +107,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -153,15 +126,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -179,15 +145,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -205,15 +164,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -231,15 +183,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -257,15 +202,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -283,15 +221,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -309,15 +240,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
@@ -335,15 +259,8 @@
             "GetAttHistoryTableName",
             "GetAttItemsTableName",
             "GetAttMainTableName",
+            "GetAttScheduleTableName",
             "GetAttTagsTableName"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "transactions",
-          "attributes": [
-            "Name",
-            "Arn"
           ]
         }
       ]
