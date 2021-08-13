@@ -6,16 +6,17 @@ import { PromiseResult } from "aws-sdk/lib/request"
 import {
     MAIN_TABLE, MainSchema,
     ITEMS_TABLE, ItemsSchema,
-    BATCH_TABLE, TAGS_TABLE, SearchIndexSchema,
+    BATCH_TABLE, BatchSchema,
+    TAGS_TABLE, TagsSchema,
     TRANSACTIONS_TABLE, TransactionsSchema,
-    HISTORY_TABLE, HistorySchema
+    HISTORY_TABLE, HistorySchema,
 } from "../../src/db/Schemas"
 
 interface LocalDB {
     main: { [key: string]: MainSchema },
     items: { [key: string]: ItemsSchema },
-    batch: { [key: string]: SearchIndexSchema },
-    tags: { [key: string]: SearchIndexSchema },
+    batch: { [key: string]: BatchSchema },
+    tags: { [key: string]: TagsSchema },
     history: { [key: string]: HistorySchema },
     transactions: { [key: string]: TransactionsSchema }
 }
@@ -62,11 +63,11 @@ export class LocalDBClient implements DBClient {
                 const id: string = val.id
                 this.db.items[id] = val
             } else if (params.TableName === BATCH_TABLE) {
-                const val: SearchIndexSchema = params.Item as SearchIndexSchema
+                const val: BatchSchema = params.Item as BatchSchema
                 const key: string = val.id
                 this.db.batch[key] = val
             } else if (params.TableName === TAGS_TABLE) {
-                const val: SearchIndexSchema = params.Item as SearchIndexSchema
+                const val: TagsSchema = params.Item as TagsSchema
                 const key: string = val.id
                 this.db.tags[key] = val
             } else if (params.TableName === HISTORY_TABLE) {

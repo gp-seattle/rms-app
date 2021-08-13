@@ -1,4 +1,4 @@
-type Main @model @auth(rules: [{allow: public, operations: [read]}]) {
+type Main @model @auth(rules: [{allow: private, operations: [read]}]) {
     id: ID!
     displayName: String!
     description: String
@@ -6,7 +6,7 @@ type Main @model @auth(rules: [{allow: public, operations: [read]}]) {
     items: [String!]
 }
 
-type Items @model @auth(rules: [{allow: public, operations: [read]}]) {
+type Items @model @auth(rules: [{allow: private, operations: [read]}]) {
     id: ID!
     name: String!
     owner: String!
@@ -17,17 +17,18 @@ type Items @model @auth(rules: [{allow: public, operations: [read]}]) {
     notes: String
 }
 
-type Batch @model @auth(rules: [{allow: public, operations: [read]}]) {
+type Batch @model @auth(rules: [{allow: private, operations: [read]}]) {
     id: ID!
     val: [String!]
 }
 
-type Tags @model @auth(rules: [{allow: public, operations: [read]}]) {
+type Tags @model @auth(rules: [{allow: private, operations: [read]}]) {
     id: ID!
     val: [String!]
+    groups: [String!]
 }
 
-type History @model @auth(rules: [{allow: public, operations: [read]}]) {
+type History @model @auth(rules: [{allow: private, operations: [read]}]) {
     id: ID!
     name: String!
     itemId: String!
@@ -35,6 +36,15 @@ type History @model @auth(rules: [{allow: public, operations: [read]}]) {
     action: Action!
     notes: String
     timestamp: Int!
+}
+
+type Schedule @model @auth(rules: [{allow: private, operations: [read]}]) {
+    id: ID!
+    borrower: String!
+    itemIds: [String!]
+    startTime: String!
+    endTime: String!
+    notes: String
 }
 
 enum Action {

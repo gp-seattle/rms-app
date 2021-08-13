@@ -1,4 +1,4 @@
-import { BATCH_TABLE, SearchIndexSchema, ITEMS_TABLE, ItemsSchema } from "./Schemas"
+import { BATCH_TABLE, BatchSchema, ITEMS_TABLE, ItemsSchema } from "./Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 
@@ -17,13 +17,15 @@ export class BatchTable {
      */
     public create(
         name: string,
-        ids: string[]
+        ids: string[],
+        groups: string[]
     ): Promise<any> {
         return Promise.all(ids.map((id: string) => this.attachBatchToItem(name, id)))
             .then(() => {
-                const item: SearchIndexSchema = {
+                const item: BatchSchema = {
                     id: name.toLowerCase(),
-                    val: ids
+                    val: ids,
+                    groups: groups
                 }
 
                 const params: DocumentClient.PutItemInput = {
@@ -85,7 +87,7 @@ export class BatchTable {
         name: string
     ): Promise<any> {
         return this.get(name)
-            .then((entry: SearchIndexSchema) => {
+            .then((entry: BatchSchema) => {
                 if (entry) {
                     return Promise.all(entry.val.map((id: string) => this.detachBatchFromItem(name, id)))
                         .then(() => {
@@ -147,7 +149,7 @@ export class BatchTable {
      */
     public get(
         name: string
-    ): Promise<SearchIndexSchema> {
+    ): Promise<BatchSchema> {
         const params: DocumentClient.GetItemInput = {
             TableName: BATCH_TABLE,
             Key: {
@@ -155,6 +157,6 @@ export class BatchTable {
             }
         }
         return this.client.get(params)
-            .then((output: DocumentClient.GetItemOutput) => output.Item as SearchIndexSchema)
+            .then((output: DocumentClient.GetItemOutput) => output.Item as BatchSchema)
     }
 }

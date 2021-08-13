@@ -1,6 +1,6 @@
 import { ItemTable } from "../db/ItemTable"
 import { BatchTable } from "../db/BatchTable"
-import { SearchIndexSchema } from "../db/Schemas"
+import { BatchSchema } from "../db/Schemas"
 import { TransactionsTable } from "../db/TransactionsTable"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
@@ -52,7 +52,7 @@ export class ReturnBatch {
             () => {
                 return this.performAllFVAs(input)
                     .then(() => this.batchTable.get(input.name))
-                    .then((entry: SearchIndexSchema) => {
+                    .then((entry: BatchSchema) => {
                         if (entry) {
                             return Promise.all(entry.val.map((id: string) =>
                                 this.itemTable.changeBorrower(id, input.borrower, "return", input.notes)

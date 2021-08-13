@@ -1,5 +1,5 @@
 import { TransactionsTable } from "../../db/TransactionsTable"
-import { MAIN_TABLE, ITEMS_TABLE, TAGS_TABLE, TRANSACTIONS_TABLE, BATCH_TABLE, HISTORY_TABLE } from "../../db/Schemas"
+import { MAIN_TABLE, ITEMS_TABLE, TAGS_TABLE, BATCH_TABLE, HISTORY_TABLE, SCHEDULE_TABLE, TRANSACTIONS_TABLE } from "../../db/Schemas"
 import { DBClient } from "../../injection/db/DBClient"
 import { MetricsClient } from "../../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../../metrics/MetricsHelper"
@@ -26,7 +26,7 @@ export class PrintTable {
     public router(number: string, request: string, scratch?: ScratchInterface): string | Promise<string> {
         if (scratch === undefined) {
             return this.transactionsTable.create(number, PrintTable.NAME)
-                .then(() => "Name of table: (Options: main, batch, history, items, tags, transactions)")
+                .then(() => "Name of table: (Options: main, items, tags, batch, history, schedule, transactions)")
         } else if (scratch.tableName === undefined) {
             scratch.tableName = request
             return this.transactionsTable.appendToScratch(number, "tableName", request)
@@ -90,14 +90,16 @@ export class PrintTable {
     private getTableName(tableName: string): string {
         if (tableName === "main") {
             return MAIN_TABLE
-        } else if (tableName === "batch") {
-            return BATCH_TABLE
-        } else if (tableName === "history") {
-            return HISTORY_TABLE
         } else if (tableName === "items") {
             return ITEMS_TABLE
         } else if (tableName === "tags") {
             return TAGS_TABLE
+        } else if (tableName === "batch") {
+            return BATCH_TABLE
+        } else if (tableName === "history") {
+            return HISTORY_TABLE
+        } else if (tableName === "schedule") {
+            return SCHEDULE_TABLE
         } else if (tableName === "transactions") {
             return TRANSACTIONS_TABLE
         } else {

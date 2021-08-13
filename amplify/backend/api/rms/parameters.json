@@ -4,5 +4,11 @@
   "DynamoDBModelTableReadIOPS": 1,
   "DynamoDBModelTableWriteIOPS": 1,
   "DynamoDBEnablePointInTimeRecovery": false,
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authrms3d290491",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

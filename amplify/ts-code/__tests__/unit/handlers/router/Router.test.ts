@@ -95,7 +95,7 @@ test('will internal print table correctly when using router', async () => {
 
         await router.processRequest(PrintTable.NAME, TestConstants.NUMBER)
             .then((output: string) => {
-                expect(output).toEqual("Name of table: (Options: main, batch, history, items, tags, transactions)")
+                expect(output).toEqual("Name of table: (Options: main, items, tags, batch, history, schedule, transactions)")
                 return router.processRequest(name, TestConstants.NUMBER)
             }).then((output: string) => {
                 expect(output).toEqual("[]\nEND")
@@ -110,7 +110,7 @@ test('will internal print table correctly when using router and invalid table na
     await expect(() =>
         router.processRequest(PrintTable.NAME, TestConstants.NUMBER)
             .then((output: string) => {
-                expect(output).toEqual("Name of table: (Options: main, batch, history, items, tags, transactions)")
+                expect(output).toEqual("Name of table: (Options: main, items, tags, batch, history, schedule, transactions)")
                 return router.processRequest(TestConstants.BAD_REQUEST, TestConstants.NUMBER)
             })
     ).rejects.toThrow("Unsupported Table Name: " + TestConstants.BAD_REQUEST)
@@ -365,6 +365,9 @@ test('will create batch correctly when using router', async () => {
         }).then((output: string) => {
             expect(output).toEqual("List of IDs (separated by spaces):")
             return router.processRequest(TestConstants.ITEM_ID + " " + TestConstants.ITEM_ID_2, TestConstants.NUMBER)
+        }).then((output: string) => {
+            expect(output).toEqual("List of Groups this batch belongs to (separated by spaces):")
+            return router.processRequest(TestConstants.GROUP, TestConstants.NUMBER)
         }).then((output: string) => {
             expect(output).toEqual(`Successfully created batch '${TestConstants.BATCH}'`)
             expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)

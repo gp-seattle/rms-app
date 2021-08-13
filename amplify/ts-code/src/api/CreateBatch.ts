@@ -1,5 +1,5 @@
 import { BatchTable } from "../db/BatchTable"
-import { SearchIndexSchema } from "../db/Schemas"
+import { BatchSchema } from "../db/Schemas"
 import { TransactionsTable } from "../db/TransactionsTable"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
@@ -28,8 +28,14 @@ export class CreateBatch {
         } else if (scratch.name === undefined) {
             return this.transactionsTable.appendToScratch(number, "name", request)
                 .then(() => "List of IDs (separated by spaces):")
+        } else if (scratch.ids === undefined) {
+            const ids = request.split(/(\s+)/)
+                .filter((str: string) => str.trim().length > 0)
+                .map((str: string) => str.toLowerCase().trim())
+            return this.transactionsTable.appendToScratch(number, "ids", ids)
+                .then(() => "List of Groups this batch belongs to (separated by spaces):")
         } else {
-            scratch.ids = request.split(/(\s+)/)
+            scratch.groups = request.split(/(\s+)/)
                 .filter((str: string) => str.trim().length > 0)
                 .map((str: string) => str.toLowerCase().trim())
             return this.transactionsTable.delete(number)
@@ -45,15 +51,16 @@ export class CreateBatch {
     public execute(input: CreateBatchInput): Promise<string> {
         return emitAPIMetrics(
             () => {
+                const groups: string[] = input.groups ? input.groups : []
                 return this.performAllFVAs(input)
                     .then(() => this.batchTable.get(input.name))
-                    .then((entry: SearchIndexSchema) => {
+                    .then((entry: BatchSchema) => {
                         if (entry) {
                             return this.batchTable.delete(input.name)
                         } else {
                             return
                         }
-                    }).then(() => this.batchTable.create(input.name, input.ids))
+                    }).then(() => this.batchTable.create(input.name, input.ids, groups))
                     .then(() => `Successfully created batch '${input.name}'`)
             },
             CreateBatch.NAME, this.metrics
@@ -73,5 +80,6 @@ export class CreateBatch {
 
 export interface CreateBatchInput {
     name?: string
-    ids?: string[]
+    ids?: string[],
+    groups?: string[]
 }

@@ -33,6 +33,7 @@ export enum TestConstants {
     TAG_2 = "tag2",
     BATCH = "test batch",
     BATCH_2 = "test batch 2",
+    GROUP = "group1",
 
     ITEM_ID = "123",
     ITEM_ID_2 = "12345",

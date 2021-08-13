@@ -35,11 +35,17 @@ export interface ItemsSchema {
     notes: string
 }
 
-export const BATCH_TABLE: string = process.env.STORAGE_BATCH_NAME
 export const TAGS_TABLE: string = process.env.STORAGE_TAGS_NAME
-export interface SearchIndexSchema {
+export interface TagsSchema {
     id: string,
     val: string[]
+}
+
+export const BATCH_TABLE: string = process.env.STORAGE_BATCH_NAME
+export interface BatchSchema {
+    id: string,
+    val: string[],
+    groups: string[]
 }
 
 export const HISTORY_TABLE: string = process.env.STORAGE_HISTORY_NAME
@@ -66,7 +72,7 @@ export const SCHEDULE_TABLE: string = process.env.STORAGE_SCHEDULE_NAME
 /**
  * @param id Random Time Related Unique Key, where the first part of the key is the creation time.
  * @param borrower Email of person reserving the Item.
- * @param itemId ID of Item.
+ * @param itemIds List of item IDs.
  * @param startTime Time reservation starts.
  * @param endTime Time reservation end.
  * @param notes Optional notes about this action.
@@ -74,7 +80,7 @@ export const SCHEDULE_TABLE: string = process.env.STORAGE_SCHEDULE_NAME
 export interface ScheduleSchema {
     id: string,
     borrower: string,
-    itemId: string,
+    itemIds: string[],
     startTime: string,
     endTime: string,
     notes?: string
