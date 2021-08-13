@@ -10,8 +10,6 @@ import store from './store/store';
 import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
 
-import UtilWrite from './components/Util/UtilWrite';
-
 function BackButton({ onPress }) {
 	return (
 		<TouchableOpacity onPress={onPress} style={{ marginLeft: 10 }}>
