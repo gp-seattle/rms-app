@@ -95,7 +95,7 @@ test('will internal print table correctly when using router', async () => {
 
         await router.processRequest(PrintTable.NAME, TestConstants.NUMBER)
             .then((output: string) => {
-                expect(output).toEqual("Name of table: (Options: main, batch, history, items, tags, transactions)")
+                expect(output).toEqual("Name of table: (Options: main, items, tags, batch, history, schedule, transactions)")
                 return router.processRequest(name, TestConstants.NUMBER)
             }).then((output: string) => {
                 expect(output).toEqual("[]\nEND")
@@ -110,7 +110,7 @@ test('will internal print table correctly when using router and invalid table na
     await expect(() =>
         router.processRequest(PrintTable.NAME, TestConstants.NUMBER)
             .then((output: string) => {
-                expect(output).toEqual("Name of table: (Options: main, batch, history, items, tags, transactions)")
+                expect(output).toEqual("Name of table: (Options: main, items, tags, batch, history, schedule, transactions)")
                 return router.processRequest(TestConstants.BAD_REQUEST, TestConstants.NUMBER)
             })
     ).rejects.toThrow("Unsupported Table Name: " + TestConstants.BAD_REQUEST)

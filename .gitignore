@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 .expo/
+.DS_Store
 
 #amplify
 amplify/\#current-cloud-backend
