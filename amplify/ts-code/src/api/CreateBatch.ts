@@ -28,8 +28,14 @@ export class CreateBatch {
         } else if (scratch.name === undefined) {
             return this.transactionsTable.appendToScratch(number, "name", request)
                 .then(() => "List of IDs (separated by spaces):")
+        } else if (scratch.ids === undefined) {
+            const ids = request.split(/(\s+)/)
+                .filter((str: string) => str.trim().length > 0)
+                .map((str: string) => str.toLowerCase().trim())
+            return this.transactionsTable.appendToScratch(number, "ids", ids)
+                .then(() => "List of Groups this batch belongs to (separated by spaces):")
         } else {
-            scratch.ids = request.split(/(\s+)/)
+            scratch.groups = request.split(/(\s+)/)
                 .filter((str: string) => str.trim().length > 0)
                 .map((str: string) => str.toLowerCase().trim())
             return this.transactionsTable.delete(number)
@@ -45,7 +51,7 @@ export class CreateBatch {
     public execute(input: CreateBatchInput): Promise<string> {
         return emitAPIMetrics(
             () => {
-                const groups: string[] = input.group ? input.group : []
+                const groups: string[] = input.groups ? input.groups : []
                 return this.performAllFVAs(input)
                     .then(() => this.batchTable.get(input.name))
                     .then((entry: BatchSchema) => {
@@ -75,5 +81,5 @@ export class CreateBatch {
 export interface CreateBatchInput {
     name?: string
     ids?: string[],
-    group?: string[]
+    groups?: string[]
 }

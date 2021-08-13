@@ -41,7 +41,7 @@
         "test batch": {
             "id": "test batch",
             "val": ["123", "12345"],
-            "groups": []
+            "groups": ["group1"]
         }
     },
     "tags":{

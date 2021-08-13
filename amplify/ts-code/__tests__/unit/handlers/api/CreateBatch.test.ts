@@ -14,7 +14,8 @@ test('will create batch correctly when using handler', async () => {
     await expect(
         handler({
             name: TestConstants.BATCH,
-            ids: [ TestConstants.ITEM_ID, TestConstants.ITEM_ID_2 ]
+            ids: [ TestConstants.ITEM_ID, TestConstants.ITEM_ID_2 ],
+            groups: [ TestConstants.GROUP ]
         }, null, null)
     ).resolves.toEqual(`Successfully created batch '${TestConstants.BATCH}'`)
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)

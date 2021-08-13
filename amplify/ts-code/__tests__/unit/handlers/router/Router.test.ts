@@ -366,6 +366,9 @@ test('will create batch correctly when using router', async () => {
             expect(output).toEqual("List of IDs (separated by spaces):")
             return router.processRequest(TestConstants.ITEM_ID + " " + TestConstants.ITEM_ID_2, TestConstants.NUMBER)
         }).then((output: string) => {
+            expect(output).toEqual("List of Groups this batch belongs to (separated by spaces):")
+            return router.processRequest(TestConstants.GROUP, TestConstants.NUMBER)
+        }).then((output: string) => {
             expect(output).toEqual(`Successfully created batch '${TestConstants.BATCH}'`)
             expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)
         })
