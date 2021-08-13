@@ -15,34 +15,20 @@ export class ScheduleTable {
     public create(
         id: string,
         borrower: string,
-        itemId: string,
+        itemIds: string[],
         startTime: string,
         endTime: string,
         notes: string,
-    ): Promise<DocumentClient.PutItemOutput> {
+    ): Promise<string> {
         return this.get(id)
             .then((entry: ScheduleSchema) => {
                 if (entry) {
                     throw Error(`Schedule ID ${id} is not unique.`)
                 } else {
-                    const itemsParams: DocumentClient.UpdateItemInput = {
-                        TableName: ITEMS_TABLE,
-                        Key: {
-                            "id": itemId
-                        },
-                        UpdateExpression: "SET #key = list_append(#key, :val)",
-                        ExpressionAttributeNames: {
-                            "#key": "schedule"
-                        },
-                        ExpressionAttributeValues: {
-                            ":val": [id]
-                        }
-                    }
-
                     const reservation: ScheduleSchema = {
                         id: id,
                         borrower: borrower,
-                        itemId: itemId,
+                        itemIds: itemIds,
                         startTime: startTime,
                         endTime: endTime,
                         notes: notes
@@ -54,7 +40,24 @@ export class ScheduleTable {
                     }
 
                     return this.client.put(indexParams)
-                        .then(() => this.client.update(itemsParams))
+                            .then(() => Promise.all((itemIds.map((itemId: string) => {
+                                const itemsParams: DocumentClient.UpdateItemInput = {
+                                    TableName: ITEMS_TABLE,
+                                    Key: {
+                                        "id": itemId
+                                    },
+                                    UpdateExpression: "SET #key = list_append(#key, :val)",
+                                    ExpressionAttributeNames: {
+                                        "#key": "schedule"
+                                    },
+                                    ExpressionAttributeValues: {
+                                        ":val": [id]
+                                    }
+                                }
+
+                                return this.client.update(itemsParams)
+                            }))))
+                            .then(() => id)
                 }
             })
     }
@@ -64,7 +67,7 @@ export class ScheduleTable {
      */
     public delete(
         id: string
-    ): Promise<string> {
+    ): Promise<string[]> {
         return this.get(id)
             .then((entry: ScheduleSchema) => {
                 if (entry) {
@@ -76,37 +79,38 @@ export class ScheduleTable {
                         }
                     }
 
-                    const getItemsParams: DocumentClient.GetItemInput = {
-                        TableName: ITEMS_TABLE,
-                        Key: {
-                            "id": entry.itemId
-                        }
-                    }
-
                     return this.client.delete(scheduleParams)
-                        .then(() => this.client.get(getItemsParams))
-                        .then((output: DocumentClient.GetItemOutput) => {
-                            const item: ItemsSchema = output.Item as ItemsSchema
-                            
-                            if (item) {
-                                const updateItemsParams: DocumentClient.UpdateItemInput = {
-                                    TableName: ITEMS_TABLE,
-                                    Key: {
-                                        "id": entry.itemId
-                                    },
-                                    UpdateExpression: "REMOVE #key[:idx]",
-                                    ExpressionAttributeNames: {
-                                        "#key": "schedule"
-                                    },
-                                    ExpressionAttributeValues: {
-                                        ":idx": item.schedule.indexOf(id)
-                                    }
+                        .then(() => Promise.all(entry.itemIds.map((itemId: string) => {
+                            const getItemsParams: DocumentClient.GetItemInput = {
+                                TableName: ITEMS_TABLE,
+                                Key: {
+                                    "id": itemId
                                 }
-                                return this.client.update(updateItemsParams)
-                            } else {
-                                throw Error(`Unable to find itemId ${entry.itemId}`)
                             }
-                        }).then(() => entry.itemId)
+                            return this.client.get(getItemsParams)
+                                .then((output: DocumentClient.GetItemOutput) => {
+                                    const item: ItemsSchema = output.Item as ItemsSchema
+                                    
+                                    if (item) {
+                                        const updateItemsParams: DocumentClient.UpdateItemInput = {
+                                            TableName: ITEMS_TABLE,
+                                            Key: {
+                                                "id": itemId
+                                            },
+                                            UpdateExpression: "REMOVE #key[:idx]",
+                                            ExpressionAttributeNames: {
+                                                "#key": "schedule"
+                                            },
+                                            ExpressionAttributeValues: {
+                                                ":idx": item.schedule.indexOf(id)
+                                            }
+                                        }
+                                        return this.client.update(updateItemsParams)
+                                    } else {
+                                        throw Error(`Unable to find itemId ${itemId}`)
+                                    }
+                                }).then(() => itemId)
+                        })))
                 } else {
                     throw Error(`Schedule ${id} doesn't exist.`)
                 }

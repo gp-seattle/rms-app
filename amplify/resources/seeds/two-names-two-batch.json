@@ -40,11 +40,13 @@
     "batch":{
         "test batch": {
             "id": "test batch",
-            "val": ["123", "12345"]
+            "val": ["123", "12345"],
+            "groups": []
         },
         "test batch 2": {
             "id": "test batch 2",
-            "val": ["123"]
+            "val": ["123"],
+            "groups": []
         }
     },
     "tags":{

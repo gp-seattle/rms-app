@@ -1,5 +1,5 @@
 import { BatchTable } from "../db/BatchTable"
-import { SearchIndexSchema } from "../db/Schemas"
+import { BatchSchema } from "../db/Schemas"
 import { TransactionsTable } from "../db/TransactionsTable"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
@@ -45,15 +45,16 @@ export class CreateBatch {
     public execute(input: CreateBatchInput): Promise<string> {
         return emitAPIMetrics(
             () => {
+                const groups: string[] = input.group ? input.group : []
                 return this.performAllFVAs(input)
                     .then(() => this.batchTable.get(input.name))
-                    .then((entry: SearchIndexSchema) => {
+                    .then((entry: BatchSchema) => {
                         if (entry) {
                             return this.batchTable.delete(input.name)
                         } else {
                             return
                         }
-                    }).then(() => this.batchTable.create(input.name, input.ids))
+                    }).then(() => this.batchTable.create(input.name, input.ids, groups))
                     .then(() => `Successfully created batch '${input.name}'`)
             },
             CreateBatch.NAME, this.metrics
@@ -73,5 +74,6 @@ export class CreateBatch {
 
 export interface CreateBatchInput {
     name?: string
-    ids?: string[]
+    ids?: string[],
+    group?: string[]
 }

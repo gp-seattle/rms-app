@@ -2,7 +2,7 @@ import { MainTable } from "../db/MainTable"
 import { ItemTable } from "../db/ItemTable"
 import { BatchTable } from "../db/BatchTable"
 import { TransactionsTable } from "../db/TransactionsTable"
-import { ItemsSchema, MainSchema, SearchIndexSchema } from "../db/Schemas"
+import { ItemsSchema, MainSchema, BatchSchema } from "../db/Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
@@ -56,7 +56,7 @@ export class GetBatch {
         return emitAPIMetrics(
             () => {
                 return this.batchTable.get(scratch.name)
-                    .then((batchEntry: SearchIndexSchema) => {
+                    .then((batchEntry: BatchSchema) => {
                         if (batchEntry) {
                             return batchEntry.val
                         } else {

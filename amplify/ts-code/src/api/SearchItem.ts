@@ -1,7 +1,7 @@
 import { MainTable } from "../db/MainTable"
 import { TagTable } from "../db/TagTable"
 import { TransactionsTable } from "../db/TransactionsTable"
-import { MainSchema, SearchIndexSchema } from "../db/Schemas"
+import { MainSchema, TagsSchema } from "../db/Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
@@ -65,7 +65,7 @@ export class SearchItem {
                 
                 return Promise.all(scratch.tags.map((tag: string, index: number) => {
                     return this.tagTable.get(tag)
-                        .then((search: SearchIndexSchema) => {
+                        .then((search: TagsSchema) => {
                             if (search && search.val) {
                                 search.val.forEach((name: string) => {
                                     if (Object.keys(names).includes(name)) {

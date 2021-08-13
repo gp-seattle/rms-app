@@ -1,4 +1,4 @@
-import { MAIN_TABLE, MainSchema, TAGS_TABLE, SearchIndexSchema } from "./Schemas"
+import { MAIN_TABLE, MainSchema, TAGS_TABLE, TagsSchema } from "./Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { DocumentClient } from "aws-sdk/clients/dynamodb"
 
@@ -24,7 +24,7 @@ export class TagTable {
         tag: string
     ): Promise<any> {
         return this.get(tag)
-            .then((tagEntry: SearchIndexSchema) => {
+            .then((tagEntry: TagsSchema) => {
                 if (tagEntry && tagEntry.val.includes(name)) {
                     // Contains tag already. Do nothing.
                     return
@@ -63,7 +63,7 @@ export class TagTable {
                                 return this.client.update(updateParam)
                             } else {
                                 // Index doesn't exists, so put
-                                const putItem: SearchIndexSchema = {
+                                const putItem: TagsSchema = {
                                     id: tag,
                                     val: [name.toLowerCase()]
                                 }
@@ -93,7 +93,7 @@ export class TagTable {
         tag: string
     ): Promise<any> {
         return this.get(tag)
-            .then((tagEntry: SearchIndexSchema) => {
+            .then((tagEntry: TagsSchema) => {
                 if (tagEntry && tagEntry.val.includes(name)) {
                     const mainGetParams: DocumentClient.GetItemInput = {
                         TableName: MAIN_TABLE,
@@ -193,7 +193,7 @@ export class TagTable {
      */
     public get(
         tag: string
-    ): Promise<SearchIndexSchema> {
+    ): Promise<TagsSchema> {
         const params: DocumentClient.GetItemInput = {
             TableName: TAGS_TABLE,
             Key: {
@@ -201,6 +201,6 @@ export class TagTable {
             }
         }
         return this.client.get(params)
-            .then((output: DocumentClient.GetItemOutput) => output.Item as SearchIndexSchema)
+            .then((output: DocumentClient.GetItemOutput) => output.Item as TagsSchema)
     }
 }
