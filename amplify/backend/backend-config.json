@@ -16,17 +16,6 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
-        {
           "category": "storage",
           "resourceName": "transactions",
           "attributes": [
@@ -41,17 +30,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
         {
           "category": "storage",
           "resourceName": "transactions",
@@ -68,17 +46,6 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
-        {
           "category": "storage",
           "resourceName": "transactions",
           "attributes": [
@@ -93,17 +60,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
         {
           "category": "storage",
           "resourceName": "transactions",
@@ -120,17 +76,6 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
-        {
           "category": "storage",
           "resourceName": "transactions",
           "attributes": [
@@ -145,17 +90,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
         {
           "category": "storage",
           "resourceName": "transactions",
@@ -172,17 +106,6 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
-        {
           "category": "storage",
           "resourceName": "transactions",
           "attributes": [
@@ -197,17 +120,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
         {
           "category": "storage",
           "resourceName": "transactions",
@@ -224,17 +136,6 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
-        {
           "category": "storage",
           "resourceName": "transactions",
           "attributes": [
@@ -249,17 +150,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
         {
           "category": "storage",
           "resourceName": "transactions",
@@ -276,17 +166,6 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
-        {
           "category": "storage",
           "resourceName": "transactions",
           "attributes": [
@@ -302,17 +181,6 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
-        {
           "category": "storage",
           "resourceName": "transactions",
           "attributes": [
@@ -327,17 +195,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "rms",
-          "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttTagsTableName"
-          ]
-        },
         {
           "category": "storage",
           "resourceName": "transactions",
