@@ -91,7 +91,7 @@ export class AddItem {
                         return this.mainTable.create(input.name, input.description)
                             .then(() => this.tagTable.create(input.name, input.tags))
                         }
-                    }).then(() => this.getUniqueId())
+                    }).then(() => this.getUniqueId(input.name))
                     .then((id: string) => {
                         return this.itemTable.create(id, input.name, input.owner, input.notes)
                             .then(() => id)
@@ -105,13 +105,15 @@ export class AddItem {
      * @private Generates random unique Id
      * @param id Random Id generator
      */
-    public getUniqueId(): Promise<string> {
-        const id = Math.floor((Math.random() * Date.now()) % 10).toString(36).substring(0, 5)
+    public getUniqueId(name: string): Promise<string> {
+        const hex = Math.floor(Math.random() * 16777215).toString(16) // Random Hex Code
+        const codeName = name.toLowerCase().replaceAll(" ", "_") // To Lowercase
+        const id = `${codeName}-${hex}`
         return this.itemTable.get(id)
             .then((item: ItemsSchema) => {
                 if (item) {
                     // Item Returned
-                    return this.getUniqueId()
+                    return this.getUniqueId(name)
                 } else {
                     // No Item Returned
                     return id;
