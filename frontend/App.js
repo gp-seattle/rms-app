@@ -1,17 +1,17 @@
+import { DataStore } from 'aws-amplify';
 import { registerRootComponent } from 'expo';
 import React, { useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
 import Dashboard from './components/Dashboard/DashboardScreen';
+import Inventory from './components/Inventory';
 import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
 import StackNavigator from './components/Navigation/StackNavigator';
 import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
+import { AmplifyInit, DeleteItem } from './components/Util/UtilWrite';
 import store from './store/store';
-import Inventory from './components/Inventory';
-
-import UtilWrite from './components/Util/UtilWrite';
 
 function BackButton({ onPress }) {
 	return (
@@ -38,11 +38,11 @@ function MainTabs({ navigation }) {
 
 function App() {
 	useEffect(() => {
-        const testAPI = async () => {
-            await UtilWrite();
-        };
-        testAPI();
-    }, []);
+		(async () => {
+			await AmplifyInit();
+			// await DataStore.start();
+		})();
+	}, []);
 
 	return (
 		<ReduxProvider store={store}>
@@ -74,13 +74,13 @@ const theme = {
 	...DefaultTheme,
 	colors: {
 		...DefaultTheme.colors,
-		primaryFiveHundred: '#6200EE',
-		primaryNineHundred: '#23036A',
+		primaryFiveHundred: '#07A0C3',
+		primaryNineHundred: '#005C6F',
 		surface: '#FFF',
 		surfaceMediumEmphasis: 'rgba(0, 0, 0, 0.6)',
 		surfaceOverlay: 'rgba(33, 33, 33, 0.08)',
 		primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
-		secondaryTwoHundred: '#03DAC5',
+		secondaryTwoHundred: '#FCBE00',
 		secondaryFifty: '#C8FFF4',
 		text: '#000',
 	},

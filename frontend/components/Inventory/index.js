@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useReduxSliceProperty } from '../../store/sliceManager';
 import itemsSlice from '../../store/slices/itemsSlice';
 import ListElement from '../ListElement';
-import { Searchbar } from 'react-native-paper';
+import { Searchbar, Button } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
+import { GetDBData } from '../Util/UtilRead';
 
 const Inventory = () => {
 	const itemsState = useReduxSliceProperty(itemsSlice);
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const onChangeSearch = (query) => setSearchQuery(query);
+
+	useEffect(() => {
+		console.log(itemsState);
+	}, [itemsState]);
 
 	return (
 		<View>
@@ -21,6 +26,7 @@ const Inventory = () => {
 					value={searchQuery}
 					style={{ marginTop: 50 }}
 				/>
+				<Button onPress={GetDBData}>Update!</Button>
 				<View style={{ marginTop: 50, marginLeft: '5%' }}>
 					{itemsState.items.map((item) => (
 						<ListElement

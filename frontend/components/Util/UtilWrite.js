@@ -4,78 +4,64 @@ import { TestConstants } from '../../../amplify/ts-code/__dev__/db/DBTestConstan
 
 import awsconfig from '../../../src/aws-exports';
 
-const ENV_SUFFIX = '-alpha'
-const ENV_REGION = 'us-west-2'
+const ENV_SUFFIX = '-alpha';
+const ENV_REGION = 'us-west-2';
 
-function UtilWrite(props) {
-    Amplify.configure(awsconfig);
-
-    Auth.signIn({
-        username: TestConstants.EMAIL,
-        password: TestConstants.PASSWORD
-    }).then(() => Auth.currentCredentials())
-    .then((credentials) => credentials.authenticated);
-
-
-    Auth.currentCredentials()
-    .then((credentials) => {
-        AWS.config.credentials = credentials
-        const lambda = new AWS.Lambda({
-            credentials: credentials,
-            region: ENV_REGION
-        })
-        AddNewItem(lambda);
-    });                
-
-    var paramsAdd = {
-        FunctionName: `AddItem${ENV_SUFFIX}`,
-        Payload: JSON.stringify({
-            id: 2,
-            name: "test front-end",
-            description: "pls work",
-            tags: ["test1", "test2"],
-            owner: "front-end team",
-            notes: "test notes"
-        })
-    };
-
-    var paramsDelete = {
-        FunctionName: `DeleteItem${ENV_SUFFIX}`,
-            Payload: JSON.stringify({
-                id: '2',
-                name: "test front-end",
-                description: "pls work",
-                tags: ["test1", "test2"],
-                owner: "front-end team",
-                notes: "test notes"
-            })
-    };
-
-    function AddNewItem(lambda) {
-        return lambda.invoke(paramsAdd, function(err, data) {
-            if (err) {
-                console.log(err, err.stack);
-            }
-            else {
-                console.log(data);
-            }
-        });
-    }
-
-    function DeleteItem(lambda) {
-        return lambda.invoke(paramsDelete, function(err, data) {
-            if (err) {
-                console.log(err, err.stack);
-            }
-            else {
-                console.log(data);
-            }
-        });
-    }
-
-    Auth.signOut()
-        .then(() => Auth.currentCredentials())
-        .then((exception) => exception.name)
+export async function AddNewItem(name, description, tags, owner, notes) {
+	let resultId = await invoke({
+		FunctionName: `AddItem${ENV_SUFFIX}`,
+		Payload: JSON.stringify({
+			name,
+			description,
+			tags,
+			owner,
+			notes
+		}),
+	}).Payload;
+	return resultId.substring(1, resultId.length - 1);
 }
 
-export default UtilWrite;
+export async function DeleteItem(id) {
+	await invoke({
+		FunctionName: `DeleteItem${ENV_SUFFIX}`,
+		Payload: JSON.stringify({
+			id,
+		}),
+	});
+}
+
+export async function AmplifyInit() {
+	Amplify.configure(awsconfig);
+	await Auth.signIn({
+		username: TestConstants.EMAIL,
+		password: TestConstants.PASSWORD,
+	});
+	return await Auth.currentCredentials();
+}
+
+async function close() {
+	await Auth.signOut()
+	try {
+		await Auth.currentCredentials();
+	} catch(e) {
+		console.error(e);
+	}
+}
+
+async function invoke(params) {
+	const credentials = await Auth.currentCredentials();
+	AWS.config.credentials = credentials;
+	const lambda = new AWS.Lambda({
+		credentials: credentials,
+		region: ENV_REGION,
+	});
+	let resultData;
+	lambda.invoke(params, function (data, err) {
+		if (err) {
+			console.log(err, err.stack);
+		}else{
+			resultData = data;
+		}
+	});
+	return resultData;
+}

@@ -1,3 +1,5 @@
+import { GetDBData } from '../../components/Util/UtilRead';
+import { AddNewItem } from '../../components/Util/UtilWrite';
 import { createSliceFromLayout } from '../sliceManager';
 
 const ItemsLayout = () => {
@@ -17,10 +19,13 @@ const ItemsLayout = () => {
 		items: [],
 	};
 
-	function addItem(state, name, description, location, amount, categories) {
+	function addLocalItem(state, id, name, description, location, amount, categories) {
 		let iconName = ICONS[CATEGORIES.indexOf(categories[0])];
+		if(id === undefined) {
+			id = state.nextId++;
+		}
 		state.items.push({
-			id: state.nextId++,
+			id,
 			name,
 			description,
 			location,
@@ -40,14 +45,26 @@ const ItemsLayout = () => {
 		state.items[oldItemIndex] = newItem;
 	}
 
+	async function addItem(functions, name, description, location, amount, categories) {
+		let id = await AddNewItem(name, description, categories, location, "");
+		functions.addLocalItem(id, name, description, location, amount, categories);
+	}
+
+	async function update() {
+		GetDBData();
+	}
+
 	return {
 		name,
 		initialState,
 		functions: {
-			addItem,
+			addLocalItem,
 			modifyItem,
 		},
-		asyncFunctions: {},
+		asyncFunctions: {
+			addItem,
+			update
+		},
 	};
 };
 
