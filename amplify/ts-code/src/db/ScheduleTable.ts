@@ -41,21 +41,35 @@ export class ScheduleTable {
 
                     return this.client.put(indexParams)
                             .then(() => Promise.all((itemIds.map((itemId: string) => {
-                                const itemsParams: DocumentClient.UpdateItemInput = {
+                                const getItemsParams: DocumentClient.GetItemInput = {
                                     TableName: ITEMS_TABLE,
                                     Key: {
                                         "id": itemId
-                                    },
-                                    UpdateExpression: "SET #key = list_append(#key, :val)",
-                                    ExpressionAttributeNames: {
-                                        "#key": "schedule"
-                                    },
-                                    ExpressionAttributeValues: {
-                                        ":val": [id]
                                     }
                                 }
-
-                                return this.client.update(itemsParams)
+                                return this.client.get(getItemsParams)
+                                .then((output: DocumentClient.GetItemOutput) => {
+                                    const item: ItemsSchema = output.Item as ItemsSchema
+                                    if (item) {
+                                        const itemsParams: DocumentClient.UpdateItemInput = {
+                                            TableName: ITEMS_TABLE,
+                                            Key: {
+                                                "id": itemId
+                                            },
+                                            UpdateExpression: "SET #key = list_append(#key, :val)",
+                                            ExpressionAttributeNames: {
+                                                "#key": "schedule"
+                                            },
+                                            ExpressionAttributeValues: {
+                                                ":val": [id]
+                                            }
+                                        }
+        
+                                        return this.client.update(itemsParams)
+                                    } else {
+                                        throw Error(`Unable to find itemId ${itemId}`)
+                                    }
+                                }).then(() => itemId)
                             }))))
                             .then(() => id)
                 }
