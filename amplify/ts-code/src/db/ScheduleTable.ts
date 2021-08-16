@@ -144,6 +144,57 @@ export class ScheduleTable {
             }
         }
         return this.client.get(params)
-            .then((output: DocumentClient.GetItemOutput) => output.Item as ScheduleSchema)
+            .then((output: DocumentClient.GetItemOutput) => {
+                if (output) { 
+                    return output.Item as ScheduleSchema
+                } else {
+                    throw Error(`Reservation not found: ${id}`)
+                }
+            })
+    }
+
+    /**
+     * Update schedule attribute
+     */
+     public updateReservation(
+        id: string,
+        key: "owner" | "notes",
+        val: string,
+        expectedValue?: string
+    ): Promise<DocumentClient.GetItemOutput> {
+        const itemSearchParams: DocumentClient.GetItemInput = {
+            TableName: ITEMS_TABLE,
+            Key: {
+                "id": id
+            }
+        }
+        return this.client.get(itemSearchParams)
+            .then((data: DocumentClient.GetItemOutput) => {
+                if (data.Item) {
+                    const entry: ItemsSchema = data.Item as ItemsSchema
+
+                    if (expectedValue !== undefined && entry[key] !== expectedValue) {
+                        throw Error(`'${key}' is currently '${entry[key]}', `
+                            + `which isn't equal to the expected value of '${expectedValue}'.`)
+                    } else {
+                        const updateParams: DocumentClient.UpdateItemInput = {
+                            TableName: ITEMS_TABLE,
+                            Key: {
+                                "id": id
+                            },
+                            UpdateExpression: "SET #key = :val",
+                            ExpressionAttributeNames: {
+                                "#key": key
+                            },
+                            ExpressionAttributeValues: {
+                                ":val": val
+                            }
+                        }
+                        return this.client.update(updateParams)
+                    }
+                } else {
+                    throw Error(`Couldn't find item ${id} in the database.`)
+                }
+            })
     }
 }
