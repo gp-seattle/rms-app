@@ -1,5 +1,5 @@
 import { registerRootComponent } from 'expo';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
