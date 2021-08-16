@@ -107,7 +107,7 @@ export class AddItem {
      */
     public getUniqueId(name: string): Promise<string> {
         const hex = Math.floor(Math.random() * 16777215).toString(16) // Random Hex Code
-        const codeName = name.toLowerCase().replaceAll(" ", "_") // To Lowercase
+        const codeName = name.toLowerCase().replace(" ", "_") // To Lowercase
         const id = `${codeName}-${hex}`
         return this.itemTable.get(id)
             .then((item: ItemsSchema) => {
