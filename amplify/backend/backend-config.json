@@ -1,11 +1,35 @@
 {
   "storage": {
-    "transactions": {
+    "rms": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    },
+    "main": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     },
-    "rms": {
-      "service": "S3",
+    "items": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "tags": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "batch": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "history": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "schedule": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "transactions": {
+      "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     }
   },
@@ -16,15 +40,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         },
         {
@@ -43,15 +103,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -62,15 +158,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -81,15 +213,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -100,15 +268,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -119,15 +323,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -138,15 +378,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -157,15 +433,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -176,15 +488,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -195,15 +543,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -214,15 +598,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -233,15 +653,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]
@@ -252,15 +708,51 @@
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "rms",
+          "category": "storage",
+          "resourceName": "main",
           "attributes": [
-            "GetAttBatchTableName",
-            "GetAttHistoryTableName",
-            "GetAttItemsTableName",
-            "GetAttMainTableName",
-            "GetAttScheduleTableName",
-            "GetAttTagsTableName"
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "items",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "tags",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "batch",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "history",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "schedule",
+          "attributes": [
+            "Name",
+            "Arn"
           ]
         }
       ]

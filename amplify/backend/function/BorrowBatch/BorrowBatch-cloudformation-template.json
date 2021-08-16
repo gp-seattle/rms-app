@@ -16,29 +16,53 @@
     "s3Key": {
       "Type": "String"
     },
-    "apirmsGetAttMainTableName": {
+    "storagemainName": {
       "Type": "String",
-      "Default": "apirmsGetAttMainTableName"
+      "Default": "storagemainName"
     },
-    "apirmsGetAttItemsTableName": {
+    "storagemainArn": {
       "Type": "String",
-      "Default": "apirmsGetAttItemsTableName"
+      "Default": "storagemainArn"
     },
-    "apirmsGetAttBatchTableName": {
+    "storageitemsName": {
       "Type": "String",
-      "Default": "apirmsGetAttBatchTableName"
+      "Default": "storageitemsName"
     },
-    "apirmsGetAttTagsTableName": {
+    "storageitemsArn": {
       "Type": "String",
-      "Default": "apirmsGetAttTagsTableName"
+      "Default": "storageitemsArn"
     },
-    "apirmsGetAttHistoryTableName": {
+    "storagebatchName": {
       "Type": "String",
-      "Default": "apirmsGetAttHistoryTableName"
+      "Default": "storagebatchName"
     },
-    "apirmsGetAttScheduleTableName": {
+    "storagebatchArn": {
       "Type": "String",
-      "Default": "apirmsGetAttScheduleTableName"
+      "Default": "storagebatchArn"
+    },
+    "storagetagsName": {
+      "Type": "String",
+      "Default": "storagetagsName"
+    },
+    "storagetagsArn": {
+      "Type": "String",
+      "Default": "storagetagsArn"
+    },
+    "storagehistoryName": {
+      "Type": "String",
+      "Default": "storagehistoryName"
+    },
+    "storagehistoryArn": {
+      "Type": "String",
+      "Default": "storagehistoryArn"
+    },
+    "storagescheduleName": {
+      "Type": "String",
+      "Default": "storagescheduleName"
+    },
+    "storagescheduleArn": {
+      "Type": "String",
+      "Default": "storagescheduleArn"
     }
   },
   "Conditions": {
@@ -95,22 +119,22 @@
               "Ref": "AWS::Region"
             },
             "STORAGE_MAIN_NAME": {
-              "Ref": "apirmsGetAttMainTableName"
+              "Ref": "storagemainName"
             },
             "STORAGE_ITEMS_NAME": {
-              "Ref": "apirmsGetAttItemsTableName"
+              "Ref": "storageitemsName"
             },
             "STORAGE_BATCH_NAME": {
-              "Ref": "apirmsGetAttBatchTableName"
+              "Ref": "storagebatchName"
             },
             "STORAGE_TAGS_NAME": {
-              "Ref": "apirmsGetAttTagsTableName"
+              "Ref": "storagetagsName"
             },
             "STORAGE_HISTORY_NAME": {
-              "Ref": "apirmsGetAttHistoryTableName"
+              "Ref": "storagehistoryName"
             },
             "STORAGE_SCHEDULE_NAME": {
-              "Ref": "apirmsGetAttScheduleTableName"
+              "Ref": "storagescheduleName"
             }
           }
         },
@@ -268,7 +292,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttMainTableName"
+                        "Ref": "storagemainName"
                       }
                     ]
                   ]
@@ -295,7 +319,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttMainTableName"
+                        "Ref": "storagemainName"
                       },
                       "index/*"
                     ]
@@ -342,7 +366,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttItemsTableName"
+                        "Ref": "storageitemsName"
                       }
                     ]
                   ]
@@ -369,7 +393,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttItemsTableName"
+                        "Ref": "storageitemsName"
                       },
                       "index/*"
                     ]
@@ -416,7 +440,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttBatchTableName"
+                        "Ref": "storagebatchName"
                       }
                     ]
                   ]
@@ -443,7 +467,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttBatchTableName"
+                        "Ref": "storagebatchName"
                       },
                       "index/*"
                     ]
@@ -490,7 +514,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttTagsTableName"
+                        "Ref": "storagetagsName"
                       }
                     ]
                   ]
@@ -517,7 +541,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttTagsTableName"
+                        "Ref": "storagetagsName"
                       },
                       "index/*"
                     ]
@@ -564,7 +588,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttHistoryTableName"
+                        "Ref": "storagehistoryName"
                       }
                     ]
                   ]
@@ -591,7 +615,7 @@
                         ]
                       },
                       {
-                        "Ref": "apirmsGetAttHistoryTableName"
+                        "Ref": "storagehistoryName"
                       },
                       "index/*"
                     ]
