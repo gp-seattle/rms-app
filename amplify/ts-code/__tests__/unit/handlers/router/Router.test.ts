@@ -107,6 +107,9 @@ test('will internal print table correctly when using router and invalid table na
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
     const router: Router = new Router(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(() =>
         router.processRequest(PrintTable.NAME, TestConstants.NUMBER)
             .then((output: string) => {
@@ -122,6 +125,9 @@ test('will add item correctly when name does not exist', async () => {
 
     // Mock ID
     AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await router.processRequest(AddItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -152,6 +158,9 @@ test('will add item correctly when name exists', async () => {
     // Mock ID
     AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID_2));
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await router.processRequest(AddItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
             expect(output).toEqual("Name of item:")
@@ -177,7 +186,10 @@ test('will get item correctly when given valid id', async () => {
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: [TestConstants.TAG],
-        items: [TestConstants.ITEM_ID]
+        items: [TestConstants.ITEM_ID],
+        _version: 1,
+        _lastChangedAt: 1000000000000,
+        _deleted: false
     }
     const expectedItem: ItemsSchema = {
         id: TestConstants.ITEM_ID,
@@ -187,9 +199,15 @@ test('will get item correctly when given valid id', async () => {
         notes: TestConstants.NOTES,
         batch: [],
         history: [],
-        schedule: []
+        schedule: [],
+        _version: 1,
+        _lastChangedAt: 1000000000000,
+        _deleted: false
     }
     const expectedStr: string = getItemHeader(expectedMain) + getItemItem(expectedItem)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await router.processRequest(GetItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -203,6 +221,9 @@ test('will get item correctly when given valid id', async () => {
 test('will update description correctly when using router', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const router: Router = new Router(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await router.processRequest(UpdateDescription.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -221,6 +242,9 @@ test('will update item notes correctly when using router', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const router: Router = new Router(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await router.processRequest(UpdateItemNotes.NAME, TestConstants.NUMBER)
         .then((output: string) => {
             expect(output).toEqual("ID of item:")
@@ -237,6 +261,9 @@ test('will update item notes correctly when using router', async () => {
 test('will update item owner correctly when using router', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const router: Router = new Router(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await router.processRequest(UpdateItemOwner.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -257,6 +284,9 @@ test('will update item owner correctly when using router', async () => {
 test('will update tags correctly when using router', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const router: Router = new Router(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await router.processRequest(UpdateTags.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -280,8 +310,14 @@ test('will search item correctly when using router', async () => {
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: [TestConstants.TAG],
-        items: [TestConstants.ITEM_ID]
+        items: [TestConstants.ITEM_ID],
+        _version: 1,
+        _lastChangedAt: 1000000000000,
+        _deleted: false
     }
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await router.processRequest(SearchItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -298,6 +334,9 @@ test('will search item correctly when using router', async () => {
 test('will search item correctly when using router and bad tag', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const router: Router = new Router(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await router.processRequest(SearchItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -358,6 +397,9 @@ test('will create batch correctly when using router', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const router: Router = new Router(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await router.processRequest(CreateBatch.NAME, TestConstants.NUMBER)
         .then((output: string) => {
             expect(output).toEqual("Name of Batch:")
@@ -377,6 +419,9 @@ test('will create batch correctly when using router', async () => {
 test('will get batch correctly when using router', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
     const router: Router = new Router(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await router.processRequest(GetBatch.NAME, TestConstants.NUMBER)
         .then((output: string) => {
@@ -441,6 +486,9 @@ test('will delete batch correctly when using router', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_TWO_BATCH)
     const router: Router = new Router(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await router.processRequest(DeleteBatch.NAME, TestConstants.NUMBER)
         .then((output: string) => {
             expect(output).toEqual("Name of Batch:")
@@ -460,6 +508,9 @@ test('will delete batch correctly when using router', async () => {
 test('will delete item correctly when using router', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const router: Router = new Router(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await router.processRequest(DeleteItem.NAME, TestConstants.NUMBER)
         .then((output: string) => {

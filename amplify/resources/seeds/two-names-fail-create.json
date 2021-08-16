@@ -5,14 +5,20 @@
             "displayName": "Test Name",
             "description":"test description",
             "items":["123"],
-            "tags":["tag1"]
+            "tags":["tag1"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         },
         "test name 2":{
             "id":"test name 2",
             "displayName": "test name 2",
             "description":"test description 2",
             "tags":["tag1", "tag2"],
-            "items":[]
+            "items":[],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "items":{
@@ -24,18 +30,27 @@
             "borrower":"",
             "batch": [],
             "history": [],
-            "schedule": []
+            "schedule": [],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "batch":{},
     "tags":{
         "tag1":{
             "id":"tag1",
-            "val":["test name", "test name 2"]
+            "val":["test name", "test name 2"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         },
         "tag2":{
             "id":"tag2",
-            "val":["test name 2"]
+            "val":["test name 2"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "history":{},

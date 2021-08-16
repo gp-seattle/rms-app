@@ -1,11 +1,14 @@
 import { UpdateItemOwner } from "../../../src/api/UpdateItemOwner"
-import { DBSeed, TestConstants } from "../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
 
 test('will update description correctly when id exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             id: TestConstants.ITEM_ID,
@@ -20,6 +23,9 @@ test('will throw excpetion when owner is invalid', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             id: TestConstants.ITEM_ID,
@@ -34,6 +40,9 @@ test('will throw excpetion when id is invalid', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             id: TestConstants.BAD_REQUEST,
@@ -48,6 +57,9 @@ test('will fail to update item owner when id not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             currentOwner: TestConstants.OWNER,
@@ -61,6 +73,9 @@ test('will fail to update item owner when item currentOwner not passed in', asyn
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             id: TestConstants.ITEM_ID,
@@ -73,6 +88,9 @@ test('will fail to update item owner when item currentOwner not passed in', asyn
 test('will fail to update item owner when item newOwner not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemOwner = new UpdateItemOwner(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({

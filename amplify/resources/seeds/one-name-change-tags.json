@@ -5,7 +5,10 @@
             "displayName": "Test Name",
             "description":"test description",
             "items":["123"],
-            "tags":["tag2"]
+            "tags":["tag2"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "items":{
@@ -17,14 +20,20 @@
             "borrower":"",
             "batch": [],
             "history": [],
-            "schedule": []
+            "schedule": [],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "batch":{},
     "tags":{
         "tag2":{
             "id":"tag2",
-            "val":["test name"]
+            "val":["test name"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "history":{},

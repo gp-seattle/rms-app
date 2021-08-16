@@ -1,10 +1,13 @@
 import { DeleteItem } from "../../../src/api/DeleteItem"
-import { DBSeed, TestConstants } from "../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
 
 test('will delete item correctly when name has single item', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const api: DeleteItem = new DeleteItem(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({
@@ -18,6 +21,9 @@ test('will delete item correctly when name has two items', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME_TWO_ITEMS)
     const api: DeleteItem = new DeleteItem(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             id: TestConstants.ITEM_ID_2,
@@ -30,6 +36,9 @@ test('will throw exception when id is invalid', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: DeleteItem = new DeleteItem(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             id: TestConstants.BAD_REQUEST,
@@ -41,6 +50,9 @@ test('will throw exception when id is invalid', async () => {
 test('will fail to delete item when id not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const api: DeleteItem = new DeleteItem(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({

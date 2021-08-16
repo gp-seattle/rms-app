@@ -1,6 +1,6 @@
 import { GetItem, ReturnObject } from "../../../src/api/GetItem"
 import { ItemsSchema, MainSchema } from "../../../src/db/Schemas"
-import { DBSeed, TestConstants } from "../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
 
 test('will get item correctly when id exists', async () => {
@@ -12,7 +12,10 @@ test('will get item correctly when id exists', async () => {
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: [TestConstants.TAG],
-        items: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2]
+        items: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2],
+        _version: 1,
+        _lastChangedAt: 1000000000000,
+        _deleted: false
     }
     const expectedItems: ItemsSchema[] = [
         {
@@ -23,11 +26,17 @@ test('will get item correctly when id exists', async () => {
             notes: TestConstants.NOTES,
             batch: [],
             history: [],
-            schedule: []
+            schedule: [],
+            _version: 1,
+            _lastChangedAt: 1000000000000,
+            _deleted: false
         }
     ]
     const expected: ReturnObject = new ReturnObject(expectedMain, expectedItems)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             key: TestConstants.ITEM_ID
@@ -45,7 +54,10 @@ test('will get item correctly when name exists', async () => {
         displayName: TestConstants.DISPLAYNAME,
         description: TestConstants.DESCRIPTION,
         tags: [TestConstants.TAG],
-        items: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2]
+        items: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2],
+        _version: 1,
+        _lastChangedAt: 1000000000000,
+        _deleted: false
     }
     const expectedItems: ItemsSchema[] = [
         {
@@ -56,7 +68,10 @@ test('will get item correctly when name exists', async () => {
             notes: TestConstants.NOTES,
             batch: [],
             history: [],
-            schedule: []
+            schedule: [],
+            _version: 1,
+            _lastChangedAt: 1000000000000,
+            _deleted: false
         },
         {
             id: TestConstants.ITEM_ID_2,
@@ -66,11 +81,17 @@ test('will get item correctly when name exists', async () => {
             notes: TestConstants.NOTES_2,
             batch: [],
             history: [],
-            schedule: []
+            schedule: [],
+            _version: 1,
+            _lastChangedAt: 1000000000000,
+            _deleted: false
         }
     ]
     const expected: ReturnObject = new ReturnObject(expectedMain, expectedItems)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             key: TestConstants.NAME
@@ -83,6 +104,9 @@ test('will throw excpetion when key is invalid', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: GetItem = new GetItem(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             key: TestConstants.BAD_REQUEST

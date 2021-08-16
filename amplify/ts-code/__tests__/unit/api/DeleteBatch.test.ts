@@ -1,10 +1,13 @@
 import { DeleteBatch } from "../../../src/api/DeleteBatch"
-import { DBSeed, TestConstants } from "../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
 
 test('will delete batch correctly when batch exist', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
     const api: DeleteBatch = new DeleteBatch(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({
@@ -18,6 +21,9 @@ test('will fail to delete batch when batch does not exist', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
     const api: DeleteBatch = new DeleteBatch(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             name: TestConstants.BAD_REQUEST
@@ -29,6 +35,9 @@ test('will fail to delete batch when batch does not exist', async () => {
 test('will fail to delete batch when item name not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
     const api: DeleteBatch = new DeleteBatch(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({

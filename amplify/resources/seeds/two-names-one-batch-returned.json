@@ -5,14 +5,20 @@
             "displayName": "Test Name",
             "description":"test description",
             "items":["123"],
-            "tags":["tag1"]
+            "tags":["tag1"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         },
         "test name 2":{
             "id":"test name 2",
             "displayName": "test name 2",
             "description":"test description 2",
             "items":["12345"],
-            "tags":["tag1", "tag2"]
+            "tags":["tag1", "tag2"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "items":{
@@ -23,8 +29,11 @@
             "notes":"test note",
             "borrower":"",
             "batch": ["test batch"],
-            "history": ["1000000000010-123", "1000000000011-123"],
-            "schedule": []
+            "history": ["1000000000020-123", "1000000000021-123"],
+            "schedule": [],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         },
         "12345":{
             "id":"12345",
@@ -33,63 +42,87 @@
             "notes":"test note 2",
             "borrower":"",
             "batch": ["test batch"],
-            "history": ["1000000000010-12345", "1000000000011-12345"],
-            "schedule": []
+            "history": ["1000000000020-12345", "1000000000021-12345"],
+            "schedule": [],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "batch":{
         "test batch": {
             "id": "test batch",
             "val": ["123", "12345"],
-            "groups": ["group1"]
+            "groups": ["group1"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "tags":{
         "tag1":{
             "id":"tag1",
-            "val":["test name", "test name 2"]
+            "val":["test name", "test name 2"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         },
         "tag2":{
             "id":"tag2",
-            "val":["test name 2"]
+            "val":["test name 2"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "history":{
-        "1000000000010-123": {
+        "1000000000020-123": {
             "action": "borrow",
             "borrower": "test borrower",
             "itemId": "123",
-            "id": "1000000000010-123",
+            "id": "1000000000020-123",
             "name": "test name",
             "notes": "test note",
-            "timestamp": 1000000000010
+            "timestamp": 1000000000020,
+            "_version": 1,
+            "_lastChangedAt": 1000000000020,
+            "_deleted": false
         },
-        "1000000000010-12345": {
+        "1000000000020-12345": {
             "action": "borrow",
             "borrower": "test borrower",
             "itemId": "12345",
-            "id": "1000000000010-12345",
+            "id": "1000000000020-12345",
             "name": "test name 2",
             "notes": "test note",
-            "timestamp": 1000000000010
+            "timestamp": 1000000000020,
+            "_version": 1,
+            "_lastChangedAt": 1000000000020,
+            "_deleted": false
         },
-        "1000000000011-123": {
+        "1000000000021-123": {
             "action": "return",
             "borrower": "test borrower",
             "itemId": "123",
-            "id": "1000000000011-123",
+            "id": "1000000000021-123",
             "name": "test name",
             "notes": "test note 2",
-            "timestamp": 1000000000011
+            "timestamp": 1000000000021,
+            "_version": 1,
+            "_lastChangedAt": 1000000000021,
+            "_deleted": false
         },
-        "1000000000011-12345": {
+        "1000000000021-12345": {
             "action": "return",
             "borrower": "test borrower",
             "itemId": "12345",
-            "id": "1000000000011-12345",
+            "id": "1000000000021-12345",
             "name": "test name 2",
             "notes": "test note 2",
-            "timestamp": 1000000000011
+            "timestamp": 1000000000021,
+            "_version": 1,
+            "_lastChangedAt": 1000000000021,
+            "_deleted": false
         }
     },
     "transactions":{}

@@ -31,7 +31,10 @@ export class ScheduleTable {
                         itemIds: itemIds,
                         startTime: startTime,
                         endTime: endTime,
-                        notes: notes
+                        notes: notes,
+                        _version: 1,
+                        _lastChangedAt: Date.now(),
+                        _deleted: false
                     }
 
                     const indexParams: DocumentClient.PutItemInput = {

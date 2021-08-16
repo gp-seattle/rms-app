@@ -1,10 +1,13 @@
 import { CreateBatch } from "../../../src/api/CreateBatch"
-import { DBSeed, TestConstants } from "../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
 
 test('will create batch correctly when items exist', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const api: CreateBatch = new CreateBatch(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({
@@ -20,6 +23,9 @@ test('will override existing batch when batch already exist', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
     const api: CreateBatch = new CreateBatch(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             name: TestConstants.BATCH,
@@ -33,6 +39,9 @@ test('will override existing batch when batch already exist', async () => {
 test('will create batch correctly when a batch already exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
     const api: CreateBatch = new CreateBatch(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({
@@ -48,6 +57,9 @@ test('will fail to create batch when id is invalid', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const api: CreateBatch = new CreateBatch(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             name: TestConstants.BATCH,
@@ -62,6 +74,9 @@ test('will fail to create batch when item name not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const api: CreateBatch = new CreateBatch(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             ids: [ TestConstants.ITEM_ID, TestConstants.ITEM_ID_2 ],
@@ -74,6 +89,9 @@ test('will fail to create batch when item name not passed in', async () => {
 test('will fail to create batch when item ids not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES)
     const api: CreateBatch = new CreateBatch(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({

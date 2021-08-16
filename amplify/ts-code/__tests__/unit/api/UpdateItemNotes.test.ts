@@ -1,11 +1,14 @@
 import { UpdateItemNotes } from "../../../src/api/UpdateItemNotes"
-import { DBSeed, TestConstants } from "../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
 
 test('will update note correctly when id exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemNotes = new UpdateItemNotes(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             id: TestConstants.ITEM_ID,
@@ -19,6 +22,9 @@ test('will throw excpetion when id is invalid', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemNotes = new UpdateItemNotes(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             id: TestConstants.BAD_REQUEST,
@@ -32,6 +38,9 @@ test('will fail to update item notes when id not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemNotes = new UpdateItemNotes(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             note: TestConstants.NOTES_2
@@ -43,6 +52,9 @@ test('will fail to update item notes when id not passed in', async () => {
 test('will fail to update item notes when note not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateItemNotes = new UpdateItemNotes(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({

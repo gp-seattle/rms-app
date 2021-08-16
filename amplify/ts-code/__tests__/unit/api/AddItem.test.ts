@@ -1,5 +1,5 @@
 import { AddItem } from "../../../src/api/AddItem"
-import { DBSeed, TestConstants} from "../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
 
 test('will add item correctly when name does not exist', async () => {
@@ -8,6 +8,9 @@ test('will add item correctly when name does not exist', async () => {
 
     // Mock ID
     AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({
@@ -28,6 +31,9 @@ test('will add additional item correctly when item already exist', async () => {
     // Mock ID
     AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID_2));
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             name: TestConstants.DISPLAYNAME,
@@ -46,6 +52,9 @@ test('will fail to add item when id is not unique', async () => {
 
     // Mock ID
     AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({
@@ -66,6 +75,9 @@ test('will add different name correctly when name already exists', async () => {
     // Mock ID
     AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID_2));
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             name: TestConstants.NAME_2,
@@ -85,6 +97,9 @@ test('will fail to add name when id is not unique', async () => {
     // Mock ID
     AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             name: TestConstants.NAME_2,
@@ -103,6 +118,9 @@ test('will fail to add item when item name not passed in', async () => {
 
     // Mock ID
     AddItem.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.ITEM_ID));
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({

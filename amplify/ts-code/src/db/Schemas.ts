@@ -12,7 +12,10 @@ export interface MainSchema {
     displayName: string,
     description: string,
     tags: string[],
-    items: string[]
+    items: string[],
+    _version: number,
+    _lastChangedAt: number,
+    _deleted: boolean
 }
 
 /**
@@ -32,20 +35,29 @@ export interface ItemsSchema {
     batch: string[],
     history: string[],
     schedule: string[],
-    notes: string
+    notes: string,
+    _version: number,
+    _lastChangedAt: number,
+    _deleted: boolean
 }
 
 export const TAGS_TABLE: string = process.env.STORAGE_TAGS_NAME
 export interface TagsSchema {
     id: string,
-    val: string[]
+    val: string[],
+    _version: number,
+    _lastChangedAt: number,
+    _deleted: boolean
 }
 
 export const BATCH_TABLE: string = process.env.STORAGE_BATCH_NAME
 export interface BatchSchema {
     id: string,
     val: string[],
-    groups: string[]
+    groups: string[],
+    _version: number,
+    _lastChangedAt: number,
+    _deleted: boolean
 }
 
 export const HISTORY_TABLE: string = process.env.STORAGE_HISTORY_NAME
@@ -65,7 +77,10 @@ export interface HistorySchema {
     borrower: string,
     action: "borrow" | "return",
     notes: string,
-    timestamp: number
+    timestamp: number,
+    _version: number,
+    _lastChangedAt: number,
+    _deleted: boolean
 }
 
 export const SCHEDULE_TABLE: string = process.env.STORAGE_SCHEDULE_NAME
@@ -83,7 +98,10 @@ export interface ScheduleSchema {
     itemIds: string[],
     startTime: string,
     endTime: string,
-    notes?: string
+    notes?: string,
+    _version: number,
+    _lastChangedAt: number,
+    _deleted: boolean
 }
 
 export const TRANSACTIONS_TABLE: string = process.env.STORAGE_TRANSACTIONS_NAME

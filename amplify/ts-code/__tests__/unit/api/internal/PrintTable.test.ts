@@ -1,12 +1,15 @@
 import { PrintTable } from "../../../../src/api/internal/PrintTable"
 import { MAIN_TABLE } from "../../../../src/db/Schemas"
-import { DBSeed, TestConstants } from "../../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../../__dev__/db/LocalDBClient"
 
 test('will print item correctly when main table is empty', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.EMPTY)
     const api: PrintTable = new PrintTable(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             tableName: MAIN_TABLE

@@ -45,7 +45,10 @@ export class ItemTable {
                         borrower: "",
                         batch: [],
                         history: [],
-                        schedule: []
+                        schedule: [],
+                        _version: 1,
+                        _lastChangedAt: Date.now(),
+                        _deleted: false
                     }
 
                     const indexParams: DocumentClient.PutItemInput = {
@@ -263,7 +266,10 @@ export class ItemTable {
             borrower: borrower,
             action: action,
             notes: notes,
-            timestamp: curEpochMs
+            timestamp: curEpochMs,
+            _version: 1,
+            _lastChangedAt: curEpochMs,
+            _deleted: false
         }
         const addHistoryParams: DocumentClient.PutItemInput = {
             TableName: HISTORY_TABLE,

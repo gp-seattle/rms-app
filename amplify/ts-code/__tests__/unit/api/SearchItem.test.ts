@@ -1,5 +1,5 @@
 import { SearchItem, SearchItemReturn } from "../../../src/api/SearchItem"
-import { DBSeed, TestConstants } from "../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
 
 test('will search item correctly when tag exists', async () => {

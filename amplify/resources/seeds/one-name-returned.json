@@ -5,7 +5,10 @@
             "displayName": "Test Name",
             "description":"test description",
             "items":["123"],
-            "tags":["tag1"]
+            "tags":["tag1"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "items":{
@@ -16,35 +19,47 @@
             "notes":"test note",
             "borrower":"",
             "batch": [],
-            "history": ["1000000000000-123", "1000000000001-123"],
-            "schedule": []
+            "history": ["1000000000010-123", "1000000000011-123"],
+            "schedule": [],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "batch":{},
     "tags":{
         "tag1":{
             "id":"tag1",
-            "val":["test name"]
+            "val":["test name"],
+            "_version": 1,
+            "_lastChangedAt": 1000000000000,
+            "_deleted": false
         }
     },
     "history": {
-        "1000000000000-123": {
+        "1000000000010-123": {
             "action": "borrow",
             "borrower": "test borrower",
             "itemId": "123",
-            "id": "1000000000000-123",
+            "id": "1000000000010-123",
             "name": "test name",
             "notes": "test note",
-            "timestamp": 1000000000000
+            "timestamp": 1000000000010,
+            "_version": 1,
+            "_lastChangedAt": 1000000000010,
+            "_deleted": false
         },
-        "1000000000001-123": {
+        "1000000000011-123": {
             "action": "return",
             "borrower": "test borrower",
             "itemId": "123",
-            "id": "1000000000001-123",
+            "id": "1000000000011-123",
             "name": "test name",
             "notes": "test note 2",
-            "timestamp": 1000000000001
+            "timestamp": 1000000000011,
+            "_version": 1,
+            "_lastChangedAt": 1000000000011,
+            "_deleted": false
         }
     },
     "transactions":{}

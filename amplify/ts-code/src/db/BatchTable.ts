@@ -25,7 +25,10 @@ export class BatchTable {
                 const item: BatchSchema = {
                     id: name.toLowerCase(),
                     val: ids,
-                    groups: groups
+                    groups: groups,
+                    _version: 1,
+                    _lastChangedAt: Date.now(),
+                    _deleted: false
                 }
 
                 const params: DocumentClient.PutItemInput = {

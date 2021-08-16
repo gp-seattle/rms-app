@@ -1,6 +1,6 @@
 import getClients from "../../../../src/handlers/api/APIHelper"
 import { handler } from "../../../../src/handlers/api/DeleteBatch"
-import { DBSeed, TestConstants} from "../../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../../__dev__/db/LocalDBClient"
 import { LocalMetricsClient } from "../../../../__dev__/metrics/LocalMetricsClient"
 
@@ -10,6 +10,9 @@ test('will delete batch correctly when using handler', async () => {
 
     getClients.getDBClient = jest.fn(() => dbClient)
     getClients.getMetricsClient = jest.fn(() => metricsClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         handler({

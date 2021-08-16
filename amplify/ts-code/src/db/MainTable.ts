@@ -23,7 +23,10 @@ export class MainTable {
             displayName: name,
             description: description,
             tags: [],
-            items: []
+            items: [],
+            _version: 1,
+            _lastChangedAt: Date.now(),
+            _deleted: false
         }
         const params: DocumentClient.PutItemInput = {
             TableName: MAIN_TABLE,

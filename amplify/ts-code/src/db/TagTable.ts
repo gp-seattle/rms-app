@@ -65,7 +65,10 @@ export class TagTable {
                                 // Index doesn't exists, so put
                                 const putItem: TagsSchema = {
                                     id: tag,
-                                    val: [name.toLowerCase()]
+                                    val: [name.toLowerCase()],
+                                    _version: 1,
+                                    _lastChangedAt: Date.now(),
+                                    _deleted: false
                                 }
                                 const putParam: DocumentClient.PutItemInput = {
                                     TableName: TAGS_TABLE,

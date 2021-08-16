@@ -1,11 +1,14 @@
 import { UpdateDescription } from "../../../src/api/UpdateDescription"
-import { DBSeed, TestConstants } from "../../../__dev__/db/DBTestConstants"
+import { DBSeed, TestConstants, TestTimestamps } from "../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../__dev__/db/LocalDBClient"
 
 test('will update description correctly when name exists', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateDescription = new UpdateDescription(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             name: TestConstants.NAME,
@@ -19,6 +22,9 @@ test('will throw excpetion when name is invalid', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateDescription = new UpdateDescription(dbClient)
     
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             name: TestConstants.BAD_REQUEST,
@@ -32,6 +38,9 @@ test('will fail to update description when item name not passed in', async () =>
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateDescription = new UpdateDescription(dbClient)
 
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
+
     await expect(
         api.execute({
             description: TestConstants.DESCRIPTION_2
@@ -43,6 +52,9 @@ test('will fail to update description when item name not passed in', async () =>
 test('will fail to update description when item description not passed in', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.ONE_NAME)
     const api: UpdateDescription = new UpdateDescription(dbClient)
+
+    // Mock Date
+    Date.now = jest.fn(() => TestTimestamps.DEFAULT)
 
     await expect(
         api.execute({
