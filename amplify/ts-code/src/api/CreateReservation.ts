@@ -54,8 +54,10 @@ export class CreateReservation {
 
     /**
      * Required params in scratch object:
-     * @param ids IDs of Items
      * @param borrower Name of borrower
+     * @param ids IDs of Items
+     * @param startTime: string,
+     * @param endTime: string,
      * @param notes Notes about this action
      */
      public execute(input: CreateReservationInput): Promise<string> {

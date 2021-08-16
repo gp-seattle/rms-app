@@ -8,7 +8,7 @@ import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
 
 /**
- * Adds item to item inventory table.
+ * Deletes item from item inventory table.
  */
 export class DeleteItem {
     public static NAME: string = "delete item"
