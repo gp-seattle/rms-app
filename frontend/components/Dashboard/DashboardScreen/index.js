@@ -91,7 +91,7 @@ const DashboardScreen = (props) => {
 	return (
 		<>
 			<ScrollView style={styles.container} contentContainerStyle={styles.container}>
-				<View style={{marginBottom: 100}}>
+				<View style={styles.contentBox}>
 					<RMSTitle />
 					<GroupSelection
 						items={GROUPS.map((group) => group.toUpperCase())}
@@ -107,8 +107,9 @@ const DashboardScreen = (props) => {
 						return (
 							<SwipeListElement
 								buttonText="Return"
-								backgroundColor="#4b2e83"
-								textColor="#b7a57a"
+								backgroundColor="#E71B1B"
+								textColor="white"
+								fontWeight='bold'
 								key={item.id}
 								iconName={item.icon}
 								primaryText={item.title}
@@ -121,8 +122,9 @@ const DashboardScreen = (props) => {
 						return (
 							<SwipeListElement
 								buttonText="Delete"
-								backgroundColor="red"
+								backgroundColor="#E71B1B"
 								textColor="white"
+								fontWeight='bold'
 								key={item.id}
 								iconName={item.icon}
 								primaryText={item.title}
@@ -152,6 +154,9 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		fontWeight: 'bold',
 		fontSize: 25,
+	},
+	contentBox: {
+		marginBottom: 100,
 	},
 });
 

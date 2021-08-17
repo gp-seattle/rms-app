@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Swipeable, RectButton } from 'react-native-gesture-handler';
-import { Button, withTheme } from 'react-native-paper';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler';
+import { withTheme } from 'react-native-paper';
 import ListElement from '../ListElement';
 
 const DashListElement = withTheme(({ iconName, primaryText, secondaryText, theme }) => {
@@ -21,12 +21,12 @@ const DashListElement = withTheme(({ iconName, primaryText, secondaryText, theme
 	);
 });
 
-const renderRightActions = (backgroundColor, textColor, buttonText, onButtonPress) => {
+const renderRightActions = (backgroundColor, textColor, fontWeight, buttonText, onButtonPress) => {
 	return (
 		<TouchableOpacity
 			style={{ ...styles.box, backgroundColor: backgroundColor }}
 			onPress={onButtonPress}>
-			<Text style={{ ...styles.buttonText, color: textColor }}>{buttonText}</Text>
+			<Text style={{ ...styles.buttonText, color: textColor, fontWeight: fontWeight}}>{buttonText}</Text>
 		</TouchableOpacity>
 	);
 };
@@ -40,6 +40,7 @@ const SwipeListElement = withTheme(
 		style,
 		backgroundColor,
 		textColor,
+		fontWeight,
 		buttonText,
 		onButtonPress,
 	}) => {
@@ -51,7 +52,7 @@ const SwipeListElement = withTheme(
 				friction={2}
 				rightThreshold={40}
 				renderRightActions={() =>
-					renderRightActions(backgroundColor, textColor, buttonText, onButtonPress)
+					renderRightActions(backgroundColor, textColor, fontWeight, buttonText, onButtonPress)
 				}
 				iconColor={theme.colors.text}>
 				<DashListElement
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
 		backgroundColor: 'red',
 		width: '25%',
 		height: '100%',
-		// borderRadius: 5,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
