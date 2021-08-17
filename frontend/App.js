@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import React from 'react';
-import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
 import Dashboard from './components/Dashboard/DashboardScreen';
@@ -59,13 +59,6 @@ function App() {
 		</ReduxProvider>
 	);
 }
-
-const styles = StyleSheet.create({
-	screen: {
-        width: '100%',
-        height: '100%'
-	}
-});
 
 const theme = {
 	...DefaultTheme,
