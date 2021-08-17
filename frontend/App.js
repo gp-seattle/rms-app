@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
-import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
 import Dashboard from './components/Dashboard/DashboardScreen';
@@ -9,6 +9,9 @@ import StackNavigator from './components/Navigation/StackNavigator';
 import store from './store/store';
 import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
+
+import BorrowFAB from './components/Borrow/BorrowFAB';
+import BorrowToast from './components/Borrow/BorrowToast';
 
 function BackButton({ onPress }) {
 	return (
@@ -34,31 +37,48 @@ function MainTabs({ navigation }) {
 }
 
 function App() {
+	const [visible, setVisible] = useState(false);
+
 	return (
-		<ReduxProvider store={store}>
-			<PaperProvider theme={theme}>
-				<StackNavigator
-					screenOptions={({ navigation }) => ({
-						headerLeft: () => <BackButton onPress={navigation.goBack} />,
-						headerTintColor: 'black',
-						headerTitleAlign: 'left',
-						headerTitleStyle: {
-							fontSize: 22,
-							fontWeight: 'bold',
-						},
-						headerStyle: {
-							shadowColor: 'transparent',
-							borderBottomWidth: 0,
-							elevation: 0,
-						},
-					})}>
-					<MainTabs name="mainTabs" options={{ headerShown: false }} />
-					<NewItem name="addItem" title="New Item" />
-				</StackNavigator>
-			</PaperProvider>
-		</ReduxProvider>
+		<View style = {styles.screen}>
+			<BorrowFAB onPress = {() => setVisible(true)} />
+				<BorrowToast 
+					visible = {visible} 
+					onCancel = {() => setVisible(false)} 
+				/>
+		</View>
+
+		//<ReduxProvider store={store}>
+		//	<PaperProvider theme={theme}>
+		//		<StackNavigator
+		//			screenOptions={({ navigation }) => ({
+		//				headerLeft: () => <BackButton onPress={navigation.goBack} />,
+		//				headerTintColor: 'black',
+		//				headerTitleAlign: 'left',
+		//				headerTitleStyle: {
+		//					fontSize: 22,
+		//					fontWeight: 'bold',
+		//				},
+		//				headerStyle: {
+		//					shadowColor: 'transparent',
+		//					borderBottomWidth: 0,
+		//					elevation: 0,
+		//				},
+		//			})}>
+		//			<MainTabs name="mainTabs" options={{ headerShown: false }} />
+		//			<NewItem name="addItem" title="New Item" />
+		//		</StackNavigator>
+		//	</PaperProvider>
+		//</ReduxProvider>
 	);
 }
+
+const styles = StyleSheet.create({
+	screen: {
+        width: '100%',
+        height: '100%'
+	}
+});
 
 const theme = {
 	...DefaultTheme,
