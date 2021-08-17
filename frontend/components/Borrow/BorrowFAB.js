@@ -8,7 +8,7 @@ function BorrowFAB(props) {
             style = {styles.fab}
             label = 'BORROW'
             onPress = {props.onPress}
-            color = 'black'
+            color = {props.theme.colors.text}
         />
     );
 }
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
     }
   })
 
-export default BorrowFAB;
+export default withTheme(BorrowFAB);

@@ -1,33 +1,48 @@
 import React from "react";
 import { View, StyleSheet, Text } from 'react-native';
-import { Button, Snackbar } from 'react-native-paper';
+import { Snackbar } from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function BorrowToast(props) {
     return (
         <Snackbar
             style = {styles.toast}
-            visible={true}
+            visible={props.visible}
             onDismiss={props.onCancel}
+            duration = {900}
         >
-            <Text style = {styles.text}> Items Borrowed </Text>
-            <Button icon = "check" />
+            <View style = {styles.view}>
+                <Text style = {styles.text}> Items Borrowed </Text>
+                <MaterialCommunityIcons 
+                    name = "check" 
+                    color = "black"
+                    size = {20}
+                />
+            </View>
         </Snackbar>
     );
 }
 
 const styles = StyleSheet.create({
     toast: {
+        flex: 1,
         flexDirection: 'row',
         backgroundColor: 'white',
         width: '50%',
         alignSelf: 'center',
         alignItems: 'center',
+        justifyContent: 'flex-end',
         borderRadius: 20,
         bottom: 75
     },
+    view: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '105%'
+    },
     text: {
-        color: 'black',
-        height: '100%',
+        color: 'black'
     }
   });
 
