@@ -1,5 +1,5 @@
 # Workflow to push to Amplify on commit
-name: Amplify CD
+name: Backend CD
 
 # Controls when the action will run. 
 on:
@@ -42,7 +42,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
-      - name: install, build and test
+      - name: install, build and unit test
         run: |
           npm install
           npm run build
@@ -58,7 +58,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
-      - name: integration test after push
+      - name: integration test
         run: |
           npm run test:integ
 
