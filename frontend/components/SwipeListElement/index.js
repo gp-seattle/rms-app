@@ -3,20 +3,6 @@ import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import { Swipeable, RectButton } from 'react-native-gesture-handler';
 import { Button, withTheme } from 'react-native-paper';
 import ListElement from '../ListElement';
-// const AnimatedView = Animated.createAnimatedComponent(View);
-
-// const renderRightActions = (progress, dragX) => {
-// 	const scale = dragX.interpolate({
-// 		inputRange: [-80, 0],
-// 		outputRange: [1, 0],
-// 		extrapolate: 'clamp',
-// 	});
-// 	return (
-// 		<RectButton style={styles.rightAction}>
-// 			<AnimatedView style={[styles.actionItems, { transform: [{ scale }] }]} />
-// 		</RectButton>
-// 	);
-// };
 
 const DashListElement = withTheme(({ iconName, primaryText, secondaryText, theme }) => {
 	return (
