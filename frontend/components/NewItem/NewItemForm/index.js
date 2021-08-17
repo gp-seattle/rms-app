@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-=======
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
->>>>>>> 9447aec (Initial Redux work)
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput, withTheme } from 'react-native-paper';
 import ListDropdown from '../../Dashboard/ListDropdown';
@@ -10,98 +6,6 @@ import GroupSelector from '../../GroupSelector';
 import QuantityBar from '../../QuantityBar';
 import RMSToggleButton from '../../RMSToggleButton';
 
-<<<<<<< HEAD
-const NewItemForm = withTheme((props) => {
-	const [location, setLocation] = useState();
-	const [description, setDescription] = useState();
-	const [name, setName] = useState();
-	const [amount, setAmount] = useState();
-	const [categories, setCategories] = useState();
-	const locations = [
-		{
-			label: 'Wedgewood',
-			value: 'Wedgwood',
-		},
-		{
-			label: '100s',
-			value: '100s',
-		},
-		{
-			label: "Yeh's",
-			value: "Yeh's",
-		},
-	];
-	return (
-		<>
-			<View style={styles.formBody}>
-				<View>
-					<TextInput
-						placeholder="Name"
-						mode="outlined"
-						label="Name"
-						style={styles.input}
-						onChangeText={setName}
-					/>
-					<TextInput
-						placeholder="Item Description"
-						mode="outlined"
-						label="Description"
-						style={styles.input}
-						onChangeText={setDescription}
-					/>
-					<View
-						style={{
-							...styles.itemEditors,
-							backgroundColor: props.theme.colors.secondaryFifty,
-						}}>
-						<Text style={styles.itemText}>Location</Text>
-						<ListDropdown
-							list={locations}
-							style={{ borderRadius: 10, width: 150, ...styles.itemDropDown }}
-							onValueChange={(itemSelected) => setLocation(itemSelected)}
-							dropdownStyle={{ borderRadius: 20 }}
-							textStyle={{ fontSize: 14 }}
-						/>
-					</View>
-					<View
-						style={{
-							...styles.itemEditors,
-							backgroundColor: props.theme.colors.secondaryFifty,
-						}}>
-						<Text style={styles.itemText}>Amount of Items</Text>
-						<QuantityBar
-							style={{ ...styles.itemDropDown, ...styles.quantity }}
-							textColor="black"
-							iconColor="grey"
-							textSize={20}
-							min={1}
-							onValueChanged={setAmount}
-						/>
-					</View>
-				</View>
-				<View style={styles.categoriesSelector}>
-					<Text style={styles.categoriesText}>Categories</Text>
-					<GroupSelector
-						items={[
-							'Video',
-							'Audio',
-							'Sports',
-							'Tech',
-							'Ambiance',
-							'Instruments',
-							'Lighting',
-						]}
-						ButtonComponent={RMSToggleButton}
-						style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
-						buttonStyle={{ marginTop: 7 }}
-						onSelectedChange={setCategories}
-					/>
-				</View>
-			</View>
-		</>
-	);
-});
-=======
 const NewItemForm = withTheme(
 	forwardRef(({ onValidChange, theme }, ref) => {
 		const [location, setLocation] = useState();
@@ -246,7 +150,6 @@ const NewItemForm = withTheme(
 		);
 	}),
 );
->>>>>>> 9447aec (Initial Redux work)
 
 const styles = StyleSheet.create({
 	formBody: {
@@ -266,10 +169,6 @@ const styles = StyleSheet.create({
 		marginLeft: '5%',
 		marginRight: '5%',
 		marginTop: '3%',
-<<<<<<< HEAD
-		justifyContent: 'space-evenly',
-=======
->>>>>>> 9447aec (Initial Redux work)
 	},
 	categoriesText: {
 		fontWeight: 'bold',
