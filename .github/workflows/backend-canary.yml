@@ -1,0 +1,42 @@
+# Workflow to regularly run tests
+name: Backend Canary
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow every hour
+  schedule:
+    - cron: '0 * * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  run-canary:
+    runs-on: ubuntu-latest
+    environment: AmplifyCD
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: use node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: install, build and test (both unit and integ)
+        run: |
+          npm install
+          npm run build
+          npm run test
