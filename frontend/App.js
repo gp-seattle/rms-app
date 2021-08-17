@@ -28,7 +28,7 @@ function MainTabs({ navigation }) {
 				iconName="home"
 				onAddItem={() => navigation.navigate('addItem')}
 			/>
-			<Inventory name="inv" title="Inventory" iconName="format-list-bulleted" />
+			<Inventory name="inv" title="Inventory" iconName="format-list-bulleted" onAddItem={() => navigation.navigate('addItem')}/>
 			<View name="account" title="Account" iconName="account" />
 		</RMSTabsNavigator>
 	);
