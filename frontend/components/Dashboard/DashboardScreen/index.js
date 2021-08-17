@@ -91,7 +91,7 @@ const DashboardScreen = (props) => {
 	return (
 		<>
 			<ScrollView style={styles.container} contentContainerStyle={styles.container}>
-				<View style={styles.contentBox}>
+				<View style={styles.contentContainer}>
 					<RMSTitle />
 					<GroupSelection
 						items={GROUPS.map((group) => group.toUpperCase())}
@@ -146,17 +146,12 @@ const styles = StyleSheet.create({
 		paddingRight: '3%',
 	},
 	contentContainer: {
-		alignItems: 'center',
-		justifyContent: 'flex-start',
 		marginBottom: 100,
 	},
 	title: {
 		marginTop: 20,
 		fontWeight: 'bold',
 		fontSize: 25,
-	},
-	contentBox: {
-		marginBottom: 100,
 	},
 });
 
