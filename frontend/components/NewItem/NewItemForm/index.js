@@ -14,7 +14,7 @@ const NewItemForm = withTheme((props) => {
 	const [categories, setCategories] = useState();
 	const locations = [
 		{
-			label: 'Wedgewood',
+			label: 'Wedgwood',
 			value: 'Wedgwood',
 		},
 		{
