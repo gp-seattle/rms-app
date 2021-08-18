@@ -38,7 +38,6 @@ export enum TestConstants {
 
     ITEM_ID = "123",
     ITEM_ID_2 = "12345",
-    ITEM_ID_3 = "123456789",
     OWNER = "test owner",
     OWNER_2 = "test owner 2",
     BORROWER = "test borrower",
@@ -50,6 +49,9 @@ export enum TestConstants {
     RESERVATION_ID_2 = "321-54321",
     START_DATE = "23-02-2022-08-30",
     END_DATE = "25-02-2022-08-30",
+    START_DATE_2 = "24-02-2022-10-30",
+    END_DATE_2 = "25-02-2022-05-30",
+    START_DATE_3 = "22-02-2022-05-30"
 }
 
 export enum TestTimestamps {

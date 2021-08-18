@@ -37,15 +37,21 @@ export class GetReservation {
 
     /**
      * Required params in scratch object:
-     * @param key Name or ID of item
+     * @param id ID of reservation
      */
     public execute(scratch: GetReservationInput): Promise<ScheduleSchema> {
         return emitAPIMetrics(
             () => {
                 return this.performAllFVAs(scratch)
                     .then(() => this.scheduleTable.get(scratch.id))
-            }
-            ,
+                    .then((ret: ScheduleSchema) => {
+                        if (ret !== undefined) {
+                            return ret
+                        } else {
+                            throw Error(`Reservation not found. id: '${scratch.id}' is invalid`)
+                        }
+                    })
+            },
             GetReservation.NAME, this.metrics
         )
     }

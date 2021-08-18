@@ -1,7 +1,7 @@
 import { ScheduleTable } from "../db/ScheduleTable"
 import { ItemTable } from "../db/ItemTable"
 import { TransactionsTable } from "../db/TransactionsTable"
-import { ItemsSchema } from "../db/Schemas"
+import { ScheduleSchema } from "../db/Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
@@ -64,7 +64,7 @@ export class CreateReservation {
         return emitAPIMetrics(
             () => {
                 return this.performAllFVAs(input)
-                .then(() => this.getUniqueId(input.ids.toString()))
+                .then(() => this.getUniqueId(input.ids[0].toString()))
                 .then((id: string) => {
                     return this.scheduleTable
                         .create(id, input.borrower, input.ids, input.startTime, input.endTime, input.notes)
@@ -80,16 +80,16 @@ export class CreateReservation {
      * @param id Random Id generator
      */
     public getUniqueId(name: string): Promise<string> {
-        const hex = Math.floor(Math.random() * 16777215).toString(16) // Random Hex Code
-        const codeName = name.toLowerCase().replace(" ", "_") // To Lowercase
-        const id = `${codeName}-${hex}`
-        return this.itemTable.get(id)
-            .then((item: ItemsSchema) => {
+        const curEpochMs: number = Date.now()
+        const id: string = `${curEpochMs}-${name}`
+
+        return this.scheduleTable.get(id)
+            .then((item: ScheduleSchema) => {
                 if (item) {
-                    // Item Returned
+                    // Schedule ID not unique, try again
                     return this.getUniqueId(name)
                 } else {
-                    // No Item Returned
+                    // Schedule ID is unique
                     return id;
                 }
             })

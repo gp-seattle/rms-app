@@ -162,6 +162,7 @@ export class ScheduleTable {
 
     /**
      * Get reservation from id
+     * returns null if reservation not found.
      */
     public get(
         id: string
@@ -177,7 +178,7 @@ export class ScheduleTable {
                 if (output) {
                     return output.Item as ScheduleSchema
                 } else {
-                    throw Error(`Reservation not found: ${id}`)
+                    return undefined
                 }
             })
     }

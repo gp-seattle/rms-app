@@ -35,17 +35,14 @@ test('will fail to get reservation when id is not passed in', async () => {
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
 })
 
-/*
-TODO: This test resolves with "undefined" instead of failing. Not sure why.
 test('will fail to get reservation when id is invalid', async () => {
     const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
     const api: GetReservation = new GetReservation(dbClient)
 
     await expect(
         api.execute({
-            id: TestConstants.RESERVATION_ID_2
+            id: TestConstants.BAD_REQUEST
         })
-    ).rejects.toThrow(`Reservation not found: ${TestConstants.RESERVATION_ID_2}`)
+    ).rejects.toThrow(`Reservation not found. id: '${TestConstants.BAD_REQUEST}' is invalid`)
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
 })
-*/

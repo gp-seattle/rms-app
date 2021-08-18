@@ -20,9 +20,9 @@ test('will fail to delete reservation when id is invalid', async () => {
 
     await expect(
         api.execute({
-            id: TestConstants.RESERVATION_ID_2
+            id: TestConstants.BAD_REQUEST
         })
-    ).rejects.toThrow(`Schedule ${TestConstants.RESERVATION_ID_2} doesn't exist.`)
+    ).rejects.toThrow(`Schedule ${TestConstants.BAD_REQUEST} doesn't exist.`)
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
 })
 

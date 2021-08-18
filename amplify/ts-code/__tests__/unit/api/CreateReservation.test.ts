@@ -50,12 +50,12 @@ test('will fail to create reservation when itemId is invalid', async () => {
     await expect(
         api.execute({
             borrower: TestConstants.BORROWER,
-            ids: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_3],
+            ids: [TestConstants.ITEM_ID, TestConstants.BAD_REQUEST],
             startTime: TestConstants.START_DATE,
             endTime: TestConstants.END_DATE,
             notes: TestConstants.NOTES
         })
-    ).rejects.toThrow(`Unable to find itemId ${TestConstants.ITEM_ID_3}`)
+    ).rejects.toThrow(`Unable to find itemId ${TestConstants.BAD_REQUEST}`)
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)
 })
 
@@ -150,4 +150,79 @@ test('will fail to create reservation when duplicate item ids are passed in', as
     expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)
 })
 
+test('will fail to create reservation when startTime is in the range of another reservation', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
+    const api: CreateReservation = new CreateReservation(dbClient)
+
+    // Mock ID
+    CreateReservation.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.RESERVATION_ID_2));
+
+    await expect(
+        api.execute({
+            borrower: TestConstants.BORROWER_2,
+            ids: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2],
+            startTime: TestConstants.START_DATE_2,
+            endTime: TestConstants.END_DATE,
+            notes: TestConstants.NOTES
+        })
+    ).rejects.toThrow(`Item ${TestConstants.ITEM_ID} is reserved starting ${TestConstants.START_DATE} and ending ${TestConstants.END_DATE}`)
+    expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
+})
+
+test('will fail to create reservation when endTime is in the range of another reservation', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
+    const api: CreateReservation = new CreateReservation(dbClient)
+
+    // Mock ID
+    CreateReservation.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.RESERVATION_ID_2));
+
+    await expect(
+        api.execute({
+            borrower: TestConstants.BORROWER_2,
+            ids: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2],
+            startTime: TestConstants.START_DATE_3,
+            endTime: TestConstants.END_DATE_2,
+            notes: TestConstants.NOTES
+            })
+    ).rejects.toThrow(`Item ${TestConstants.ITEM_ID} is reserved starting ${TestConstants.START_DATE} and ending ${TestConstants.END_DATE}`)
+    expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
+})
+
+test('will fail to create reservation when startTime format is wrong', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
+    const api: CreateReservation = new CreateReservation(dbClient)
+
+    // Mock ID
+    CreateReservation.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.RESERVATION_ID_2));
+
+    await expect(
+        api.execute({
+            borrower: TestConstants.BORROWER_2,
+            ids: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2],
+            startTime: TestConstants.BAD_REQUEST,
+            endTime: TestConstants.END_DATE,
+            notes: TestConstants.NOTES
+            })
+    ).rejects.toThrow(`Date format incorrect for 'startTime' ${TestConstants.BAD_REQUEST}`)
+    expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)
+})
+
+test('will fail to create reservation when endTime format is wrong', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
+    const api: CreateReservation = new CreateReservation(dbClient)
+
+    // Mock ID
+    CreateReservation.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.RESERVATION_ID_2));
+
+    await expect(
+        api.execute({
+            borrower: TestConstants.BORROWER_2,
+            ids: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2],
+            startTime: TestConstants.START_DATE,
+            endTime: TestConstants.BAD_REQUEST,
+            notes: TestConstants.NOTES
+            })
+    ).rejects.toThrow(`Date format incorrect for 'endTime' ${TestConstants.BAD_REQUEST}`)
+    expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)
+})
 
