@@ -36,9 +36,9 @@ export async function AddNewItem(name, description, location, amount, categories
 		}),
 	}).Payload;
 	if (resultId) {
-		return undefined;
-	} else {
 		return resultId.substring(1, resultId.length - 1);
+	} else {
+		return undefined;
 	}
 }
 
