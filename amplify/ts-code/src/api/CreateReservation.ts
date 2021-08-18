@@ -39,10 +39,10 @@ export class CreateReservation {
             return this.transactionsTable.appendToScratch(number, "borrower", request)
                 .then(() => "Start time of reservation in dd-mm-yyyy-hr-min (Ex: 02-23-2022-20-30 for Feb 23 2022 8:30PM)")
         } else if (scratch.startTime === undefined) {
-            return this.transactionsTable.appendToScratch(number, "borrower", request)
+            return this.transactionsTable.appendToScratch(number, "startTime", request)
                 .then(() => "End time of reservation in dd-mm-yyyy-hr-min (Ex: 02-23-2022-20-30 for Feb 23 2022 8:30PM)")
         } else if (scratch.endTime === undefined) {
-            return this.transactionsTable.appendToScratch(number, "borrower", request)
+            return this.transactionsTable.appendToScratch(number, "endTime", request)
                 .then(() => "Optional notes to leave about this action:")
         } else {
             scratch.notes = request
