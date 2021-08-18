@@ -192,13 +192,13 @@ export class ScheduleTable {
      * @returns Returns true if (startDate1, endDate1) overlaps with the date range of (startDate2, endDate2). Returns false otherwise
      */
          private validateDate(startDate1: string, endDate1:string, startDate2: string, endDate2: string): boolean {
-            const oldStartTimeArr = startDate1.split("-").map((num) => parseInt(num))
+            const oldStartTimeArr = startDate1.split("-").map((num) => parseInt(num, 10))
             const oldStartTime = new Date(oldStartTimeArr[2], oldStartTimeArr[1], oldStartTimeArr[0], oldStartTimeArr[3], oldStartTimeArr[4], 0)
-            const oldEndTimeArr = endDate1.split("-").map((num) => parseInt(num))
+            const oldEndTimeArr = endDate1.split("-").map((num) => parseInt(num, 10))
             const oldEndTime = new Date(oldEndTimeArr[2], oldEndTimeArr[1], oldEndTimeArr[0], oldEndTimeArr[3], oldEndTimeArr[4], 0)
-            const newStartTimeArr = startDate2.split("-").map((num) => parseInt(num))
+            const newStartTimeArr = startDate2.split("-").map((num) => parseInt(num, 10))
             const newStartTime = new Date(newStartTimeArr[2], newStartTimeArr[1], newStartTimeArr[0], newStartTimeArr[3], newStartTimeArr[4], 0)
-            const newEndTimeArr = endDate2.split("-").map((num) => parseInt(num))
+            const newEndTimeArr = endDate2.split("-").map((num) => parseInt(num, 10))
             const newEndTime = new Date(newEndTimeArr[2], newEndTimeArr[1], newEndTimeArr[0], newEndTimeArr[3], newEndTimeArr[4], 0)
             return (newStartTime >= oldStartTime && newStartTime <= oldEndTime) || (newEndTime >= oldStartTime && newEndTime <= oldEndTime)
     }
