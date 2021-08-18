@@ -1,24 +1,21 @@
 import { Amplify, Auth } from 'aws-amplify';
 import AWS from 'aws-sdk';
-import * as WebBrowser from 'expo-web-browser';
-import { TestConstants } from '../../../amplify/ts-code/__dev__/db/DBTestConstants';
-import awsconfig from "../../../src/aws-exports";
 import * as Linking from 'expo-linking';
-import "react-native-url-polyfill/auto";
-import "react-native-get-random-values";
+import * as WebBrowser from 'expo-web-browser';
+import 'react-native-get-random-values';
+import 'react-native-url-polyfill/auto';
+import { TestConstants } from '../../../amplify/ts-code/__dev__/db/DBTestConstants';
+import awsconfig from '../../../src/aws-exports';
 
 const ENV_SUFFIX = '-alpha';
 const ENV_REGION = 'us-west-2';
 
 async function urlOpener(url, redirectUrl) {
-	const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(
-			url,
-			redirectUrl
-	);
+	const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(url, redirectUrl);
 
 	if (type === 'success' && Platform.OS === 'ios') {
-			WebBrowser.dismissBrowser();
-			return Linking.openURL(newUrl);
+		WebBrowser.dismissBrowser();
+		return Linking.openURL(newUrl);
 	}
 }
 
@@ -28,17 +25,21 @@ export async function AddNewItem(name, description, location, amount, categories
 		description,
 		location,
 		amount,
-		categories
+		categories,
 	});
 	let resultId = await invoke({
 		FunctionName: `AddItem${ENV_SUFFIX}`,
 		Payload: JSON.stringify({
 			name,
 			tags: categories,
-			notes
+			notes,
 		}),
 	}).Payload;
-	return resultId.substring(1, resultId.length - 1);
+	if (resultId) {
+		return undefined;
+	} else {
+		return resultId.substring(1, resultId.length - 1);
+	}
 }
 
 export async function DeleteItem(id) {
@@ -52,12 +53,12 @@ export async function DeleteItem(id) {
 
 export async function AmplifyInit() {
 	Amplify.configure({
-    ...awsconfig,
-    oauth: {
-        ...awsconfig.oauth,
-        urlOpener,
-    },
-});
+		...awsconfig,
+		oauth: {
+			...awsconfig.oauth,
+			urlOpener,
+		},
+	});
 	await Auth.signIn({
 		username: TestConstants.EMAIL,
 		password: TestConstants.PASSWORD,
@@ -66,10 +67,10 @@ export async function AmplifyInit() {
 }
 
 async function close() {
-	await Auth.signOut()
+	await Auth.signOut();
 	try {
 		await Auth.currentCredentials();
-	} catch(e) {
+	} catch (e) {
 		console.error(e);
 	}
 }
@@ -85,7 +86,7 @@ async function invoke(params) {
 	lambda.invoke(params, function (data, err) {
 		if (err) {
 			console.log(err, err.stack);
-		}else{
+		} else {
 			resultData = data;
 		}
 	});

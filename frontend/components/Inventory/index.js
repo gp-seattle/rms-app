@@ -1,31 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Searchbar } from 'react-native-paper';
+import { Searchbar } from 'react-native-paper';
 import { useReduxSliceProperty } from '../../store/sliceManager';
 import itemsSlice from '../../store/slices/itemsSlice';
 import SwipeListElement from '../SwipeListElement';
-import { GetDBData } from '../Util/UtilRead';
 import { DeleteItem } from '../Util/UtilWrite';
 
 const ItemListElement = ({ iconName, text, itemId }) => {
 	const [deleted, setDeleted] = useState(false);
 
+	const Swiper = ({ onButtonPress }) => {
+		return (
+			<SwipeListElement
+				primaryText={text}
+				iconLeft={iconName}
+				buttonText="DELETE"
+				backgroundColor={'red'}
+				iconColor="black"
+				onButtonPress={onButtonPress}
+			/>
+		);
+	};
+
 	return (
-		<SwipeListElement
-			primaryText={text}
-			iconLeft={iconName}
-			buttonText="DELETE"
-			backgroundColor={deleted ? "gray" : "red"}
-			iconColor="black"
-			onButtonPress={() => {
-				if (!deleted) {
-					console.log("Yay");
-					setDeleted(true);
-					DeleteItem(itemId);
-				}
-			}}
-		/>
+		<>
+			{deleted ? (
+				<>
+					<View pointerEvents="none">
+						<Swiper />
+					</View>
+				</>
+			) : (
+				<Swiper
+					onButtonPress={() => {
+						if (!deleted) {
+							setDeleted(true);
+							DeleteItem(itemId);
+						}
+					}}
+				/>
+			)}
+		</>
 	);
 };
 
@@ -34,10 +50,6 @@ const Inventory = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const onChangeSearch = (query) => setSearchQuery(query);
-
-	useEffect(() => {
-		console.log(itemsState);
-	}, [itemsState]);
 
 	return (
 		<View>
@@ -51,7 +63,6 @@ const Inventory = () => {
 					value={searchQuery}
 					style={{ marginTop: 50 }}
 				/>
-				<Button onPress={GetDBData}>Update!</Button>
 				<View style={{ marginTop: 50, marginLeft: '5%' }}>
 					{itemsState.items.map((item) => (
 						<ItemListElement

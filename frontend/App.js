@@ -3,14 +3,14 @@ import React, { useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
-import { DynamoDBStreamInit } from './components/Util/UtilRead';
 import Dashboard from './components/Dashboard/DashboardScreen';
 import Inventory from './components/Inventory';
 import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
 import StackNavigator from './components/Navigation/StackNavigator';
 import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
-import { AmplifyInit, DeleteItem } from './components/Util/UtilWrite';
+import { DynamoDBStreamInit } from './components/Util/UtilRead';
+import { AmplifyInit } from './components/Util/UtilWrite';
 import store from './store/store';
 
 function BackButton({ onPress }) {
@@ -41,8 +41,6 @@ function App() {
 		(async () => {
 			await AmplifyInit();
 			await DynamoDBStreamInit();
-			// const { Main, Items, Batch, Tags, History, Schedule } = initSchema(schema);
-			// await DataStore.start();
 		})();
 	}, []);
 

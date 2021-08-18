@@ -2,13 +2,12 @@ const DynamoDBStream = require('dynamodb-stream');
 const { DynamoDB } = require('@aws-sdk/client-dynamodb');
 const { DynamoDBStreams } = require('@aws-sdk/client-dynamodb-streams');
 const { unmarshall } = require('@aws-sdk/util-dynamodb');
-import 'react-native-url-polyfill/auto';
-import 'react-native-get-random-values';
 import { Auth } from 'aws-amplify';
+import 'react-native-get-random-values';
+import 'react-native-url-polyfill/auto';
 import { getReduxSlice } from '../../store/sliceManager';
 import itemsSlice from '../../store/slices/itemsSlice';
 import store from '../../store/store';
-import { DeleteItem } from './UtilWrite';
 
 const itemsInterface = getReduxSlice(store, itemsSlice);
 
@@ -39,31 +38,26 @@ export async function DynamoDBStreamInit() {
 	const { Items } = await ddb.scan({ TableName: TABLE_NAME });
 	Items.map(unmarshall).forEach((item) => localState.set(item.id, item));
 
-	//JUST FOR DEBUG
-	// Items.map(unmarshall).forEach(async (item) => {
-	// 	await DeleteItem(item.id);
-	// });
-
 	await translateToRedux('init', Items.map(unmarshall));
 
-	// parse results and store in local state
 	const watchStream = () => {
 		setTimeout(() => ddbStream.fetchStreamState().then(watchStream), 10 * 1000);
 	};
 	watchStream();
 
 	ddbStream.on('insert record', (data, keys) => {
-		translateToRedux("insert", data);
+		translateToRedux('insert', data);
 	});
 
 	ddbStream.on('remove record', (data, keys) => {
-		translateToRedux("remove", keys);
+		translateToRedux('remove', keys);
 	});
 
+	//TODO
 	ddbStream.on('modify record', (newData, oldData, keys) => {
-		translateToRedux("modify", {
+		translateToRedux('modify', {
 			data: newData,
-			keys
+			keys,
 		});
 	});
 }
@@ -73,7 +67,7 @@ async function translateToRedux(action, data) {
 		const allItems = data;
 		for (let i = 0; i < allItems.length; i++) {
 			const notes = JSON.parse(allItems[i].notes);
-			itemsInterface.addLocalItem(
+			itemsInterface.addItem(
 				allItems[i].id,
 				notes.capsName,
 				notes.description,
@@ -84,10 +78,9 @@ async function translateToRedux(action, data) {
 		}
 		console.log('Done initing!');
 	} else if (action === 'insert') {
-		console.log("Insert! Data = ", data);
 		const item = data;
 		const notes = JSON.parse(item.notes);
-		itemsInterface.addLocalItem(
+		itemsInterface.addItem(
 			item.id,
 			notes.capsName,
 			notes.description,
@@ -95,10 +88,11 @@ async function translateToRedux(action, data) {
 			notes.amount,
 			notes.categories,
 		);
-	} else if(action === 'remove') {
-		console.log("Remove! Data = ", data);
-		itemsInterface.removeLocalItem(
-			data.id,
-		);
+	} else if (action === 'remove') {
+		itemsInterface.removeItem(data.id);
+	} else if (action === 'modify') {
+		const item = data.data;
+		const id = data.keys.id;
+		itemsInterface.modifyItem(id, item);
 	}
 }

@@ -18,7 +18,7 @@ const ItemsLayout = () => {
 		items: [],
 	};
 
-	function addLocalItem(state, id, name, description, location, amount, categories) {
+	function addItem(state, id, name, description, location, amount, categories) {
 		let iconName = ICONS[CATEGORIES.indexOf(categories[0])];
 		if (id === undefined) {
 			id = state.nextId++;
@@ -44,7 +44,7 @@ const ItemsLayout = () => {
 		state.items[oldItemIndex] = newItem;
 	}
 
-	function removeLocalItem(state, id) {
+	function removeItem(state, id) {
 		let itemIndex;
 		for (let i = 0; i < state.items.length; i++) {
 			if (state.items[i].id === id) {
@@ -57,21 +57,16 @@ const ItemsLayout = () => {
 		}
 	}
 
-	async function addItem(functions, name, description, location, amount, categories) {
-		let id = await AddNewItem(name, description, location, amount, categories);
-		functions.addLocalItem(id, name, description, location, amount, categories);
-	}
-
 	return {
 		name,
 		initialState,
 		functions: {
-			addLocalItem,
+			addItem,
 			modifyItem,
-			removeLocalItem,
+			removeItem,
 		},
 		asyncFunctions: {
-			addItem,
+
 		},
 	};
 };
