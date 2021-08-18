@@ -2,10 +2,13 @@ import { AddItem } from "../../../../src/api/AddItem"
 import { BorrowBatch } from "../../../../src/api/BorrowBatch"
 import { BorrowItem } from "../../../../src/api/BorrowItem"
 import { CreateBatch } from "../../../../src/api/CreateBatch"
+import { CreateReservation } from "../../../../src/api/CreateReservation"
 import { DeleteBatch } from "../../../../src/api/DeleteBatch"
 import { DeleteItem } from "../../../../src/api/DeleteItem"
+import { DeleteReservation } from "../../../../src/api/DeleteReservation"
 import { GetBatch, getBatchItem } from "../../../../src/api/GetBatch"
 import { GetItem, getItemHeader, getItemItem } from "../../../../src/api/GetItem"
+import { GetReservation, formatSchedule } from "../../../../src/api/GetReservation"
 import { PrintTable } from "../../../../src/api/internal/PrintTable"
 import { ReturnBatch } from "../../../../src/api/ReturnBatch"
 import { ReturnItem } from "../../../../src/api/ReturnItem"
@@ -14,7 +17,7 @@ import { UpdateDescription } from "../../../../src/api/UpdateDescription"
 import { UpdateItemNotes } from "../../../../src/api/UpdateItemNotes"
 import { UpdateItemOwner } from "../../../../src/api/UpdateItemOwner"
 import { UpdateTags } from "../../../../src/api/UpdateTags"
-import { ItemsSchema, MainSchema } from "../../../../src/db/Schemas"
+import { ItemsSchema, MainSchema, ScheduleSchema } from "../../../../src/db/Schemas"
 import { ADVANCED_HELP_MENU, BASIC_HELP_MENU, HELP_MENU, Router } from "../../../../src/handlers/router/Router"
 import { DBSeed, TestConstants, TestTimestamps } from "../../../../__dev__/db/DBTestConstants"
 import { LocalDBClient } from "../../../../__dev__/db/LocalDBClient"
@@ -351,6 +354,74 @@ test('will return item correctly when using router', async () => {
         }).then((output: string) => {
             expect(output).toEqual(`Successfully returned items '${TestConstants.ITEM_ID}'.`)
             expect(dbClient.getDB()).toEqual(DBSeed.ONE_NAME_RETURNED)
+        })
+})
+
+test('will create reservation correctly when using router', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH)
+    const router: Router = new Router(dbClient)
+
+    // Mock ID
+    CreateReservation.prototype.getUniqueId = jest.fn(() => Promise.resolve(TestConstants.RESERVATION_ID));
+
+    await router.processRequest(CreateReservation.NAME, TestConstants.NUMBER)
+        .then((output: string) => {
+            expect(output).toEqual("IDs of Items (separated by spaces):")
+            return router.processRequest(`${TestConstants.ITEM_ID} ${TestConstants.ITEM_ID_2}`, TestConstants.NUMBER)
+        }).then((output: string) => {
+            expect(output).toEqual("Name of intended borrower:")
+            return router.processRequest(TestConstants.BORROWER, TestConstants.NUMBER)
+        }).then((output: string) => {
+            expect(output).toEqual("Start time of reservation in yyyy-mm-dd-hr-min (Ex: 2022-23-02-20-30 for 2022 Feb 23 8:30PM)")
+            return router.processRequest(TestConstants.START_DATE, TestConstants.NUMBER)
+        }).then((output: string) => {
+            expect(output).toEqual("End time of reservation in yyyy-mm-dd-hr-min (Ex: 2022-23-02-20-30 for 2022 Feb 23 8:30PM)")
+            return router.processRequest(TestConstants.END_DATE, TestConstants.NUMBER)
+        }).then((output: string) => {
+            expect(output).toEqual("Optional notes to leave about this action:")
+            return router.processRequest(TestConstants.NOTES, TestConstants.NUMBER)
+        }).then((output: string) => {
+            expect(output).toEqual(`Created reservation with reservation ID: ${TestConstants.RESERVATION_ID}`)
+            expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
+        })
+})
+
+test('will get reservation correctly when using router', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
+    const router: Router = new Router(dbClient)
+
+    const expectedReservation: ScheduleSchema = {
+        id: TestConstants.RESERVATION_ID,
+        borrower: TestConstants.BORROWER,
+        itemIds: [TestConstants.ITEM_ID, TestConstants.ITEM_ID_2],
+        startTime: TestConstants.START_DATE,
+        endTime: TestConstants.END_DATE,
+        notes: TestConstants.NOTES
+    }
+
+    const expectedStr: string = formatSchedule(expectedReservation)
+
+    router.processRequest(GetReservation.NAME, TestConstants.NUMBER)
+        .then((output: string) => {
+            expect(output).toEqual("ID of reservation:")
+            return router.processRequest(TestConstants.RESERVATION_ID, TestConstants.NUMBER)
+        }).then((output: string) => {
+            expect(output).toEqual(expectedStr)
+            expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
+        })
+})
+
+test('will delete reservation correctly when using router', async () => {
+    const dbClient: LocalDBClient = new LocalDBClient(DBSeed.TWO_NAMES_ONE_BATCH_RESERVED)
+    const router: Router = new Router(dbClient)
+
+    router.processRequest(DeleteReservation.NAME, TestConstants.NUMBER)
+        .then((output: string) => {
+            expect(output).toEqual("ID of reservation:")
+            return router.processRequest(TestConstants.RESERVATION_ID, TestConstants.NUMBER)
+        }).then((output: string) => {
+            expect(output).toEqual(`Successfully deleted reservation '${TestConstants.RESERVATION_ID}'.`)
+            expect(dbClient.getDB()).toEqual(DBSeed.TWO_NAMES_ONE_BATCH)
         })
 })
 

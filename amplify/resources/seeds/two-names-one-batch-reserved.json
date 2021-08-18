@@ -22,9 +22,9 @@
             "owner":"test owner",
             "notes":"test note",
             "borrower":"",
-            "batch": ["test batch", "test batch 2"],
+            "batch": ["test batch"],
             "history": [],
-            "schedule": []
+            "schedule": ["123-12345"]
         },
         "12345":{
             "id":"12345",
@@ -34,18 +34,13 @@
             "borrower":"",
             "batch": ["test batch"],
             "history": [],
-            "schedule": []
+            "schedule": ["123-12345"]
         }
     },
     "batch":{
         "test batch": {
             "id": "test batch",
             "val": ["123", "12345"],
-            "groups": ["group1"]
-        },
-        "test batch 2": {
-            "id": "test batch 2",
-            "val": ["123"],
             "groups": ["group1"]
         }
     },
@@ -60,6 +55,15 @@
         }
     },
     "history":{},
-    "schedule":{},
+    "schedule":{
+        "123-12345": {
+            "id": "123-12345",
+            "borrower": "test borrower",
+            "itemIds": ["123", "12345"],
+            "startTime": "2022-02-23-08-30",
+            "endTime": "2022-02-25-08-30",
+            "notes": "test note"
+        }
+    },
     "transactions":{}
 }

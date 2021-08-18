@@ -10,6 +10,7 @@ import {
     TAGS_TABLE, TagsSchema,
     TRANSACTIONS_TABLE, TransactionsSchema,
     HISTORY_TABLE, HistorySchema,
+    SCHEDULE_TABLE, ScheduleSchema
 } from "../../src/db/Schemas"
 
 interface LocalDB {
@@ -18,6 +19,7 @@ interface LocalDB {
     batch: { [key: string]: BatchSchema },
     tags: { [key: string]: TagsSchema },
     history: { [key: string]: HistorySchema },
+    schedule: { [key: string]: ScheduleSchema}
     transactions: { [key: string]: TransactionsSchema }
 }
 
@@ -74,6 +76,10 @@ export class LocalDBClient implements DBClient {
                 const val: HistorySchema = params.Item as HistorySchema
                 const key: string = val.id
                 this.db.history[key] = val
+            }  else if (params.TableName == SCHEDULE_TABLE) {
+                const val: ScheduleSchema = params.Item as ScheduleSchema
+                const key: string = val.id
+                this.db.schedule[key] = val
             } else if (params.TableName == TRANSACTIONS_TABLE) {
                 const val: TransactionsSchema = params.Item as TransactionsSchema
                 const key: string = val.number
@@ -188,6 +194,8 @@ export class LocalDBClient implements DBClient {
             return this.db.tags
         } else if (tableName === HISTORY_TABLE) {
             return this.db.history
+        } else if (tableName === SCHEDULE_TABLE) {
+            return this.db.schedule
         } else if (tableName == TRANSACTIONS_TABLE) {
             return this.db.transactions
         } else {

@@ -39,8 +39,47 @@ export class ScheduleTable {
                         Item: reservation
                     }
 
-                    return this.client.put(indexParams)
-                            .then(() => Promise.all((itemIds.map((itemId: string) => {
+                    if (Array.from(new Set(itemIds)).length !== itemIds.length) {
+                        throw Error("Duplicate itemIds were passed in")
+                    }
+
+                    return Promise.all((itemIds.map((itemId: string) => {
+                        const getItemsParams: DocumentClient.GetItemInput = {
+                            TableName: ITEMS_TABLE,
+                            Key: {
+                                "id": itemId
+                            }
+                        }
+                        return this.client.get(getItemsParams)
+                        .then((output: DocumentClient.GetItemOutput) => {
+                            const item: ItemsSchema = output.Item as ItemsSchema
+                            if (item) {
+                                return Promise.all((item.schedule.map((reservationId: string) => {
+                                    return this.get(reservationId)
+                                        .then((output: ScheduleSchema) => {
+                                        if (this.validateDate(output.startTime, output.endTime, startTime, endTime)) {
+                                            throw Error(`Item ${itemId} is reserved starting ${output.startTime} and ending ${output.endTime}`)
+                                        }
+                                        })
+                                })))
+                            } else {
+                                throw Error(`Unable to find itemId ${itemId}`)
+                            }
+                        })
+                        .then(() => itemId)
+                    })))
+                    .then(() => this.client.put(indexParams))
+                    .then(() => Promise.all((itemIds.map((itemId: string) => {
+                        const getItemsParams: DocumentClient.GetItemInput = {
+                            TableName: ITEMS_TABLE,
+                            Key: {
+                                "id": itemId
+                            }
+                        }
+                        return this.client.get(getItemsParams)
+                        .then((output: DocumentClient.GetItemOutput) => {
+                            const item: ItemsSchema = output.Item as ItemsSchema
+                            if (item) {
                                 const itemsParams: DocumentClient.UpdateItemInput = {
                                     TableName: ITEMS_TABLE,
                                     Key: {
@@ -54,10 +93,14 @@ export class ScheduleTable {
                                         ":val": [id]
                                     }
                                 }
-
                                 return this.client.update(itemsParams)
-                            }))))
-                            .then(() => id)
+                            } else {
+                                throw Error(`Unable to find itemId ${itemId}`)
+                            }
+                        })
+                        .then(() => itemId)
+                    }))))
+                    .then(() => id)
                 }
             })
     }
@@ -121,6 +164,7 @@ export class ScheduleTable {
 
     /**
      * Get reservation from id
+     * returns null if reservation not found.
      */
     public get(
         id: string
@@ -132,6 +176,33 @@ export class ScheduleTable {
             }
         }
         return this.client.get(params)
-            .then((output: DocumentClient.GetItemOutput) => output.Item as ScheduleSchema)
+            .then((output: DocumentClient.GetItemOutput) => {
+                if (output) {
+                    return output.Item as ScheduleSchema
+                } else {
+                    return undefined
+                }
+            })
+    }
+
+    /**
+     * Validates if the given date ranges conflict
+     * @param startDate1 starting date of the first time range. Given in yyyy-mm-dd-hr-min fomat
+     * @param endDate1 end date of the first time range. Given in yyyy-mm-dd-hr-min fomat
+     * @param startDate2 starting date of the second time range. Given in yyyy-mm-dd-hr-min fomat
+     * @param endDate2 end date of the second time range. Given in yyyy-mm-dd-hr-min fomat
+     * @returns Returns true if (startDate1, endDate1) overlaps with the date range of (startDate2, endDate2). Returns false otherwise
+     */
+         private validateDate(startDate1: string, endDate1:string, startDate2: string, endDate2: string): boolean {
+            // Arrays split into: year = [0], month = [1], day = [2], hour = [3], minute = [4]
+            const oldStartTimeArr = startDate1.split("-").map((num) => parseInt(num, 10))
+            const oldStartTime = new Date(oldStartTimeArr[0], oldStartTimeArr[1], oldStartTimeArr[2], oldStartTimeArr[3], oldStartTimeArr[4], 0)
+            const oldEndTimeArr = endDate1.split("-").map((num) => parseInt(num, 10))
+            const oldEndTime = new Date(oldEndTimeArr[0], oldEndTimeArr[1], oldEndTimeArr[2], oldEndTimeArr[3], oldEndTimeArr[4], 0)
+            const newStartTimeArr = startDate2.split("-").map((num) => parseInt(num, 10))
+            const newStartTime = new Date(newStartTimeArr[0], newStartTimeArr[1], newStartTimeArr[2], newStartTimeArr[3], newStartTimeArr[4], 0)
+            const newEndTimeArr = endDate2.split("-").map((num) => parseInt(num, 10))
+            const newEndTime = new Date(newEndTimeArr[0], newEndTimeArr[1], newEndTimeArr[2], newEndTimeArr[3], newEndTimeArr[4], 0)
+            return (newStartTime >= oldStartTime && newStartTime <= oldEndTime) || (newEndTime >= oldStartTime && newEndTime <= oldEndTime)
     }
 }

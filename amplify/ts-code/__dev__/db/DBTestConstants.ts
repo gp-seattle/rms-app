@@ -15,6 +15,7 @@ export enum DBSeed {
     TWO_NAMES_ONE_BATCH_PARTIALLY_BORROWED = require("../../../resources/seeds/two-names-one-batch-partially-borrowed.json"),
     TWO_NAMES_ONE_BATCH_RETURNED = require("../../../resources/seeds/two-names-one-batch-returned.json"),
     TWO_NAMES_ONE_BATCH_MODIFIED = require("../../../resources/seeds/two-names-one-batch-modified.json"),
+    TWO_NAMES_ONE_BATCH_RESERVED = require("../../../resources/seeds/two-names-one-batch-reserved.json"),
     TWO_NAMES_TWO_BATCH = require("../../../resources/seeds/two-names-two-batch.json")
 }
 
@@ -42,7 +43,15 @@ export enum TestConstants {
     BORROWER = "test borrower",
     BORROWER_2 = "test borrower 2",
     NOTES = "test note",
-    NOTES_2 = "test note 2"
+    NOTES_2 = "test note 2",
+
+    RESERVATION_ID = "123-12345",
+    RESERVATION_ID_2 = "321-54321",
+    START_DATE = "2022-02-23-08-30",
+    END_DATE = "2022-02-25-08-30",
+    START_DATE_2 = "2022-02-24-10-30",
+    END_DATE_2 = "2022-02-25-05-30",
+    START_DATE_3 = "2022-02-22-05-30"
 }
 
 export enum TestTimestamps {

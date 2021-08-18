@@ -20,6 +20,9 @@ import { GetBatch } from "../../api/GetBatch"
 import { DeleteBatch } from "../../api/DeleteBatch"
 import { BorrowBatch } from "../../api/BorrowBatch"
 import { ReturnBatch } from "../../api/ReturnBatch"
+import { CreateReservation } from "../../api/CreateReservation"
+import { DeleteReservation } from "../../api/DeleteReservation"
+import { GetReservation } from "../../api/GetReservation"
 
 export const HELP_MENU: string = "Note that all incoming strings are processed with the following assumptions:\n"
     + "- All incoming strings are made into lowercase.\n"
@@ -37,7 +40,10 @@ export const BASIC_HELP_MENU: string = "Basic Operations:\n"
     + "- 'return item': Mark borrowed item as returned.\n"
     + "- 'get batch': Get info about a batch\n"
     + "- 'borrow batch': Borrow all items in a batch.\n"
-    + "- 'return batch': Return all items in a batch."
+    + "- 'return batch': Return all items in a batch.\n"
+    + "- 'create reservation': Creates Reservation to borrow items.\n"
+    + "- 'delete reservation': Deletes Reservation for items.\n"
+    + "- 'get reservation': Get Reservation by ID."
 
 export const ADVANCED_HELP_MENU: string = "Mutating Operations:\n"
     + "- 'add item': Add new item to the database.\n"
@@ -125,6 +131,12 @@ export class Router {
             return new CreateBatch(this.client, this.metrics).router(number, request, scratch)
         } else if (type === DeleteBatch.NAME) {
             return new DeleteBatch(this.client, this.metrics).router(number, request, scratch)
+        } else if (type === CreateReservation.NAME) {
+            return new CreateReservation(this.client, this.metrics).router(number, request, scratch)
+        } else if (type === DeleteReservation.NAME) {
+            return new DeleteReservation(this.client, this.metrics).router(number, request, scratch)
+        } else if (type === GetReservation.NAME) {
+            return new GetReservation(this.client, this.metrics).router(number, request, scratch)
         } else {
             return this.footer(number, request, scratch)
         }
