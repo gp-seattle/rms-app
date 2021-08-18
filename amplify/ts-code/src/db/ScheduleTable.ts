@@ -174,7 +174,7 @@ export class ScheduleTable {
         }
         return this.client.get(params)
             .then((output: DocumentClient.GetItemOutput) => {
-                if (output) { 
+                if (output) {
                     return output.Item as ScheduleSchema
                 } else {
                     throw Error(`Reservation not found: ${id}`)
