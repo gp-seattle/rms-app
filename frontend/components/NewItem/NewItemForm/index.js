@@ -66,7 +66,6 @@ const NewItemForm = withTheme(
 					categoriesArr.push(category);
 				}
 			});
-			console.log(categoriesArr);
 			return {
 				location,
 				description,

@@ -14,7 +14,7 @@ const ItemListElement = ({ iconName, text, itemId }) => {
 		return (
 			<SwipeListElement
 				primaryText={text}
-				iconLeft={iconName}
+				iconName={iconName}
 				buttonText="DELETE"
 				backgroundColor={'red'}
 				iconColor="black"
