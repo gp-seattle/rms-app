@@ -37,10 +37,13 @@ export class BatchTable {
             })
             .catch((reason: any) => {
                 // Rollback
-                return Promise.all(ids.map((id: string) =>
-                    this.detachBatchFromItem(name, id)
+                return ids.reduce((prev: Promise<any>, id: string) =>
+                    prev.then(() =>
+                        this.detachBatchFromItem(name, id)
                         .catch((reason: any) => "Ignore Error")
-                )).then(() => { throw reason })
+                    )
+                , Promise.resolve())
+                .then(() => { throw reason })
             })
     }
 
@@ -89,7 +92,7 @@ export class BatchTable {
         return this.get(name)
             .then((entry: BatchSchema) => {
                 if (entry) {
-                    return Promise.all(entry.val.map((id: string) => this.detachBatchFromItem(name, id)))
+                    return entry.val.reduce((prev: Promise<any>, id: string) => prev.then(() => this.detachBatchFromItem(name, id)), Promise.resolve())
                         .then(() => {
                             const params: DocumentClient.DeleteItemInput = {
                                 TableName: BATCH_TABLE,
