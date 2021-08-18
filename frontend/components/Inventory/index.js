@@ -33,24 +33,6 @@ const Inventory = (props) => {
 	);
 };
 
-{
-	/* <View>
-	<View style={{ backgroundColor: '#FFF', paddingLeft: '3%', paddingRight: '3%' }}>
-		<View style={styles.textAndSearch}>
-			<Text style={styles.inventoryText}>Inventory</Text>
-			<Searchbar
-				style={styles.searchBar}
-				placeholder="Search"
-				onChangeText={onChangeSearch}
-				value={searchQuery}
-			/>
-		</View>
-
-		<InventoryScrollView />
-	</View>
-</View>; */
-}
-
 const styles = StyleSheet.create({
 	textAndSearch: {
 		backgroundColor: '#FFF',

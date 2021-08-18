@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import RMSIcon from '../RMSIcon';
 
-const ListElement = ({ height, children, iconRight, iconLeft, iconSize, iconColor }) => {
+const ListElement = ({ paddingBottom, height, children, iconRight, iconLeft, iconSize, iconColor }) => {
 	return (
 		<View style={styles.container}>
 			{iconLeft && (
@@ -10,10 +10,11 @@ const ListElement = ({ height, children, iconRight, iconLeft, iconSize, iconColo
 					iconName={iconLeft}
 					size={iconSize}
 					color={iconColor}
-					style={{ marginRight: 30 }}
+					style={{ marginRight: 30 , paddingBottom: paddingBottom ? paddingBottom : 0}}
+				
 				/>
 			)}
-			<View style={{ ...styles.main, height }}>{children}</View>
+			<View style={{ ...styles.main, height, paddingBottom: paddingBottom ? paddingBottom : 0}}>{children}</View>
 			{iconRight && (
 				<RMSIcon
 					iconName={iconRight}

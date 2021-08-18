@@ -28,27 +28,38 @@ const InventoryScrollView = () => {
 		},
 	];
 	return (
-		<ScrollView ScrollView style={styles.container} contentContainerStyle={styles.container}>
+		<ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+
 			<View style={{ marginLeft: '5%' }}>
-				
+
+				<View marginTop="10%" justifyContent="space-around" height={200}>
+					<ListElement paddingBottom={20} iconLeft="star" iconColor="black" iconSize="25">
+						<View flexDirection="row" justifyContent="space-between">
+							<Text style={{ fontSize: 23 }}>Favorite</Text>
+							<RMSIcon iconName="chevron-right" size={30} color="black" />
+						</View>
+					</ListElement>
+
+					<ListElement paddingBottom={20} iconLeft="format-list-bulleted" iconColor="black" iconSize="25">
+						<View flexDirection="row" justifyContent="space-between">
+							<Text style={{ fontSize: 23 }}>Lists</Text>
+							<RMSIcon iconName="chevron-right" size={30} color="black" />
+						</View>
+					</ListElement>
+
+					<ListElement paddingBottom={20} iconLeft="bookmark" iconColor="black" iconSize="25">
+						<View flexDirection="row" justifyContent="space-between">
+							<Text style={{ fontSize: 23 }}>Inventory</Text>
+							<RMSIcon iconName="chevron-right" size={30} color="black" />
+						</View>
+					</ListElement>
+				</View>
+
 				<View style={styles.itemEditors}>
 					<Text style={styles.itemText}>Items</Text>
 					<ListDropdown list={locations} />
 				</View>
 
-				<ListElement iconLeft="star" iconColor="black" iconSize="25">
-					<Text style={{fontSize: 30}}>Favorite</Text>			
-					<RMSIcon iconName='right-chevron' size={30} theme='black'/>
-				</ListElement>
-				
-				<ListElement iconLeft="format-list-bulleted" iconColor="black" iconSize="25">
-					<Text style={{fontSize: 30}}>lists</Text>					
-				</ListElement>
-				
-				<ListElement iconLeft="bookmark" iconColor="black" iconSize="25">
-					<Text style={{fontSize: 30}}>lists</Text>					
-				</ListElement>
-				
 				{itemsState.items.map((item) => (
 					<ListElement
 						key={item.id}
@@ -69,6 +80,11 @@ const styles = StyleSheet.create({
 		paddingLeft: '1%',
 		paddingRight: '3%',
 		height: '100%',
+
+	},
+	contentContainer: {
+		paddingLeft: '1%',
+		paddingRight: '3%'
 	},
 	itemText: {
 		fontSize: 27,
