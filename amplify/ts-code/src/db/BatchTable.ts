@@ -37,7 +37,7 @@ export class BatchTable {
             })
             .catch((reason: any) => {
                 // Rollback
-                return ids.reduce((prev: Promise<any>, id: string) => 
+                return ids.reduce((prev: Promise<any>, id: string) =>
                     prev.then(() =>
                         this.detachBatchFromItem(name, id)
                         .catch((reason: any) => "Ignore Error")
