@@ -47,11 +47,11 @@ export enum TestConstants {
 
     RESERVATION_ID = "123-12345",
     RESERVATION_ID_2 = "321-54321",
-    START_DATE = "23-02-2022-08-30",
-    END_DATE = "25-02-2022-08-30",
-    START_DATE_2 = "24-02-2022-10-30",
-    END_DATE_2 = "25-02-2022-05-30",
-    START_DATE_3 = "22-02-2022-05-30"
+    START_DATE = "2022-02-23-08-30",
+    END_DATE = "2022-02-25-08-30",
+    START_DATE_2 = "2022-02-24-10-30",
+    END_DATE_2 = "2022-02-25-05-30",
+    START_DATE_3 = "2022-02-22-05-30"
 }
 
 export enum TestTimestamps {

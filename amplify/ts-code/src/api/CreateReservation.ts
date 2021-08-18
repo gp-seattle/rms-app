@@ -11,7 +11,7 @@ import { emitAPIMetrics } from "../metrics/MetricsHelper"
  */
 export class CreateReservation {
     public static NAME: string = "create reservation"
-    private static VALID_DATE: RegExp = new RegExp(/^([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}(-)([0-1][0-9]|(2)[0-4])(-)([0-5][0-9])$/)
+    private static VALID_DATE: RegExp = new RegExp(/^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])(-)([0-1][0-9]|(2)[0-4])(-)([0-5][0-9])$/)
 
     private readonly scheduleTable: ScheduleTable
     private readonly itemTable: ItemTable
@@ -37,10 +37,10 @@ export class CreateReservation {
                 .then(() => "Name of intended borrower:")
         } else if (scratch.borrower === undefined) {
             return this.transactionsTable.appendToScratch(number, "borrower", request)
-                .then(() => "Start time of reservation in dd-mm-yyyy-hr-min (Ex: 02-23-2022-20-30 for Feb 23 2022 8:30PM)")
+                .then(() => "Start time of reservation in yyyy-mm-dd-hr-min (Ex: 2022-23-02-20-30 for 2022 Feb 23 8:30PM)")
         } else if (scratch.startTime === undefined) {
             return this.transactionsTable.appendToScratch(number, "startTime", request)
-                .then(() => "End time of reservation in dd-mm-yyyy-hr-min (Ex: 02-23-2022-20-30 for Feb 23 2022 8:30PM)")
+                .then(() => "End time of reservation in yyyy-mm-dd-hr-min (Ex: 2022-23-02-20-30 for 2022 Feb 23 8:30PM)")
         } else if (scratch.endTime === undefined) {
             return this.transactionsTable.appendToScratch(number, "endTime", request)
                 .then(() => "Optional notes to leave about this action:")

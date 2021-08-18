@@ -372,10 +372,10 @@ test('will create reservation correctly when using router', async () => {
             expect(output).toEqual("Name of intended borrower:")
             return router.processRequest(TestConstants.BORROWER, TestConstants.NUMBER)
         }).then((output: string) => {
-            expect(output).toEqual("Start time of reservation in dd-mm-yyyy-hr-min (Ex: 02-23-2022-20-30 for Feb 23 2022 8:30PM)")
+            expect(output).toEqual("Start time of reservation in yyyy-mm-dd-hr-min (Ex: 2022-23-02-20-30 for 2022 Feb 23 8:30PM)")
             return router.processRequest(TestConstants.START_DATE, TestConstants.NUMBER)
         }).then((output: string) => {
-            expect(output).toEqual("End time of reservation in dd-mm-yyyy-hr-min (Ex: 02-23-2022-20-30 for Feb 23 2022 8:30PM)")
+            expect(output).toEqual("End time of reservation in yyyy-mm-dd-hr-min (Ex: 2022-23-02-20-30 for 2022 Feb 23 8:30PM)")
             return router.processRequest(TestConstants.END_DATE, TestConstants.NUMBER)
         }).then((output: string) => {
             expect(output).toEqual("Optional notes to leave about this action:")
