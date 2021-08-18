@@ -1,11 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Button, Searchbar } from 'react-native-paper';
 import { useReduxSliceProperty } from '../../store/sliceManager';
 import itemsSlice from '../../store/slices/itemsSlice';
-import ListElement from '../ListElement';
-import { Searchbar, Button } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
+import SwipeListElement from '../SwipeListElement';
 import { GetDBData } from '../Util/UtilRead';
+import { DeleteItem } from '../Util/UtilWrite';
+
+const ItemListElement = ({ iconName, text, itemId }) => {
+	const [deleted, setDeleted] = useState(false);
+
+	return (
+		<SwipeListElement
+			primaryText={text}
+			iconLeft={iconName}
+			buttonText="DELETE"
+			backgroundColor={deleted ? "gray" : "red"}
+			iconColor="black"
+			onButtonPress={() => {
+				if (!deleted) {
+					console.log("Yay");
+					setDeleted(true);
+					DeleteItem(itemId);
+				}
+			}}
+		/>
+	);
+};
 
 const Inventory = () => {
 	const itemsState = useReduxSliceProperty(itemsSlice);
@@ -19,7 +41,10 @@ const Inventory = () => {
 
 	return (
 		<View>
-			<ScrollView ScrollView style={styles.container} contentContainerStyle={styles.container}>
+			<ScrollView
+				ScrollView
+				style={styles.container}
+				contentContainerStyle={styles.container}>
 				<Searchbar
 					placeholder="Search"
 					onChangeText={onChangeSearch}
@@ -29,14 +54,12 @@ const Inventory = () => {
 				<Button onPress={GetDBData}>Update!</Button>
 				<View style={{ marginTop: 50, marginLeft: '5%' }}>
 					{itemsState.items.map((item) => (
-						<ListElement
+						<ItemListElement
 							key={item.id}
-							iconLeft={item.iconName}
-							height={50}
-							iconColor="black"
-							iconSize={25}>
-							<Text>{item.name}</Text>
-						</ListElement>
+							iconName={item.iconName}
+							text={item.name}
+							itemId={item.id}
+						/>
 					))}
 				</View>
 			</ScrollView>
@@ -50,7 +73,7 @@ const styles = StyleSheet.create({
 		paddingLeft: '3%',
 		paddingRight: '3%',
 		height: '100%',
-	}
-})
+	},
+});
 
 export default Inventory;
