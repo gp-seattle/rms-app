@@ -38,5 +38,6 @@
             "timestamp": 1000000000000
         }
     },
+    "schedule":{},
     "transactions":{}
 }

@@ -40,14 +40,28 @@ export class GetReservation {
      * @param key Name or ID of item
      */
     public execute(scratch: GetReservationInput): Promise<ScheduleSchema> {
-        return emitAPIMetrics(() => this.scheduleTable.get(scratch.id),
+        return emitAPIMetrics(
+            () => {
+                return this.performAllFVAs(scratch)
+                    .then(() => this.scheduleTable.get(scratch.id))
+            }
+            ,
             GetReservation.NAME, this.metrics
         )
+    }
+
+    private performAllFVAs(scratch: GetReservationInput): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (scratch.id == undefined) {
+                reject(new Error("Missing required field 'id'"))
+            }
+            resolve()
+        })
     }
 }
 
 interface GetReservationInput{
-    id: string
+    id?: string
 }
 
 // Output Formatting Functions. Exporting them to be used for testing.

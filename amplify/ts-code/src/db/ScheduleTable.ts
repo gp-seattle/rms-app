@@ -39,39 +39,68 @@ export class ScheduleTable {
                         Item: reservation
                     }
 
-                    return this.client.put(indexParams)
-                            .then(() => Promise.all((itemIds.map((itemId: string) => {
-                                const getItemsParams: DocumentClient.GetItemInput = {
+                    if (Array.from(new Set(itemIds)).length !== itemIds.length) {
+                        throw Error("Duplicate itemIds were passed in")
+                    }
+
+                    return Promise.all((itemIds.map((itemId: string) => {
+                        const getItemsParams: DocumentClient.GetItemInput = {
+                            TableName: ITEMS_TABLE,
+                            Key: {
+                                "id": itemId
+                            }
+                        }
+                        return this.client.get(getItemsParams)
+                        .then((output: DocumentClient.GetItemOutput) => {
+                            const item: ItemsSchema = output.Item as ItemsSchema
+                            if (item) {
+                                return Promise.all((item.schedule.map((reservationId: string) => {
+                                    return this.get(reservationId)
+                                        .then((output: ScheduleSchema) => {
+                                        if (this.validateDate(output.startTime, output.endTime, startTime, endTime)) {
+                                            throw Error(`Item ${itemId} is reserved starting ${output.startTime} and ending ${output.endTime}`)
+                                        }
+                                        })
+                                })))
+                            } else {
+                                throw Error(`Unable to find itemId ${itemId}`)
+                            }
+                        })
+                        .then(() => itemId)
+                    })))
+                    .then(() => this.client.put(indexParams))
+                    .then(() => Promise.all((itemIds.map((itemId: string) => {
+                        const getItemsParams: DocumentClient.GetItemInput = {
+                            TableName: ITEMS_TABLE,
+                            Key: {
+                                "id": itemId
+                            }
+                        }
+                        return this.client.get(getItemsParams)
+                        .then((output: DocumentClient.GetItemOutput) => {
+                            const item: ItemsSchema = output.Item as ItemsSchema
+                            if (item) {
+                                const itemsParams: DocumentClient.UpdateItemInput = {
                                     TableName: ITEMS_TABLE,
                                     Key: {
                                         "id": itemId
+                                    },
+                                    UpdateExpression: "SET #key = list_append(#key, :val)",
+                                    ExpressionAttributeNames: {
+                                        "#key": "schedule"
+                                    },
+                                    ExpressionAttributeValues: {
+                                        ":val": [id]
                                     }
                                 }
-                                return this.client.get(getItemsParams)
-                                .then((output: DocumentClient.GetItemOutput) => {
-                                    const item: ItemsSchema = output.Item as ItemsSchema
-                                    if (item) {
-                                        const itemsParams: DocumentClient.UpdateItemInput = {
-                                            TableName: ITEMS_TABLE,
-                                            Key: {
-                                                "id": itemId
-                                            },
-                                            UpdateExpression: "SET #key = list_append(#key, :val)",
-                                            ExpressionAttributeNames: {
-                                                "#key": "schedule"
-                                            },
-                                            ExpressionAttributeValues: {
-                                                ":val": [id]
-                                            }
-                                        }
-        
-                                        return this.client.update(itemsParams)
-                                    } else {
-                                        throw Error(`Unable to find itemId ${itemId}`)
-                                    }
-                                }).then(() => itemId)
-                            }))))
-                            .then(() => id)
+                                return this.client.update(itemsParams)
+                            } else {
+                                throw Error(`Unable to find itemId ${itemId}`)
+                            }
+                        })
+                        .then(() => itemId)
+                    }))))
+                    .then(() => id)
                 }
             })
     }
@@ -154,47 +183,22 @@ export class ScheduleTable {
     }
 
     /**
-     * Update schedule attribute
+     * Validates if the given date ranges conflict
+     * @param startDate1 starting date of the first time range. Given in dd-mm-yyyy-hr-min fomat
+     * @param endDate1 end date of the first time range. Given in dd-mm-yyyy-hr-min fomat
+     * @param startDate2 starting date of the second time range. Given in dd-mm-yyyy-hr-min fomat
+     * @param endDate2 end date of the second time range. Given in dd-mm-yyyy-hr-min fomat
+     * @returns Returns true if (startDate1, endDate1) overlaps with the date range of (startDate2, endDate2). Returns false otherwise
      */
-     public updateReservation(
-        id: string,
-        key: "owner" | "notes",
-        val: string,
-        expectedValue?: string
-    ): Promise<DocumentClient.GetItemOutput> {
-        const itemSearchParams: DocumentClient.GetItemInput = {
-            TableName: ITEMS_TABLE,
-            Key: {
-                "id": id
-            }
-        }
-        return this.client.get(itemSearchParams)
-            .then((data: DocumentClient.GetItemOutput) => {
-                if (data.Item) {
-                    const entry: ItemsSchema = data.Item as ItemsSchema
-
-                    if (expectedValue !== undefined && entry[key] !== expectedValue) {
-                        throw Error(`'${key}' is currently '${entry[key]}', `
-                            + `which isn't equal to the expected value of '${expectedValue}'.`)
-                    } else {
-                        const updateParams: DocumentClient.UpdateItemInput = {
-                            TableName: ITEMS_TABLE,
-                            Key: {
-                                "id": id
-                            },
-                            UpdateExpression: "SET #key = :val",
-                            ExpressionAttributeNames: {
-                                "#key": key
-                            },
-                            ExpressionAttributeValues: {
-                                ":val": val
-                            }
-                        }
-                        return this.client.update(updateParams)
-                    }
-                } else {
-                    throw Error(`Couldn't find item ${id} in the database.`)
-                }
-            })
+         private validateDate(startDate1: string, endDate1:string, startDate2: string, endDate2: string): boolean {
+            const oldStartTimeArr = startDate1.split("-").map((num) => parseInt(num))
+            const oldStartTime = new Date(oldStartTimeArr[2], oldStartTimeArr[1], oldStartTimeArr[0], oldStartTimeArr[3], oldStartTimeArr[4], 0)
+            const oldEndTimeArr = endDate1.split("-").map((num) => parseInt(num))
+            const oldEndTime = new Date(oldEndTimeArr[2], oldEndTimeArr[1], oldEndTimeArr[0], oldEndTimeArr[3], oldEndTimeArr[4], 0)
+            const newStartTimeArr = startDate2.split("-").map((num) => parseInt(num))
+            const newStartTime = new Date(newStartTimeArr[2], newStartTimeArr[1], newStartTimeArr[0], newStartTimeArr[3], newStartTimeArr[4], 0)
+            const newEndTimeArr = endDate2.split("-").map((num) => parseInt(num))
+            const newEndTime = new Date(newEndTimeArr[2], newEndTimeArr[1], newEndTimeArr[0], newEndTimeArr[3], newEndTimeArr[4], 0)
+            return (newStartTime >= oldStartTime && newStartTime <= oldEndTime) || (newEndTime >= oldStartTime && newEndTime <= oldEndTime)
     }
 }

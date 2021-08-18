@@ -4,5 +4,6 @@
     "batch":{},
     "tags":{},
     "history":{},
+    "schedule":{},
     "transactions":{}
 }

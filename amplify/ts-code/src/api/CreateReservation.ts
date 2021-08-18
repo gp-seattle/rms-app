@@ -1,7 +1,7 @@
 import { ScheduleTable } from "../db/ScheduleTable"
 import { ItemTable } from "../db/ItemTable"
 import { TransactionsTable } from "../db/TransactionsTable"
-import { ScheduleSchema, ItemsSchema } from "../db/Schemas"
+import { ItemsSchema } from "../db/Schemas"
 import { DBClient } from "../injection/db/DBClient"
 import { MetricsClient } from "../injection/metrics/MetricsClient"
 import { emitAPIMetrics } from "../metrics/MetricsHelper"
@@ -11,7 +11,7 @@ import { emitAPIMetrics } from "../metrics/MetricsHelper"
  */
 export class CreateReservation {
     public static NAME: string = "create reservation"
-    private static VALID_DATE: RegExp = new RegExp("/^([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}(-)([0-1][0-9]|(2)[0-4])(-)([0-5][0-9])$/")
+    private static VALID_DATE: RegExp = new RegExp(/^([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}(-)([0-1][0-9]|(2)[0-4])(-)([0-5][0-9])$/)
 
     private readonly scheduleTable: ScheduleTable
     private readonly itemTable: ItemTable
@@ -104,13 +104,11 @@ export class CreateReservation {
             } else if (input.startTime == undefined) {
                 reject(new Error("Missing required field 'startTime'"))
             } else if (!CreateReservation.VALID_DATE.test(input.startTime)) {
-                reject(new Error("Date format incorrect for 'startTime'"))
+                reject(new Error(`Date format incorrect for 'startTime' ${input.startTime}`))
             } else if (input.endTime == undefined) {
                 reject(new Error("Missing required field 'endTime'"))
             } else if (!CreateReservation.VALID_DATE.test(input.endTime)) {
-                reject(new Error("Date format incorrect for 'endTime'"))
-            } else if (input.notes == undefined) {
-                reject(new Error("Missing required field 'notes'"))
+                reject(new Error(`Date format incorrect for 'endTime' ${input.endTime}`))
             }
             resolve()
         })
@@ -118,9 +116,9 @@ export class CreateReservation {
 }
 
 export interface CreateReservationInput {
-    borrower:string,
-    ids: string[],
-    startTime: string,
-    endTime: string,
+    borrower?:string,
+    ids?: string[],
+    startTime?: string,
+    endTime?: string,
     notes?: string
 }

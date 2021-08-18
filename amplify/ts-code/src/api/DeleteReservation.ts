@@ -59,5 +59,5 @@ export class DeleteReservation {
 }
 
 export interface DeleteReservationInput {
-    id: string
+    id?: string
 }
