@@ -3,12 +3,12 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Snackbar } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-function BorrowToast(props) {
+function BorrowToast({visible, onCancel}) {
     return (
         <Snackbar
             style = {styles.toast}
-            visible={props.visible}
-            onDismiss={props.onCancel}
+            visible={visible}
+            onDismiss={onCancel}
             duration = {900}
         >
             <View style = {styles.view}>

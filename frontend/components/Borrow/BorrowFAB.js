@@ -2,13 +2,13 @@ import React from "react";
 import { StyleSheet } from 'react-native';
 import { FAB, withTheme } from 'react-native-paper';
 
-function BorrowFAB(props) {
+function BorrowFAB({onPress, theme}) {
     return(
         <FAB
             style = {styles.fab}
             label = 'BORROW'
-            onPress = {props.onPress}
-            color = {props.theme.colors.text}
+            onPress = {onPress}
+            color = {theme.colors.text}
         />
     );
 }
