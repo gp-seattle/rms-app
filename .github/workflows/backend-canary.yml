@@ -1,20 +1,17 @@
-# Workflow to push to Amplify on commit
-name: Amplify CD
+# Workflow to regularly run tests
+name: Backend Canary
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
-  # Triggers the workflow on push events but only for the master branch
-  push:
-    branches: [ master ]
-    paths: [ 'amplify/**' ]
+  # Triggers the workflow every hour
+  schedule:
+    - cron: '0 * * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-concurrency: AmplifyCD
-
 jobs:
-  amplify-deploy:
+  run-canary:
     runs-on: ubuntu-latest
     environment: AmplifyCD
 
@@ -42,31 +39,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
-      - name: install, build and test
+      - name: install, build and test (both unit and integ)
         run: |
           npm install
           npm run build
-          npm run test:unit
-
-      - name: deploy
-        uses: ambientlight/amplify-cli-action@0.2.2
-        with:
-          amplify_command: push
-          amplify_env: alpha
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-
-      - name: integration test after push
-        run: |
-          npm run test:integ
-
-      - name: Report Status
-        uses: ravsamhq/notify-slack-action@v1
-        if: always()
-        with:
-          status: ${{ job.status }}
-          notify_when: 'failure'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+          npm run test

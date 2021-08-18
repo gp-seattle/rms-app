@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-  backend-ci:
+  run-unit-test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: install, build and test
+      - name: install, build and unit test
         run: |
           npm install
           npm run build
