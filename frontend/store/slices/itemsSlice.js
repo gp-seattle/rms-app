@@ -1,4 +1,3 @@
-import { GetDBData } from '../../components/Util/UtilRead';
 import { AddNewItem } from '../../components/Util/UtilWrite';
 import { createSliceFromLayout } from '../sliceManager';
 
@@ -21,7 +20,7 @@ const ItemsLayout = () => {
 
 	function addLocalItem(state, id, name, description, location, amount, categories) {
 		let iconName = ICONS[CATEGORIES.indexOf(categories[0])];
-		if(id === undefined) {
+		if (id === undefined) {
 			id = state.nextId++;
 		}
 		state.items.push({
@@ -45,13 +44,22 @@ const ItemsLayout = () => {
 		state.items[oldItemIndex] = newItem;
 	}
 
-	async function addItem(functions, name, description, location, amount, categories) {
-		let id = await AddNewItem(name, description, categories, location, "");
-		functions.addLocalItem(id, name, description, location, amount, categories);
+	function removeLocalItem(state, id) {
+		let itemIndex;
+		for (let i = 0; i < state.items.length; i++) {
+			if (state.items[i].id === id) {
+				itemIndex = i;
+				break;
+			}
+		}
+		if (itemIndex !== undefined) {
+			state.items = [...state.items.slice(0, itemIndex), ...state.items.slice(itemIndex + 1)];
+		}
 	}
 
-	async function update() {
-		GetDBData();
+	async function addItem(functions, name, description, location, amount, categories) {
+		let id = await AddNewItem(name, description, location, amount, categories);
+		functions.addLocalItem(id, name, description, location, amount, categories);
 	}
 
 	return {
@@ -60,10 +68,10 @@ const ItemsLayout = () => {
 		functions: {
 			addLocalItem,
 			modifyItem,
+			removeLocalItem,
 		},
 		asyncFunctions: {
 			addItem,
-			update
 		},
 	};
 };

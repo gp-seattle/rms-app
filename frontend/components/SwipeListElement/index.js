@@ -21,14 +21,12 @@ const DashListElement = withTheme(({ iconName, primaryText, secondaryText, theme
 	);
 });
 
-const renderRightActions = (backgroundColor, textColor, fontWeight, buttonText, onButtonPress) => {
+const renderRightActions = (backgroundColor, textColor, buttonText, onButtonPress) => {
 	return (
 		<TouchableOpacity
 			style={{ ...styles.box, backgroundColor: backgroundColor }}
 			onPress={onButtonPress}>
-			<Text style={{ ...styles.buttonText, color: textColor, fontWeight: fontWeight }}>
-				{buttonText}
-			</Text>
+			<Text style={{ ...styles.buttonText, color: textColor }}>{buttonText}</Text>
 		</TouchableOpacity>
 	);
 };
@@ -42,7 +40,6 @@ const SwipeListElement = withTheme(
 		style,
 		backgroundColor,
 		textColor,
-		fontWeight,
 		buttonText,
 		onButtonPress,
 	}) => {
@@ -54,13 +51,7 @@ const SwipeListElement = withTheme(
 				friction={2}
 				rightThreshold={40}
 				renderRightActions={() =>
-					renderRightActions(
-						backgroundColor,
-						textColor,
-						fontWeight,
-						buttonText,
-						onButtonPress,
-					)
+					renderRightActions(backgroundColor, textColor, buttonText, onButtonPress)
 				}
 				iconColor={theme.colors.text}>
 				<DashListElement
@@ -75,6 +66,19 @@ const SwipeListElement = withTheme(
 );
 
 const styles = StyleSheet.create({
+	rightAction: {
+		width: 30,
+		marginHorizontal: 10,
+		backgroundColor: 'white',
+		flex: 1,
+		justifyContent: 'flex-end',
+	},
+	actionItems: {
+		width: 30,
+		marginHorizontal: 10,
+		backgroundColor: 'plum',
+		height: 20,
+	},
 	box: {
 		backgroundColor: 'red',
 		width: '25%',

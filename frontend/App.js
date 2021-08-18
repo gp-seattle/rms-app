@@ -1,9 +1,9 @@
-import { DataStore } from 'aws-amplify';
 import { registerRootComponent } from 'expo';
 import React, { useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
+import { DynamoDBStreamInit } from './components/Util/UtilRead';
 import Dashboard from './components/Dashboard/DashboardScreen';
 import Inventory from './components/Inventory';
 import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
@@ -40,6 +40,8 @@ function App() {
 	useEffect(() => {
 		(async () => {
 			await AmplifyInit();
+			await DynamoDBStreamInit();
+			// const { Main, Items, Batch, Tags, History, Schedule } = initSchema(schema);
 			// await DataStore.start();
 		})();
 	}, []);
@@ -50,17 +52,17 @@ function App() {
 				<StackNavigator
 					screenOptions={({ navigation }) => ({
 						headerLeft: () => <BackButton onPress={navigation.goBack} />,
-						headerTintColor: "black",
+						headerTintColor: 'black',
 						headerTitleAlign: 'left',
 						headerTitleStyle: {
 							fontSize: 22,
-							fontWeight: "bold"
+							fontWeight: 'bold',
 						},
 						headerStyle: {
-							shadowColor: "transparent",
+							shadowColor: 'transparent',
 							borderBottomWidth: 0,
-							elevation: 0
-						}
+							elevation: 0,
+						},
 					})}>
 					<MainTabs name="mainTabs" options={{ headerShown: false }} />
 					<NewItem name="addItem" title="New Item" />

@@ -1,20 +1,40 @@
-import AWS from 'aws-sdk';
 import { Amplify, Auth } from 'aws-amplify';
+import AWS from 'aws-sdk';
+import * as WebBrowser from 'expo-web-browser';
 import { TestConstants } from '../../../amplify/ts-code/__dev__/db/DBTestConstants';
-
-import awsconfig from '../../../src/aws-exports';
+import awsconfig from "../../../src/aws-exports";
+import * as Linking from 'expo-linking';
+import "react-native-url-polyfill/auto";
+import "react-native-get-random-values";
 
 const ENV_SUFFIX = '-alpha';
 const ENV_REGION = 'us-west-2';
 
-export async function AddNewItem(name, description, tags, owner, notes) {
+async function urlOpener(url, redirectUrl) {
+	const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(
+			url,
+			redirectUrl
+	);
+
+	if (type === 'success' && Platform.OS === 'ios') {
+			WebBrowser.dismissBrowser();
+			return Linking.openURL(newUrl);
+	}
+}
+
+export async function AddNewItem(name, description, location, amount, categories) {
+	const notes = JSON.stringify({
+		capsName: name,
+		description,
+		location,
+		amount,
+		categories
+	});
 	let resultId = await invoke({
 		FunctionName: `AddItem${ENV_SUFFIX}`,
 		Payload: JSON.stringify({
 			name,
-			description,
-			tags,
-			owner,
+			tags: categories,
 			notes
 		}),
 	}).Payload;
@@ -31,7 +51,13 @@ export async function DeleteItem(id) {
 }
 
 export async function AmplifyInit() {
-	Amplify.configure(awsconfig);
+	Amplify.configure({
+    ...awsconfig,
+    oauth: {
+        ...awsconfig.oauth,
+        urlOpener,
+    },
+});
 	await Auth.signIn({
 		username: TestConstants.EMAIL,
 		password: TestConstants.PASSWORD,

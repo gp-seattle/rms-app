@@ -1,18 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { useReduxSlice } from '../../../store/sliceManager';
-import itemsSlice from '../../../store/slices/itemsSlice';
 import SubmitBar from '../../SubmitBar';
+import { AddNewItem } from '../../Util/UtilWrite';
 import NewItemForm from '../NewItemForm';
 
 const NewItem = ({ navigation }) => {
 	const formRef = useRef();
 	const [valid, setValid] = useState();
-	const itemsInterface = useReduxSlice(itemsSlice);
 
 	function submit() {
 		const values = formRef.current.getValues();
-		itemsInterface.addItem(
+		AddNewItem(
 			values.name,
 			values.description,
 			values.location,
