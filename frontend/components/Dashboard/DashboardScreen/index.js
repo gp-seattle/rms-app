@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
 import ActionDialog from '../../DashboardFab/ActionDialog';
 import ListElement from '../../ListElement';
 import RMSTitle from '../../RMSTitle';
+import SwipeListElement from '../../SwipeListElement';
 import GroupSelection from '../GroupSelection';
 import ListsSection from '../ListsSection';
 
@@ -90,38 +91,48 @@ const DashboardScreen = (props) => {
 	return (
 		<>
 			<ScrollView style={styles.container} contentContainerStyle={styles.container}>
-				<RMSTitle />
-				<GroupSelection
-					items={GROUPS.map((group) => group.toUpperCase())}
-					onSelectedChange={newGroupHandler}
-				/>
-				<ListsSection
-					categories={CATEGORIES}
-					lists={LISTS}
-					onNewSelection={newListHandler}
-				/>
-				<Text style={styles.title}>Checked Out</Text>
-				{CHECKED_OUT.map((item) => {
-					return (
-						<DashListElement
-							key={item.id}
-							iconName={item.icon}
-							primaryText={item.title}
-							secondaryText={'Return ' + item.returnBy}
-						/>
-					);
-				})}
-				<Text style={styles.title}>Reservations</Text>
-				{RESERVATIONS.map((item) => {
-					return (
-						<DashListElement
-							key={item.id}
-							iconName={item.icon}
-							primaryText={item.title}
-							secondaryText={'Reserved ' + item.reserved}
-						/>
-					);
-				})}
+				<View style={styles.contentContainer}>
+					<RMSTitle />
+					<GroupSelection
+						items={GROUPS.map((group) => group.toUpperCase())}
+						onSelectedChange={newGroupHandler}
+					/>
+					<ListsSection
+						categories={CATEGORIES}
+						lists={LISTS}
+						onNewSelection={newListHandler}
+					/>
+					<Text style={styles.title}>Checked Out</Text>
+					{CHECKED_OUT.map((item) => {
+						return (
+							<SwipeListElement
+								buttonText="Return"
+								backgroundColor="#E71B1B"
+								textColor="white"
+								fontWeight='bold'
+								key={item.id}
+								iconName={item.icon}
+								primaryText={item.title}
+								secondaryText={'Return ' + item.returnBy}
+							/>
+						);
+					})}
+					<Text style={styles.title}>Reservations</Text>
+					{RESERVATIONS.map((item) => {
+						return (
+							<SwipeListElement
+								buttonText="Delete"
+								backgroundColor="#E71B1B"
+								textColor="white"
+								fontWeight='bold'
+								key={item.id}
+								iconName={item.icon}
+								primaryText={item.title}
+								secondaryText={'Reserved ' + item.reserved}
+							/>
+						);
+					})}
+				</View>
 			</ScrollView>
 			<ActionDialog onAddItem={props.onAddItem} />
 		</>
@@ -135,8 +146,7 @@ const styles = StyleSheet.create({
 		paddingRight: '3%',
 	},
 	contentContainer: {
-		alignItems: 'center',
-		justifyContent: 'flex-start',
+		marginBottom: 100,
 	},
 	title: {
 		marginTop: 20,
