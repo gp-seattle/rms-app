@@ -85,7 +85,8 @@ export class TagTable {
         name: string,
         tags: string[]
     ): Promise<any> {
-        return Promise.all(tags.map((tag: string) => this.deleteSingleTag(name, tag)))
+        return tags.map((tag: string) => this.deleteSingleTag(name, tag))
+            .reduce((prev: Promise<string>, next: Promise<string>) => prev.then(() => next), Promise.resolve())          
     }
 
     private deleteSingleTag(

@@ -80,7 +80,7 @@ export class ScheduleTable {
                     }
 
                     return this.client.delete(scheduleParams)
-                        .then(() => Promise.all(entry.itemIds.map((itemId: string) => {
+                        .then(() => entry.itemIds.map((itemId: string) => {
                             const getItemsParams: DocumentClient.GetItemInput = {
                                 TableName: ITEMS_TABLE,
                                 Key: {
@@ -109,8 +109,9 @@ export class ScheduleTable {
                                     } else {
                                         throw Error(`Unable to find itemId ${itemId}`)
                                     }
-                                }).then(() => itemId)
-                        })))
+                                })
+                        }).reduce((prev: Promise<any>, next: Promise<any>) => prev.then(() => next), Promise.resolve()))
+                        .then(() => entry.itemIds)
                 } else {
                     throw Error(`Schedule ${id} doesn't exist.`)
                 }
