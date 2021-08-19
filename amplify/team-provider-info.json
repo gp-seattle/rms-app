@@ -18,55 +18,63 @@
       "function": {
         "smsrouter": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/smsrouter-766b3676354a4e424959-build.zip"
+          "s3Key": "amplify-builds/smsrouter-642f744733436155424b-build.zip"
         },
         "BorrowBatch": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/BorrowBatch-786d5144704f51426d6f-build.zip"
+          "s3Key": "amplify-builds/BorrowBatch-6e584546455634727171-build.zip"
         },
         "ReturnBatch": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/ReturnBatch-743950747469356f7669-build.zip"
+          "s3Key": "amplify-builds/ReturnBatch-654868774d63746d7473-build.zip"
         },
         "ReturnItem": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/ReturnItem-5270646654454e376b63-build.zip"
+          "s3Key": "amplify-builds/ReturnItem-7474755067434d67616b-build.zip"
         },
         "BorrowItem": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/BorrowItem-76546d2b5a34645a786a-build.zip"
+          "s3Key": "amplify-builds/BorrowItem-316a6a422f444b446750-build.zip"
         },
         "DeleteBatch": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/DeleteBatch-7933686651566c382b75-build.zip"
+          "s3Key": "amplify-builds/DeleteBatch-64564e512b78456a4964-build.zip"
         },
         "CreateBatch": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/CreateBatch-36354a4f644b38524f78-build.zip"
+          "s3Key": "amplify-builds/CreateBatch-51613054435a6c68795a-build.zip"
         },
         "DeleteItem": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/DeleteItem-65315a6d302f4648646f-build.zip"
+          "s3Key": "amplify-builds/DeleteItem-35356563596775325058-build.zip"
         },
         "AddItem": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/AddItem-58352f4733515075434c-build.zip"
+          "s3Key": "amplify-builds/AddItem-41492f34574575706851-build.zip"
         },
         "UpdateDescription": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/UpdateDescription-4a62515376574b6b4d59-build.zip"
+          "s3Key": "amplify-builds/UpdateDescription-5739574c5a6e4241476b-build.zip"
         },
         "UpdateTags": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/UpdateTags-43733771654e58443872-build.zip"
+          "s3Key": "amplify-builds/UpdateTags-72784336734d466f4b47-build.zip"
         },
         "UpdateItemOwner": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/UpdateItemOwner-51322b652f78364f7750-build.zip"
+          "s3Key": "amplify-builds/UpdateItemOwner-495746556a742f714d56-build.zip"
         },
         "UpdateItemNotes": {
           "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
-          "s3Key": "amplify-builds/UpdateItemNotes-6b6a586b783653676942-build.zip"
+          "s3Key": "amplify-builds/UpdateItemNotes-6f4843694d4b546b2b35-build.zip"
+        },
+        "CreateReservation": {
+          "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
+          "s3Key": "amplify-builds/CreateReservation-725a6362534d7474324c-build.zip"
+        },
+        "DeleteReservation": {
+          "deploymentBucketName": "amplify-rms-alpha-233046-deployment",
+          "s3Key": "amplify-builds/DeleteReservation-336e6e35654f72347955-build.zip"
         }
       }
     }

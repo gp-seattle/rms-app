@@ -141,12 +141,9 @@ export class ScheduleTable {
                                             Key: {
                                                 "id": itemId
                                             },
-                                            UpdateExpression: "REMOVE #key[:idx]",
+                                            UpdateExpression: `REMOVE #key[${item.schedule.indexOf(id)}]`,
                                             ExpressionAttributeNames: {
                                                 "#key": "schedule"
-                                            },
-                                            ExpressionAttributeValues: {
-                                                ":idx": item.schedule.indexOf(id)
                                             }
                                         }
                                         return this.client.update(updateItemsParams)
