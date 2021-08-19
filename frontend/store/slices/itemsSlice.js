@@ -1,3 +1,4 @@
+import { AddNewItem } from '../../components/Util/UtilWrite';
 import { createSliceFromLayout } from '../sliceManager';
 
 const ItemsLayout = () => {
@@ -17,10 +18,13 @@ const ItemsLayout = () => {
 		items: [],
 	};
 
-	function addItem(state, name, description, location, amount, categories) {
+	function addItem(state, id, name, description, location, amount, categories) {
 		let iconName = ICONS[CATEGORIES.indexOf(categories[0])];
+		if (id === undefined) {
+			id = state.nextId++;
+		}
 		state.items.push({
-			id: state.nextId++,
+			id,
 			name,
 			description,
 			location,
@@ -40,14 +44,30 @@ const ItemsLayout = () => {
 		state.items[oldItemIndex] = newItem;
 	}
 
+	function removeItem(state, id) {
+		let itemIndex;
+		for (let i = 0; i < state.items.length; i++) {
+			if (state.items[i].id === id) {
+				itemIndex = i;
+				break;
+			}
+		}
+		if (itemIndex !== undefined) {
+			state.items = [...state.items.slice(0, itemIndex), ...state.items.slice(itemIndex + 1)];
+		}
+	}
+
 	return {
 		name,
 		initialState,
 		functions: {
 			addItem,
 			modifyItem,
+			removeItem,
 		},
-		asyncFunctions: {},
+		asyncFunctions: {
+
+		},
 	};
 };
 

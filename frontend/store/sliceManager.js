@@ -91,6 +91,45 @@ export const useReduxSlice = (sliceContainer) => {
 };
 
 /**
+ * A function duplicate of the useReduxSlice hook to be used outside of React
+ * components.
+ * @param {object} sliceContainer The slice (as defined in this manager) object
+ * to access methods from.
+ * @returns An object that contains all the available functions.
+ */
+ export const getReduxSlice = (store, sliceContainer) => {
+  let layout = sliceContainer.layout();
+  let slice = sliceContainer.slice;
+
+  const dispatch = store.dispatch;
+
+  const funcs = slice.actions;
+  const asyncFuncs = layout.asyncFunctions;
+
+  const newFuncs = {};
+  Object.keys(funcs).forEach((key) => {
+    newFuncs[key] = (...params) => {
+      let result = funcs[key](...params);
+      dispatch({type: result.type, params: [...params]});
+    };
+  });
+
+  const newAsyncFuncs = {};
+  Object.keys(asyncFuncs).forEach((key) => {
+    newAsyncFuncs[key] = function(...params) {
+      dispatch(() => {
+        asyncFuncs[key](newFuncs, ...params);
+      })
+    }
+  });
+
+  return {
+    ...newFuncs,
+    ...newAsyncFuncs
+  };
+};
+
+/**
  * A React hook which allows the user to monitor a part of the state of the
  * given slice, at the given path. For each monitored property, this hook
  * must be called again.
