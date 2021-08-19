@@ -37,6 +37,7 @@ class SMSRouter {
 
         return new Router(this.db, this.cw).processRequest(this.request, this.responseDestination)
             .then((response: string) => this.sendMessage(response))
+            .catch((response: string) =>this.sendMessage(response))
     }
 
     /**
