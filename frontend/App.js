@@ -3,12 +3,14 @@ import React, { useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
+import BorrowInventory from './components/BorrowInventory';
 import Dashboard from './components/Dashboard/DashboardScreen';
 import Inventory from './components/Inventory';
 import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
 import StackNavigator from './components/Navigation/StackNavigator';
 import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
+import SubInventory from './components/SubInventory';
 import { DynamoDBStreamInit } from './components/Util/UtilRead';
 import { AmplifyInit } from './components/Util/UtilWrite';
 import store from './store/store';
@@ -29,8 +31,16 @@ function MainTabs({ navigation }) {
 				title="Dash"
 				iconName="home"
 				onAddItem={() => navigation.navigate('addItem')}
+				onBorrowItems={() => navigation.navigate('borrowInventory')}
 			/>
-			<Inventory name="inv" title="Inventory" iconName="format-list-bulleted" />
+			<Inventory
+				name="inv"
+				title="Inventory"
+				iconName="format-list-bulleted"
+				onSubSelected={(itemType) => {
+					navigation.navigate('subInventory', { itemType });
+				}}
+			/>
 			<View name="account" title="Account" iconName="account" />
 		</RMSTabsNavigator>
 	);
@@ -64,6 +74,8 @@ function App() {
 					})}>
 					<MainTabs name="mainTabs" options={{ headerShown: false }} />
 					<NewItem name="addItem" title="New Item" />
+					<SubInventory name="subInventory" title="" />
+					<BorrowInventory name="borrowInventory" title="Inventory" />
 				</StackNavigator>
 			</PaperProvider>
 		</ReduxProvider>

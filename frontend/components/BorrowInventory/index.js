@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-import InventoryScrollView from './InventoryScrollView';
+import BorrowInventoryScrollView from './BorrowInventoryScrollView';
 
-const Inventory = ({ onSubSelected }) => {
+const BorrowInventory = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const onChangeSearch = (query) => setSearchQuery(query);
@@ -11,7 +11,6 @@ const Inventory = ({ onSubSelected }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.textAndSearch}>
-				<Text style={styles.inventoryText}>Inventory</Text>
 				<Searchbar
 					placeholder="Search"
 					onChangeText={onChangeSearch}
@@ -19,7 +18,7 @@ const Inventory = ({ onSubSelected }) => {
 					style={styles.searchBar}
 				/>
 			</View>
-			<InventoryScrollView searchQuery={searchQuery} onSubSelected={onSubSelected} />
+			<BorrowInventoryScrollView searchQuery={searchQuery} />
 		</View>
 	);
 };
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
 	},
 	textAndSearch: {
 		justifyContent: 'flex-start',
-		marginTop: '20%',
+		marginTop: '5%',
 	},
 	inventoryText: {
 		marginBottom: 20,
@@ -43,4 +42,4 @@ const styles = StyleSheet.create({
 	searchBar: { borderWidth: 1, elevation: 0, shadowOpacity: 0 },
 });
 
-export default Inventory;
+export default BorrowInventory;

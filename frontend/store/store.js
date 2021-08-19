@@ -8,6 +8,6 @@ export default configureStore(
   getSlicesConfig({
     count: counterSlice,
     items: itemsSlice,
-    itemType: itemTypeSlice
+    itemsType: itemTypeSlice
   })
 );

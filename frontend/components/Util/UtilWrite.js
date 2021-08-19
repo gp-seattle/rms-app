@@ -20,30 +20,30 @@ async function urlOpener(url, redirectUrl) {
 }
 
 export async function AddNewItem(name, description, location, amount, categories) {
-	for(let i = 0; i < amount; i++) {
+	for (let i = 0; i < amount; i++) {
 		let currentCategories = categories;
-		if(i !== 0) {
+		if (i !== 0) {
 			currentCategories = [];
 		}
-		await AddOneItem(name, name + " #" + (i + 1), description, location, currentCategories);
+		await AddOneItem(name, name + ' #' + (i + 1), description, location, currentCategories);
 	}
 }
 
 async function AddOneItem(mainItemName, itemName, description, location, categories) {
 	const currentUser = (await Auth.currentAuthenticatedUser()).attributes.email;
-	const user = currentUser.replace(/\/_/g, "");
-	const loc = location.replace(/\/_/g, "");
-	const owner = user + "/_" + loc;
+	const user = currentUser.replace(/\/_/g, '');
+	const loc = location.replace(/\/_/g, '');
+	const owner = user + '/_' + loc;
 	await invoke({
 		FunctionName: `AddItem${ENV_SUFFIX}`,
 		Payload: JSON.stringify({
 			name: mainItemName,
-      description,
-      tags: categories,
-      owner,
+			description,
+			tags: categories,
+			owner,
 			notes: JSON.stringify({
-				displayName: itemName
-			})
+				displayName: itemName,
+			}),
 		}),
 	}).Payload;
 }
@@ -53,6 +53,29 @@ export async function DeleteItem(id) {
 		FunctionName: `DeleteItem${ENV_SUFFIX}`,
 		Payload: JSON.stringify({
 			id,
+		}),
+	});
+}
+
+export async function BorrowItem(id) {
+	const currentUser = (await Auth.currentAuthenticatedUser()).attributes.email;
+	await invoke({
+		FunctionName: `BorrowItem${ENV_SUFFIX}`,
+		Payload: JSON.stringify({
+			ids: [id],
+			borrower: currentUser,
+		}),
+	});
+}
+
+export async function ReturnItem(id) {
+	const currentUser = (await Auth.currentAuthenticatedUser()).attributes.email;
+	await invoke({
+		FunctionName: `ReturnItem${ENV_SUFFIX}`,
+		Payload: JSON.stringify({
+			ids: [id],
+			borrower: currentUser,
+			notes: TestConstants.NOTES,
 		}),
 	});
 }

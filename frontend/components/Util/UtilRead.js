@@ -149,9 +149,9 @@ async function translateToRedux(action, data) {
 	} else if (action.includes('modify')) {
 		const item = data.newData;
 		const id = data.keys.id;
-		if (action === 'items remove') {
+		if (action === 'items modify') {
 			itemsInterface.modifyItem(id, item);
-		} else if (action === 'main remove') {
+		} else if (action === 'main modify') {
 			itemTypesInterface.modifyItemType(id, item);
 		}
 	}

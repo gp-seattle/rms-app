@@ -33,7 +33,7 @@ const ItemsTypeLayout = () => {
 			let iconName = ICONS[CATEGORIES.indexOf(categories[0])];
 			newItemType[iconName] = iconName;
 		}
-		state.items[oldItemIndex] = newItemType;
+		state.items[oldIndex] = newItemType;
 	}
 
 	function removeItemType(state, id) {

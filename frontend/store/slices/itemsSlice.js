@@ -23,6 +23,12 @@ const ItemsLayout = () => {
 			let iconName = ICONS[CATEGORIES.indexOf(categories[0])];
 			newItem[iconName] = iconName;
 		}
+		if(newProperties.notes) {
+			const notes = JSON.parse(newProperties.notes);
+			if(notes.displayName) {
+				newItem.name = notes.displayName;
+			}
+		}
 		state.items[oldItemIndex] = newItem;
 	}
 
