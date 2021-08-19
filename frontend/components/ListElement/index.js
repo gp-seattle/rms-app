@@ -26,4 +26,20 @@ const ListElement = ({ style, height, children, iconRight, iconLeft, iconSize, i
 	);
 };
 
+const styles = StyleSheet.create({
+	container: {
+		width: '100%',
+		flexDirection: 'row',
+		alignItems: 'center',
+		backgroundColor: 'white',
+	},
+	main: {
+    height: "100%",
+		borderBottomWidth: 1,
+		borderColor: '#EEE',
+		justifyContent: 'center',
+		flexGrow: 1,
+	},
+});
+
 export default ListElement;

@@ -28,6 +28,11 @@ const ItemsTypeLayout = () => {
 
 	function modifyItemType(state, id, newProperties) {
 		let oldIndex = state.itemTypes.map((itemType) => itemType.id).indexOf(id);
+		if(newProperties.items) {
+			const items = newProperties.items;
+			delete newProperties.items;
+			newProperties.itemIds = items;
+		}
 		let newItemType = { ...state.itemTypes[oldIndex], ...newProperties };
 		if (newProperties.categories) {
 			let iconName = ICONS[CATEGORIES.indexOf(newProperties.categories[0])];
