@@ -130,6 +130,28 @@ describe('Amplify Tests', () => {
         }).promise()
         expect(returnItemResponse.Payload.toString()).toEqual(`"Successfully returned items '${itemId}'."`)
 
+        // Create Reservation
+        const createReservationResponse: InvocationResponse = await lambda.invoke({
+            FunctionName: `CreateReservation${ENV_SUFFIX}`,
+            Payload: JSON.stringify({
+                borrower: TestConstants.BORROWER,
+                ids: [itemId],
+                startTime: TestConstants.START_DATE,
+                endTime: TestConstants.END_DATE,
+                notes: TestConstants.NOTES
+            })
+        }).promise()
+        const reservationId = createReservationResponse.Payload.toString().substr(1, createReservationResponse.Payload.toString().length - 2)
+
+        // Delete Reservation
+        const deleteReservationResponse: InvocationResponse = await lambda.invoke({
+            FunctionName: `DeleteReservation${ENV_SUFFIX}`,
+            Payload: JSON.stringify({
+                id: reservationId
+            })
+        }).promise()
+        expect(deleteReservationResponse.Payload.toString()).toEqual(`"Successfully deleted reservation '${reservationId}'."`)
+
         // Create Batch
         const createBatchResponse: InvocationResponse = await lambda.invoke({
             FunctionName: `CreateBatch${ENV_SUFFIX}`,
