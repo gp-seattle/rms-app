@@ -29,27 +29,33 @@ const InventoryScrollView = () => {
 	];
 	return (
 		<ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
 			<View style={{ marginLeft: '5%' }}>
-
 				<View marginTop="10%" justifyContent="space-around" height={200}>
-					<ListElement paddingBottom={20} iconLeft="star" iconColor="black" iconSize="25">
+					<ListElement paddingBottom={20} iconLeft="star" iconColor="black" iconSize={25}>
 						<View flexDirection="row" justifyContent="space-between">
-							<Text style={{ fontSize: 23 }}>Favorite</Text>
+							<Text style={styles.textStyle}>Favorite</Text>
 							<RMSIcon iconName="chevron-right" size={30} color="black" />
 						</View>
 					</ListElement>
 
-					<ListElement paddingBottom={20} iconLeft="format-list-bulleted" iconColor="black" iconSize="25">
+					<ListElement
+						paddingBottom={20}
+						iconLeft="format-list-bulleted"
+						iconColor="black"
+						iconSize={25}>
 						<View flexDirection="row" justifyContent="space-between">
-							<Text style={{ fontSize: 23 }}>Lists</Text>
+							<Text style={styles.textStyle}>Lists</Text>
 							<RMSIcon iconName="chevron-right" size={30} color="black" />
 						</View>
 					</ListElement>
 
-					<ListElement paddingBottom={20} iconLeft="bookmark" iconColor="black" iconSize="25">
+					<ListElement
+						paddingBottom={20}
+						iconLeft="bookmark"
+						iconColor="black"
+						iconSize={25}>
 						<View flexDirection="row" justifyContent="space-between">
-							<Text style={{ fontSize: 23 }}>Inventory</Text>
+							<Text style={styles.textStyle}>Inventory</Text>
 							<RMSIcon iconName="chevron-right" size={30} color="black" />
 						</View>
 					</ListElement>
@@ -80,11 +86,10 @@ const styles = StyleSheet.create({
 		paddingLeft: '1%',
 		paddingRight: '3%',
 		height: '100%',
-
 	},
 	contentContainer: {
 		paddingLeft: '1%',
-		paddingRight: '3%'
+		paddingRight: '3%',
 	},
 	itemText: {
 		fontSize: 27,
@@ -100,6 +105,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		height: 70,
+	},
+	textStyle: {
+		fontSize: 23,
 	},
 });
 

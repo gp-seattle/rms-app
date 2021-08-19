@@ -11,29 +11,35 @@ const Inventory = (props) => {
 	// using filter array for the search bar
 
 	return (
-			<View style={{ backgroundColor: '#FFF', paddingLeft: '3%', paddingRight: '3%' , height: '100%'}}>
-				<View style={styles.textAndSearch}>
-					<Text style={styles.inventoryText}>Inventory</Text>
-					<Searchbar
-						style={styles.searchBar}
-						placeholder="Search"
-						onChangeText={onChangeSearch}
-						value={searchQuery}
-					/>
-				</View>
-				<InventoryScrollView />
-				<SubmitBar
-					iconName="plus"
-					submitText="Add Item"
-					submitDisabled={false}
-					style={{bottom: '4%'}}
-					onSubmit={props.onAddItem}
+		<View style={styles.overAllBackground}>
+			<View style={styles.textAndSearch}>
+				<Text style={styles.inventoryText}>Inventory</Text>
+				<Searchbar
+					style={styles.searchBar}
+					placeholder="Search"
+					onChangeText={onChangeSearch}
+					value={searchQuery}
 				/>
 			</View>
+			<InventoryScrollView />
+			<SubmitBar
+				iconName="plus"
+				submitText="Add Item"
+				submitDisabled={false}
+				style={styles.submitBarStyle}
+				onSubmit={props.onAddItem}
+			/>
+		</View>
 	);
 };
 
 const styles = StyleSheet.create({
+	overAllBackground: {
+		backgroundColor: '#FFF',
+		paddingLeft: '3%',
+		paddingRight: '3%',
+		height: '100%',
+	},
 	textAndSearch: {
 		backgroundColor: '#FFF',
 		paddingLeft: '3%',
@@ -53,6 +59,7 @@ const styles = StyleSheet.create({
 		paddingRight: '3%',
 		height: '100%',
 	},
+	submitBarStyle: { bottom: '4%' },
 });
 
 export default Inventory;

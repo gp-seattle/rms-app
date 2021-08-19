@@ -2,7 +2,34 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import RMSIcon from '../RMSIcon';
 
-const ListElement = ({ paddingBottom, height, children, iconRight, iconLeft, iconSize, iconColor }) => {
+const ListElement = ({
+	paddingBottom,
+	height,
+	children,
+	iconRight,
+	iconLeft,
+	iconSize,
+	iconColor,
+}) => {
+	const styles = StyleSheet.create({
+		container: {
+			width: '100%',
+			flexDirection: 'row',
+			alignItems: 'center',
+		},
+		main: {
+			height: height ? height : '100%',
+			borderBottomWidth: 1,
+			borderColor: '#EEE',
+			justifyContent: 'center',
+			flexGrow: 1,
+			paddingBottom: paddingBottom ? paddingBottom : 0,
+		},
+		iconLeftStyle: {
+			marginRight: 30,
+			paddingBottom: paddingBottom ? paddingBottom : 0,
+		},
+	});
 	return (
 		<View style={styles.container}>
 			{iconLeft && (
@@ -10,11 +37,15 @@ const ListElement = ({ paddingBottom, height, children, iconRight, iconLeft, ico
 					iconName={iconLeft}
 					size={iconSize}
 					color={iconColor}
-					style={{ marginRight: 30 , paddingBottom: paddingBottom ? paddingBottom : 0}}
-				
+					style={styles.iconLeftStyle}
 				/>
 			)}
-			<View style={{ ...styles.main, height, paddingBottom: paddingBottom ? paddingBottom : 0}}>{children}</View>
+			<View
+				style={{
+					...styles.main,
+				}}>
+				{children}
+			</View>
 			{iconRight && (
 				<RMSIcon
 					iconName={iconRight}
@@ -26,20 +57,5 @@ const ListElement = ({ paddingBottom, height, children, iconRight, iconLeft, ico
 		</View>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		width: '100%',
-		flexDirection: 'row',
-		alignItems: 'center',
-	},
-	main: {
-    height: "100%",
-		borderBottomWidth: 1,
-		borderColor: '#EEE',
-		justifyContent: 'center',
-		flexGrow: 1,
-	},
-});
 
 export default ListElement;
