@@ -40,7 +40,7 @@ export class MainTable {
     public delete(
         name: string
     ): Promise<DocumentClient.DeleteItemOutput> {
-        return this.get(name)
+        return this.getConsistent(name)
             .then((entry: MainSchema) => {
                 if (entry.items.length !== 0) {
                     throw Error(`Entry '${name}' still contains items.`)
@@ -69,6 +69,23 @@ export class MainTable {
             Key: {
                 "id": name.toLowerCase()
             }
+        }
+        return this.client.get(params)
+            .then((output: DocumentClient.GetItemOutput) => output.Item as MainSchema)
+    }
+
+    /**
+     * Get description of given item type, by name.
+     */
+     public getConsistent(
+        name: string
+    ): Promise<MainSchema> {
+        const params: DocumentClient.GetItemInput = {
+            TableName: MAIN_TABLE,
+            Key: {
+                "id": name.toLowerCase()
+            },
+            ConsistentRead: true
         }
         return this.client.get(params)
             .then((output: DocumentClient.GetItemOutput) => output.Item as MainSchema)
