@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-import InventoryScrollView from './InventoryScrollView';
+import SubInventoryScrollView from './SubInventoryScrollView';
 
-const Inventory = ({ onSubSelected }) => {
+const SubInventory = ({ route, navigation }) => {
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const onChangeSearch = (query) => setSearchQuery(query);
+	const { itemType } = route.params;
+
+	useEffect(() => {
+		navigation.setOptions({ title: itemType.name });
+	}, []);
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.textAndSearch}>
-				<Text style={styles.inventoryText}>Inventory</Text>
 				<Searchbar
 					placeholder="Search"
 					onChangeText={onChangeSearch}
@@ -19,7 +23,7 @@ const Inventory = ({ onSubSelected }) => {
 					style={styles.searchBar}
 				/>
 			</View>
-			<InventoryScrollView searchQuery={searchQuery} onSubSelected={onSubSelected} />
+			<SubInventoryScrollView searchQuery={searchQuery} itemType={itemType} />
 		</View>
 	);
 };
@@ -33,7 +37,7 @@ const styles = StyleSheet.create({
 	},
 	textAndSearch: {
 		justifyContent: 'flex-start',
-		marginTop: '20%',
+		marginTop: '5%',
 	},
 	inventoryText: {
 		marginBottom: 20,
@@ -43,4 +47,4 @@ const styles = StyleSheet.create({
 	searchBar: { borderWidth: 1, elevation: 0, shadowOpacity: 0 },
 });
 
-export default Inventory;
+export default SubInventory;

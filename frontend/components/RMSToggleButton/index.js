@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-import { withTheme } from 'react-native-paper';
+import React, { useState } from "react";
+import { Text, TouchableOpacity } from "react-native";
+import { withTheme } from "react-native-paper";
 
 const RMSToggleButton = withTheme(({ title, theme, onPress, style }) => {
 	let [toggled, setToggled] = useState(false);
@@ -10,7 +10,7 @@ const RMSToggleButton = withTheme(({ title, theme, onPress, style }) => {
 			style={{
 				...styles.buttonContainer,
 				backgroundColor: toggled ? theme.colors.primaryFiveHundred : theme.colors.surface,
-				...style,
+				...style
 			}}
 			onPress={() => {
 				setToggled((lastState) => !lastState);
@@ -21,9 +21,7 @@ const RMSToggleButton = withTheme(({ title, theme, onPress, style }) => {
 			{toggled ? (
 				<Text style={{ ...styles.button, color: theme.colors.surface }}>{title}</Text>
 			) : (
-				<Text style={{ ...styles.button, color: theme.colors.primaryFiveHundred }}>
-					{title}
-				</Text>
+				<Text style={{ ...styles.button, color: theme.colors.primaryFiveHundred }}>{title}</Text>
 			)}
 		</TouchableOpacity>
 	);

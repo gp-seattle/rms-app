@@ -9,7 +9,7 @@ const ModalButton = withTheme(({ onPress, onModalClose, icon, theme, children, }
 				mode="contained"
 				color={theme.colors.primaryFiveHundred}
 				icon={icon}
-				contentStyle={{ flexDirection: 'row-reverse' }}
+				contentStyle={{ flexDirection: "row-reverse" }}
 				onPress={() => {
 					if (onPress) {
 						onPress();
@@ -24,30 +24,32 @@ const ModalButton = withTheme(({ onPress, onModalClose, icon, theme, children, }
 	);
 });
 
-const ActionModal= withTheme(({ visible, onCreateList, onAddItem, onCancel, theme}) => {
+const ActionModal = withTheme(({ visible, onBorrowItems, onCreateList, onAddItem, onCancel, theme }) => {
 	return (
 		<Modal transparent={true} visible={visible} animationType="slide">
-			<Pressable style={styles.modalContainer} onPress={onCancel}></Pressable>
+			<Pressable style={styles.modalContainer} onPress={onCancel} />
 			<View style={{backgroundColor: theme.colors.primaryNineHundred, ...styles.container}}>
 				<View style={styles.buttonContainer}>
-					<ModalButton onPress={onCreateList} onModalClose={onCancel} icon="plus">
-						Create List
+					<ModalButton onPress={onBorrowItems} onModalClose={onCancel} icon="plus">
+						Borrow Items
 					</ModalButton>
 					<ModalButton onPress={onAddItem} onModalClose={onCancel} icon="plus">
 						Add New Item
+					</ModalButton>
+					<ModalButton onPress={onCreateList} onModalClose={onCancel} icon="plus">
+						Create List
 					</ModalButton>
 				</View>
 			</View>
 		</Modal>
 	);
-})
+});
 
 const styles = StyleSheet.create({
 	modalContainer: {
 		flex: 1,
 	},
 	container: {
-		backgroundColor: '#23036A',
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
 		justifyContent: 'flex-start',
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		marginTop: 20,
 		width: '80%',
-		height: '60%',
+		height: '80%',
 	},
 	button: {
 		width: '100%',

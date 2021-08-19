@@ -4,7 +4,7 @@ import Animated, { EasingNode } from 'react-native-reanimated';
 import ActionButton from '../ActionButton';
 import ActionModal from '../ActionModal';
 
-function ActionDialog({ onCreateList, onAddItem, onMakeReservation }) {
+function ActionDialog({ onCreateList, onAddItem, onBorrowItems }) {
 	const MAX_OPACITY = 0.5;
 
 	const [visible, setVisible] = useState(false);
@@ -45,7 +45,7 @@ function ActionDialog({ onCreateList, onAddItem, onMakeReservation }) {
 				}}
 				onCreateList={onCreateList}
 				onAddItem={onAddItem}
-				onMakeReservation={onMakeReservation}
+				onBorrowItems={onBorrowItems}
 			/>
 		</>
 	);
