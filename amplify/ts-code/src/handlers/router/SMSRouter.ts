@@ -36,8 +36,10 @@ class SMSRouter {
         console.log(`Starting request from ${this.responseDestination}`)
 
         return new Router(this.db, this.cw).processRequest(this.request, this.responseDestination)
-            .then((response: string) => this.sendMessage(response))
-            .catch((response: string) =>this.sendMessage(response))
+            .then(
+                (response: string) => this.sendMessage(response),
+                (reason: any) => this.sendMessage(reason.toString())
+            )
     }
 
     /**
