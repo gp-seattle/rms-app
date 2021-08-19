@@ -1,36 +1,18 @@
-import { AddNewItem } from '../../components/Util/UtilWrite';
 import { createSliceFromLayout } from '../sliceManager';
 
 const ItemsLayout = () => {
 	const name = 'items';
-	const CATEGORIES = ['Video', 'Audio', 'Sports', 'Tech', 'Ambiance', 'Instruments', 'Lighting'];
-	const ICONS = [
-		'camera',
-		'microphone',
-		'pokeball',
-		'alien',
-		'glass-wine',
-		'bugle',
-		'lighthouse-on',
-	];
 	const initialState = {
-		nextId: 0,
 		items: [],
 	};
 
-	function addItem(state, id, name, description, location, amount, categories) {
-		let iconName = ICONS[CATEGORIES.indexOf(categories[0])];
-		if (id === undefined) {
-			id = state.nextId++;
-		}
+	function addItem(state, id, name, description, location, borrower) {
 		state.items.push({
 			id,
 			name,
 			description,
 			location,
-			iconName,
-			amount,
-			categories,
+			borrower,
 		});
 	}
 

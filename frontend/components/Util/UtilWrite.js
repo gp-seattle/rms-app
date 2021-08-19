@@ -20,26 +20,32 @@ async function urlOpener(url, redirectUrl) {
 }
 
 export async function AddNewItem(name, description, location, amount, categories) {
-	const notes = JSON.stringify({
-		capsName: name,
-		description,
-		location,
-		amount,
-		categories,
-	});
-	let resultId = await invoke({
+	for(let i = 0; i < amount; i++) {
+		let currentCategories = categories;
+		if(i !== 0) {
+			currentCategories = [];
+		}
+		await AddOneItem(name, name + " #" + (i + 1), description, location, currentCategories);
+	}
+}
+
+async function AddOneItem(mainItemName, itemName, description, location, categories) {
+	const currentUser = (await Auth.currentAuthenticatedUser()).attributes.email;
+	const user = currentUser.replace(/\/_/g, "");
+	const loc = location.replace(/\/_/g, "");
+	const owner = user + "/_" + loc;
+	await invoke({
 		FunctionName: `AddItem${ENV_SUFFIX}`,
 		Payload: JSON.stringify({
-			name,
-			tags: categories,
-			notes,
+			name: mainItemName,
+      description,
+      tags: categories,
+      owner,
+			notes: JSON.stringify({
+				displayName: itemName
+			})
 		}),
 	}).Payload;
-	if (resultId) {
-		return resultId.substring(1, resultId.length - 1);
-	} else {
-		return undefined;
-	}
 }
 
 export async function DeleteItem(id) {

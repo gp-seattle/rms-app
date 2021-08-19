@@ -5,6 +5,7 @@ import RMSIcon from '../RMSIcon';
 const QuantityBar = ({ style, textColor, textSize, iconColor, onValueChanged, min, max }) => {
 	const [value, setValue] = useState(1);
 	const FONT_TO_ICON = 1.5;
+
 	const decrement = (value) => {
 		if (min !== undefined && value - 1 < parseInt(min)) {
 			return value;
@@ -22,9 +23,11 @@ const QuantityBar = ({ style, textColor, textSize, iconColor, onValueChanged, mi
 			onValueChanged(value);
 		}
 	};
+
 	useEffect(() => {
 		valueChangedHandler(value);
-	}, []);
+	}, [value]);
+
 	return (
 		<View
 			style={{
