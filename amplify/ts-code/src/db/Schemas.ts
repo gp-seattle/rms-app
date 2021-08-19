@@ -1,5 +1,3 @@
-export const MAIN_TABLE: string = process.env.STORAGE_MAIN_NAME
-
 /**
  * @param id Name of item type. This needs to be unique.
  * @param description Optional description of item.
@@ -7,6 +5,7 @@ export const MAIN_TABLE: string = process.env.STORAGE_MAIN_NAME
  * @param items List of IDs of all items of this item type.
  * @param id ID of item. User specified.
  */
+export const MAIN_TABLE: string = process.env.STORAGE_MAIN_NAME
 export interface MainSchema {
     id: string,
     displayName: string,
@@ -48,7 +47,6 @@ export interface BatchSchema {
     groups: string[]
 }
 
-export const HISTORY_TABLE: string = process.env.STORAGE_HISTORY_NAME
 /**
  * @param id Random Time Related Unique Key, where the first part of the key is the creation time.
  * @param name Name of Item
@@ -58,6 +56,7 @@ export const HISTORY_TABLE: string = process.env.STORAGE_HISTORY_NAME
  * @param notes Optional notes about this action.
  * @param timestamp Time when item was created (in epoch milliseconds)
  */
+export const HISTORY_TABLE: string = process.env.STORAGE_HISTORY_NAME
 export interface HistorySchema {
     id: string,
     name: string,
@@ -68,7 +67,6 @@ export interface HistorySchema {
     timestamp: number
 }
 
-export const SCHEDULE_TABLE: string = process.env.STORAGE_SCHEDULE_NAME
 /**
  * @param id Random Time Related Unique Key, where the first part of the key is the creation time.
  * @param borrower Email of person reserving the Item.
@@ -77,6 +75,7 @@ export const SCHEDULE_TABLE: string = process.env.STORAGE_SCHEDULE_NAME
  * @param endTime Time reservation end.
  * @param notes Optional notes about this action.
  */
+export const SCHEDULE_TABLE: string = process.env.STORAGE_SCHEDULE_NAME
 export interface ScheduleSchema {
     id: string,
     borrower: string,
@@ -86,12 +85,12 @@ export interface ScheduleSchema {
     notes?: string
 }
 
-export const TRANSACTIONS_TABLE: string = process.env.STORAGE_TRANSACTIONS_NAME
 /**
  * @param number Phone Number being used for response.
  * @param type Type of transaction being performed
  * @param scratch Scratch space used by transactions. Initialized as empty.
  */
+export const TRANSACTIONS_TABLE: string = process.env.STORAGE_TRANSACTIONS_NAME
 export interface TransactionsSchema {
     number: string,
     type: string,
