@@ -16,6 +16,7 @@ export class TagTable {
         name: string,
         tags: string[]
     ): Promise<any> {
+        tags = tags === undefined ? [] : tags
         return Promise.all(tags.map((tag: string) => this.createSingleTag(name.toLowerCase(), tag)))
     }
 
