@@ -81,7 +81,7 @@ export class AddItem {
         return emitAPIMetrics(
             () => {
                 return this.performAllFVAs(input)
-                    .then(()=> this.mainTable.get(input.name))
+                    .then(() => this.mainTable.getConsistent(input.name.toLowerCase()))
                     .then((entry: MainSchema) => {
                         if (entry) {
                         // Object Exists. No need to add description

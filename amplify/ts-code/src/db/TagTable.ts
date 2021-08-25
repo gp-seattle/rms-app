@@ -16,14 +16,15 @@ export class TagTable {
         name: string,
         tags: string[]
     ): Promise<any> {
-        return Promise.all(tags.map((tag: string) => this.createSingleTag(name, tag)))
+        tags = tags === undefined ? [] : tags
+        return Promise.all(tags.map((tag: string) => this.createSingleTag(name.toLowerCase(), tag)))
     }
 
     private createSingleTag(
         name: string,
         tag: string
     ): Promise<any> {
-        return this.get(tag)
+        return this.getConsistent(tag)
             .then((tagEntry: TagsSchema) => {
                 if (tagEntry && tagEntry.val.includes(name)) {
                     // Contains tag already. Do nothing.
@@ -32,7 +33,7 @@ export class TagTable {
                     const mainParams: DocumentClient.UpdateItemInput = {
                         TableName: MAIN_TABLE,
                         Key: {
-                            "id": name.toLowerCase()
+                            "id": name
                         },
                         UpdateExpression: "SET #key = list_append(#key, :val)",
                         ExpressionAttributeNames: {
@@ -85,14 +86,14 @@ export class TagTable {
         name: string,
         tags: string[]
     ): Promise<any> {
-        return tags.reduce((prev: Promise<any>, tag: string) => prev.then(() => this.deleteSingleTag(name, tag)), Promise.resolve())
+        return tags.reduce((prev: Promise<any>, tag: string) => prev.then(() => this.deleteSingleTag(name.toLowerCase(), tag)), Promise.resolve())
     }
 
     private deleteSingleTag(
         name: string,
         tag: string
     ): Promise<any> {
-        return this.get(tag)
+        return this.getConsistent(tag)
             .then((tagEntry: TagsSchema) => {
                 if (tagEntry && tagEntry.val.includes(name)) {
                     const mainGetParams: DocumentClient.GetItemInput = {
@@ -199,6 +200,23 @@ export class TagTable {
             Key: {
                 "id": tag
             }
+        }
+        return this.client.get(params)
+            .then((output: DocumentClient.GetItemOutput) => output.Item as TagsSchema)
+    }
+
+    /**
+     * Get list of names from tag
+     */
+     public getConsistent(
+        tag: string
+    ): Promise<TagsSchema> {
+        const params: DocumentClient.GetItemInput = {
+            TableName: TAGS_TABLE,
+            Key: {
+                "id": tag
+            },
+            ConsistentRead: true
         }
         return this.client.get(params)
             .then((output: DocumentClient.GetItemOutput) => output.Item as TagsSchema)
