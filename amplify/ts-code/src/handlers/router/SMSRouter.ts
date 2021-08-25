@@ -38,7 +38,7 @@ class SMSRouter {
         return new Router(this.db, this.cw).processRequest(this.request, this.responseDestination)
             .then(
                 (response: string) => this.sendMessage(response),
-                (reasonPromise: Promise<any>) => reasonPromise.then((reason: any) => this.sendMessage(reason.toString()))
+                (reasonPromise: Promise<any>) => reasonPromise.catch((reason: any) => this.sendMessage(reason.toString()))
             )
     }
 
