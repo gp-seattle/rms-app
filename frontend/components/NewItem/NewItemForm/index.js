@@ -16,7 +16,7 @@ const NewItemForm = withTheme(
 		const [valid, setValid] = useState();
 		const locations = [
 			{
-				label: 'Wedgewood',
+				label: 'Wedgwood',
 				value: 'Wedgwood',
 			},
 			{
@@ -84,6 +84,7 @@ const NewItemForm = withTheme(
 				<View style={styles.formBody}>
 					<View>
 						<TextInput
+							theme={{ colors: { primary: theme.colors.primaryFiveHundred } }}
 							placeholder="Name"
 							mode="outlined"
 							label="Name"
@@ -91,6 +92,7 @@ const NewItemForm = withTheme(
 							onChangeText={setName}
 						/>
 						<TextInput
+							theme={{ colors: { primary: theme.colors.primaryFiveHundred } }}
 							placeholder="Item Description"
 							mode="outlined"
 							label="Description"
@@ -102,7 +104,13 @@ const NewItemForm = withTheme(
 								...styles.itemEditors,
 								backgroundColor: theme.colors.secondaryFifty,
 							}}>
-							<Text style={styles.itemText}>Location</Text>
+							<Text
+								style={{
+									...styles.itemText,
+									color: theme.colors.secondaryTwoHundred,
+								}}>
+								Location
+							</Text>
 							<ListDropdown
 								list={locations}
 								style={{ borderRadius: 10, width: 150, ...styles.itemDropDown }}
@@ -116,7 +124,13 @@ const NewItemForm = withTheme(
 								...styles.itemEditors,
 								backgroundColor: theme.colors.secondaryFifty,
 							}}>
-							<Text style={styles.itemText}>Amount of Items</Text>
+							<Text
+								style={{
+									...styles.itemText,
+									color: theme.colors.secondaryTwoHundred,
+								}}>
+								Amount of Items
+							</Text>
 							<QuantityBar
 								style={{ ...styles.itemDropDown, ...styles.quantity }}
 								textColor="black"
@@ -153,8 +167,6 @@ const NewItemForm = withTheme(
 
 const styles = StyleSheet.create({
 	formBody: {
-		// borderWidth: 2,
-		// borderColor: 'black',
 		marginTop: '7%',
 	},
 	input: {
@@ -162,8 +174,6 @@ const styles = StyleSheet.create({
 		marginLeft: '5%',
 	},
 	categoriesSelector: {
-		// borderWidth: 2,
-		// borderColor: 'black',
 		height: 150,
 		marginLeft: '5%',
 		marginRight: '5%',
@@ -197,7 +207,6 @@ const styles = StyleSheet.create({
 	itemText: {
 		fontSize: 12,
 		fontWeight: 'bold',
-		color: '#00b3a6',
 	},
 	quantity: {
 		alignItems: 'center',

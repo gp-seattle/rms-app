@@ -3,23 +3,55 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import InventoryScrollView from './InventoryScrollView';
 
-const Inventory = ({ onSubSelected }) => {
+/**
+ * itemList and topItemList are lists of props given to the itemComponents and topItemComponents
+ * when they are displayed.
+ *
+ * itemList requires the following props:
+ * 		searchText: a string used as an identifier to find an item using the search bar
+ * 		dropdownValues: a string array with the dropdown values where the item is allowed to show up
+ */
+const Inventory = ({
+	headerText,
+	topItemList,
+	topItemComponent,
+	itemList,
+	itemComponent,
+	itemListText,
+	dropdownValues,
+	sortByProperty,
+	style,
+	headerStyle,
+	headerTextStyle,
+	searchbarStyle,
+}) => {
 	const [searchQuery, setSearchQuery] = useState('');
 
-	const onChangeSearch = (query) => setSearchQuery(query);
-
 	return (
-		<View style={styles.container}>
-			<View style={styles.textAndSearch}>
-				<Text style={styles.inventoryText}>Inventory</Text>
+		<View style={{ ...styles.container, ...style }}>
+			<View style={{ ...styles.header, ...headerStyle }}>
+				{headerText ? (
+					<Text style={{ ...styles.headerText, ...headerTextStyle }}>{headerText}</Text>
+				) : (
+					<></>
+				)}
 				<Searchbar
 					placeholder="Search"
-					onChangeText={onChangeSearch}
+					onChangeText={setSearchQuery}
 					value={searchQuery}
-					style={styles.searchBar}
+					style={{ ...styles.searchBar, ...searchbarStyle }}
 				/>
 			</View>
-			<InventoryScrollView searchQuery={searchQuery} onSubSelected={onSubSelected} />
+			<InventoryScrollView
+				searchQuery={searchQuery}
+				topItemList={topItemList}
+				topItemComponent={topItemComponent}
+				itemList={itemList}
+				itemComponent={itemComponent}
+				itemListText={itemListText}
+				dropdownValues={dropdownValues}
+				sortByProperty={sortByProperty}
+			/>
 		</View>
 	);
 };
@@ -31,11 +63,12 @@ const styles = StyleSheet.create({
 		paddingRight: '5%',
 		height: '100%',
 	},
-	textAndSearch: {
+	header: {
 		justifyContent: 'flex-start',
-		marginTop: '20%',
+		marginTop: '5%',
 	},
-	inventoryText: {
+	headerText: {
+		marginTop: '15%',
 		marginBottom: 20,
 		fontWeight: 'bold',
 		fontSize: 30,

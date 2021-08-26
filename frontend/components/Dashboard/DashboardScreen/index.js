@@ -5,9 +5,9 @@ import { withTheme } from 'react-native-paper';
 import { useReduxSliceProperty } from '../../../store/sliceManager';
 import itemsSlice from '../../../store/slices/itemsSlice';
 import ActionDialog from '../../DashboardFab/ActionDialog';
+import SwipeOnceItem from '../../Inventory/Items/SwipeOnceItem';
 import ListElement from '../../ListElement';
 import RMSTitle from '../../RMSTitle';
-import SwipeListElement from '../../SwipeListElement';
 import { ReturnItem } from '../../Util/UtilWrite';
 import GroupSelection from '../GroupSelection';
 import ListsSection from '../ListsSection';
@@ -107,41 +107,16 @@ const DashboardScreen = withTheme(({ onAddItem, onBorrowItems, theme }) => {
 						/>
 					) : (
 						checkedOutItems.map((item) => {
-							const DashSwipe = () => {
-								const [returned, setReturned] = useState(false);
-
-								const Swipe = () => {
-									return (
-										<SwipeListElement
-											buttonText="RETURN"
-											backgroundColor={theme.colors.primaryNineHundred}
-											textColor="white"
-											fontWeight="bold"
-											key={item.id}
-											iconName="circle-small"
-											primaryText={item.name}
-											onButtonPress={() => {
-												if(!returned) {
-													setReturned(true);
-													ReturnItem(item.id);
-												}
-											}}
-										/>
-									);
-								};
-								return (
-									<>
-										{returned ? (
-											<View pointerEvents="none">
-												<Swipe />
-											</View>
-										) : (
-											<Swipe />
-										)}
-									</>
-								);
-							};
-							return <DashSwipe key={item.id} />;
+							return (
+								<SwipeOnceItem
+									key={item.id}
+									text={item.name}
+									iconName="circle-small"
+									buttonText="RETURN"
+									buttonColor={theme.colors.primaryNineHundred}
+									onButtonPress={() => ReturnItem(item.id)}
+								/>
+							);
 						})
 					)}
 					<Text style={styles.title}>Reservations</Text>

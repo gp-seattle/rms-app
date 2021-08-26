@@ -3,16 +3,19 @@ import React, { useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
-import BorrowInventory from './components/BorrowInventory';
+import Toast from './components/Borrow/Toast';
+import BorrowInventory from './components/InventoryScreens/BorrowInventory';
 import Dashboard from './components/Dashboard/DashboardScreen';
-import Inventory from './components/Inventory';
+import MainInventory from './components/InventoryScreens/MainInventory';
+import SubInventory from './components/InventoryScreens/SubInventory';
 import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
 import StackNavigator from './components/Navigation/StackNavigator';
 import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
-import SubInventory from './components/SubInventory';
 import { DynamoDBStreamInit } from './components/Util/UtilRead';
 import { AmplifyInit } from './components/Util/UtilWrite';
+import { useReduxSlice, useReduxSliceProperty } from './store/sliceManager';
+import toastSlice from './store/slices/toastSlice';
 import store from './store/store';
 
 function BackButton({ onPress }) {
@@ -33,7 +36,7 @@ function MainTabs({ navigation }) {
 				onAddItem={() => navigation.navigate('addItem')}
 				onBorrowItems={() => navigation.navigate('borrowInventory')}
 			/>
-			<Inventory
+			<MainInventory
 				name="inv"
 				title="Inventory"
 				iconName="format-list-bulleted"
@@ -43,6 +46,48 @@ function MainTabs({ navigation }) {
 			/>
 			<View name="account" title="Account" iconName="account" />
 		</RMSTabsNavigator>
+	);
+}
+
+function MainToast() {
+	const toastState = useReduxSliceProperty(toastSlice);
+	const toastInterface = useReduxSlice(toastSlice);
+
+	return (
+		<Toast
+			visible={toastState.visible}
+			iconName={toastState.iconName}
+			onCancel={toastInterface.hide}>
+			{toastState.message}
+		</Toast>
+	);
+}
+
+function Main() {
+	return (
+		<>
+			<StackNavigator
+				screenOptions={({ navigation }) => ({
+					headerLeft: () => <BackButton onPress={navigation.goBack} />,
+					headerTintColor: 'black',
+					headerTitleAlign: 'left',
+					headerTitleStyle: {
+						fontSize: 22,
+						fontWeight: 'bold',
+					},
+					headerStyle: {
+						shadowColor: 'transparent',
+						borderBottomWidth: 0,
+						elevation: 0,
+					},
+				})}>
+				<MainTabs name="mainTabs" options={{ headerShown: false }} />
+				<NewItem name="addItem" title="New Item" />
+				<SubInventory name="subInventory" title="" />
+				<BorrowInventory name="borrowInventory" title="Inventory" />
+			</StackNavigator>
+			<MainToast />
+		</>
 	);
 }
 
@@ -57,26 +102,7 @@ function App() {
 	return (
 		<ReduxProvider store={store}>
 			<PaperProvider theme={theme}>
-				<StackNavigator
-					screenOptions={({ navigation }) => ({
-						headerLeft: () => <BackButton onPress={navigation.goBack} />,
-						headerTintColor: 'black',
-						headerTitleAlign: 'left',
-						headerTitleStyle: {
-							fontSize: 22,
-							fontWeight: 'bold',
-						},
-						headerStyle: {
-							shadowColor: 'transparent',
-							borderBottomWidth: 0,
-							elevation: 0,
-						},
-					})}>
-					<MainTabs name="mainTabs" options={{ headerShown: false }} />
-					<NewItem name="addItem" title="New Item" />
-					<SubInventory name="subInventory" title="" />
-					<BorrowInventory name="borrowInventory" title="Inventory" />
-				</StackNavigator>
+				<Main />
 			</PaperProvider>
 		</ReduxProvider>
 	);
@@ -93,7 +119,7 @@ const theme = {
 		surfaceOverlay: 'rgba(33, 33, 33, 0.08)',
 		primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
 		secondaryTwoHundred: '#FCBE00',
-		secondaryFifty: '#C8FFF4',
+		secondaryFifty: 'rgba(252, 190, 0, 0.25)',
 		text: '#000',
 	},
 };
