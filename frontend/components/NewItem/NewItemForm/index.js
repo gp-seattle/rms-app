@@ -84,10 +84,11 @@ const NewItemForm = withTheme(
 				<View style={styles.formBody}>
 					<View>
 						<TextInput
+							underlineColor={theme.colors.primaryFiveHundred}
 							placeholder="Name"
 							mode="outlined"
 							label="Name"
-							style={styles.input}
+							style={{...styles.input, color: theme.colors.primaryFiveHundred}}
 							onChangeText={setName}
 						/>
 						<TextInput
@@ -102,7 +103,7 @@ const NewItemForm = withTheme(
 								...styles.itemEditors,
 								backgroundColor: theme.colors.secondaryFifty,
 							}}>
-							<Text style={styles.itemText}>Location</Text>
+							<Text style={{...styles.itemText, color: theme.colors.secondaryTwoHundred}}>Location</Text>
 							<ListDropdown
 								list={locations}
 								style={{ borderRadius: 10, width: 150, ...styles.itemDropDown }}
@@ -116,7 +117,7 @@ const NewItemForm = withTheme(
 								...styles.itemEditors,
 								backgroundColor: theme.colors.secondaryFifty,
 							}}>
-							<Text style={styles.itemText}>Amount of Items</Text>
+							<Text style={{...styles.itemText, color: theme.colors.secondaryTwoHundred}}>Amount of Items</Text>
 							<QuantityBar
 								style={{ ...styles.itemDropDown, ...styles.quantity }}
 								textColor="black"
@@ -197,7 +198,6 @@ const styles = StyleSheet.create({
 	itemText: {
 		fontSize: 12,
 		fontWeight: 'bold',
-		color: '#00b3a6',
 	},
 	quantity: {
 		alignItems: 'center',

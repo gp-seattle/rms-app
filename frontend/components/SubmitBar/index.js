@@ -32,7 +32,8 @@ const SubmitBar = withTheme(
 				<Button
 					mode="text"
 					onPress={onCancel}
-					style={{ color: theme.colors.primaryFiveHundred, ...cancelStyle }}>
+					color={theme.colors.primaryFiveHundred}
+					style={{ ...cancelStyle }}>
 					{cancelText}
 				</Button>
 				<TouchableOpacity onPress={onSubmit} disabled={submitDisabled}>
