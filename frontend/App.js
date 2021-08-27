@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
+import Toast from './components/Borrow/Toast';
 import BorrowInventory from './components/BorrowInventory';
 import Dashboard from './components/Dashboard/DashboardScreen';
 import Inventory from './components/Inventory';
@@ -13,6 +14,8 @@ import RMSIcon from './components/RMSIcon';
 import SubInventory from './components/SubInventory';
 import { DynamoDBStreamInit } from './components/Util/UtilRead';
 import { AmplifyInit } from './components/Util/UtilWrite';
+import { useReduxSlice, useReduxSliceProperty } from './store/sliceManager';
+import toastSlice from './store/slices/toastSlice';
 import store from './store/store';
 
 function BackButton({ onPress }) {
@@ -57,28 +60,41 @@ function App() {
 	return (
 		<ReduxProvider store={store}>
 			<PaperProvider theme={theme}>
-				<StackNavigator
-					screenOptions={({ navigation }) => ({
-						headerLeft: () => <BackButton onPress={navigation.goBack} />,
-						headerTintColor: 'black',
-						headerTitleAlign: 'left',
-						headerTitleStyle: {
-							fontSize: 22,
-							fontWeight: 'bold',
-						},
-						headerStyle: {
-							shadowColor: 'transparent',
-							borderBottomWidth: 0,
-							elevation: 0,
-						},
-					})}>
-					<MainTabs name="mainTabs" options={{ headerShown: false }} />
-					<NewItem name="addItem" title="New Item" />
-					<SubInventory name="subInventory" title="" />
-					<BorrowInventory name="borrowInventory" title="Inventory" />
-				</StackNavigator>
+				<Main> </Main>
 			</PaperProvider>
 		</ReduxProvider>
+	);
+}
+
+function Main() {
+	const toastState = useReduxSliceProperty(toastSlice);
+	const toastInterface = useReduxSlice(toastSlice)
+	return (
+		<>
+			<StackNavigator
+				screenOptions={({ navigation }) => ({
+					headerLeft: () => <BackButton onPress={navigation.goBack} />,
+					headerTintColor: 'black',
+					headerTitleAlign: 'left',
+					headerTitleStyle: {
+						fontSize: 22,
+						fontWeight: 'bold',
+					},
+					headerStyle: {
+						shadowColor: 'transparent',
+						borderBottomWidth: 0,
+						elevation: 0,
+					},
+				})}>
+				<MainTabs name="mainTabs" options={{ headerShown: false }} />
+				<NewItem name="addItem" title="New Item" />
+				<SubInventory name="subInventory" title="" />
+				<BorrowInventory name="borrowInventory" title="Inventory" />
+			</StackNavigator>
+			<Toast visible={toastState.visible} iconName={toastState.iconName} onCancel={toastInterface.hide}>
+				{toastState.message}
+			</Toast>
+		</>
 	);
 }
 
