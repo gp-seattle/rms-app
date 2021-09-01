@@ -138,7 +138,7 @@ export const useReduxSlice = (sliceContainer) => {
  * @param  {...String} path A set of Strings that define where to access the
  * property in the state. For example, if I wanted to access
  * state.users.john.likes, I would put after the "sliceContainer" parameter:
- * "colors", "parimary", "blue".
+ * "users", "john", "likes".
  * @returns The value of the specified property, which updates upon any changes.
  */
 export const useReduxSliceProperty = (sliceContainer, ...path) => {

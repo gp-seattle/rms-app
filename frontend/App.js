@@ -4,14 +4,14 @@ import { TouchableOpacity, View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
 import Toast from './components/Borrow/Toast';
-import BorrowInventory from './components/BorrowInventory';
+import BorrowInventory from './components/InventoryScreens/BorrowInventory';
 import Dashboard from './components/Dashboard/DashboardScreen';
-import Inventory from './components/Inventory';
+import MainInventory from './components/InventoryScreens/MainInventory';
+import SubInventory from './components/InventoryScreens/SubInventory';
 import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
 import StackNavigator from './components/Navigation/StackNavigator';
 import NewItem from './components/NewItem/NewItem';
 import RMSIcon from './components/RMSIcon';
-import SubInventory from './components/SubInventory';
 import { DynamoDBStreamInit } from './components/Util/UtilRead';
 import { AmplifyInit } from './components/Util/UtilWrite';
 import { useReduxSlice, useReduxSliceProperty } from './store/sliceManager';
@@ -36,7 +36,7 @@ function MainTabs({ navigation }) {
 				onAddItem={() => navigation.navigate('addItem')}
 				onBorrowItems={() => navigation.navigate('borrowInventory')}
 			/>
-			<Inventory
+			<MainInventory
 				name="inv"
 				title="Inventory"
 				iconName="format-list-bulleted"
@@ -49,26 +49,21 @@ function MainTabs({ navigation }) {
 	);
 }
 
-function App() {
-	useEffect(() => {
-		(async () => {
-			await AmplifyInit();
-			await DynamoDBStreamInit();
-		})();
-	}, []);
+function MainToast() {
+	const toastState = useReduxSliceProperty(toastSlice);
+	const toastInterface = useReduxSlice(toastSlice);
 
 	return (
-		<ReduxProvider store={store}>
-			<PaperProvider theme={theme}>
-				<Main> </Main>
-			</PaperProvider>
-		</ReduxProvider>
+		<Toast
+			visible={toastState.visible}
+			iconName={toastState.iconName}
+			onCancel={toastInterface.hide}>
+			{toastState.message}
+		</Toast>
 	);
 }
 
 function Main() {
-	const toastState = useReduxSliceProperty(toastSlice);
-	const toastInterface = useReduxSlice(toastSlice)
 	return (
 		<>
 			<StackNavigator
@@ -91,10 +86,25 @@ function Main() {
 				<SubInventory name="subInventory" title="" />
 				<BorrowInventory name="borrowInventory" title="Inventory" />
 			</StackNavigator>
-			<Toast visible={toastState.visible} iconName={toastState.iconName} onCancel={toastInterface.hide}>
-				{toastState.message}
-			</Toast>
+			<MainToast />
 		</>
+	);
+}
+
+function App() {
+	useEffect(() => {
+		(async () => {
+			await AmplifyInit();
+			await DynamoDBStreamInit();
+		})();
+	}, []);
+
+	return (
+		<ReduxProvider store={store}>
+			<PaperProvider theme={theme}>
+				<Main />
+			</PaperProvider>
+		</ReduxProvider>
 	);
 }
 
