@@ -28,6 +28,7 @@ const NewItemForm = withTheme(
 				value: "Yeh's",
 			},
 		];
+		// Location constant will be a slice later 
 
 		useEffect(() => {
 			if (valid === true || valid === false) {
@@ -107,7 +108,7 @@ const NewItemForm = withTheme(
 							<Text
 								style={{
 									...styles.itemText,
-									color: theme.colors.secondaryTwoHundred,
+									color: theme.colors.secondaryTwoHundredText,
 								}}>
 								Location
 							</Text>
@@ -127,7 +128,7 @@ const NewItemForm = withTheme(
 							<Text
 								style={{
 									...styles.itemText,
-									color: theme.colors.secondaryTwoHundred,
+									color: theme.colors.secondaryTwoHundredText,
 								}}>
 								Amount of Items
 							</Text>
@@ -138,6 +139,7 @@ const NewItemForm = withTheme(
 								textSize={20}
 								min={1}
 								onValueChanged={setAmount}
+								increment={1}
 							/>
 						</View>
 					</View>
@@ -152,10 +154,13 @@ const NewItemForm = withTheme(
 								'Ambiance',
 								'Instruments',
 								'Lighting',
+								'Furniture ',
+								'placeHolder#1',
+								'placeHolder#2',
 							]}
 							ButtonComponent={RMSToggleButton}
-							style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
-							buttonStyle={{ marginTop: 7 }}
+							style={styles.group}
+							buttonStyle={styles.groupButton}
 							onSelectedChange={setCategories}
 						/>
 					</View>
@@ -173,11 +178,21 @@ const styles = StyleSheet.create({
 		width: '90%',
 		marginLeft: '5%',
 	},
+	group: {
+		flexWrap: 'wrap',
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+	},
+	groupButton: {
+		marginTop: 7,
+		marginRight: 5,
+	},
 	categoriesSelector: {
 		height: 150,
 		marginLeft: '5%',
 		marginRight: '5%',
 		marginTop: '3%',
+		justifyContent: 'flex-start',
 	},
 	categoriesText: {
 		fontWeight: 'bold',
@@ -210,6 +225,10 @@ const styles = StyleSheet.create({
 	},
 	quantity: {
 		alignItems: 'center',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingLeft: '5%',
+		paddingRight: '5%',
 	},
 });
 

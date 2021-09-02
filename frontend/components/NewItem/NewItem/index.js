@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import BorrowBar from '../../BorrowBar';
 import SubmitBar from '../../SubmitBar';
 import { AddNewItem } from '../../Util/UtilWrite';
 import NewItemForm from '../NewItemForm';
