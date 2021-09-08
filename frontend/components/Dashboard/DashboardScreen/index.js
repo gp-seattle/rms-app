@@ -1,31 +1,16 @@
 import { Auth } from 'aws-amplify';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
 import { useReduxSliceProperty } from '../../../store/sliceManager';
 import itemsSlice from '../../../store/slices/itemsSlice';
 import ActionDialog from '../../DashboardFab/ActionDialog';
+import DashListElement from '../../DashListElement';
 import SwipeOnceItem from '../../Inventory/Items/SwipeOnceItem';
-import ListElement from '../../ListElement';
 import RMSTitle from '../../RMSTitle';
 import { ReturnItem } from '../../Util/UtilWrite';
 import GroupSelection from '../GroupSelection';
 import ListsSection from '../ListsSection';
-
-const DashListElement = withTheme(({ iconName, primaryText, secondaryText, color, theme }) => {
-	return (
-		<ListElement
-			height={70}
-			iconLeft={iconName}
-			iconSize={20}
-			iconColor={color || theme.colors.text}>
-			<Text style={{ fontSize: 15, paddingBottom: 3, color: color || 'black' }}>
-				{primaryText}
-			</Text>
-			<Text style={{ fontSize: 12, color: color || 'gray' }}>{secondaryText}</Text>
-		</ListElement>
-	);
-});
 
 const DashboardScreen = withTheme(({ onAddItem, onBorrowItems, theme }) => {
 	const GROUPS = ['Gracepoint', 'A2F', 'Klesis', 'Personal'];

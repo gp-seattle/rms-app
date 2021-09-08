@@ -2,24 +2,8 @@ import React, { useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { withTheme } from 'react-native-paper';
+import DashListElement from '../DashListElement';
 import ListElement from '../ListElement';
-
-const DashListElement = withTheme(({ iconName, primaryText, secondaryText, theme }) => {
-	return (
-		<ListElement height={70} iconLeft={iconName} iconSize={20} iconColor={theme.colors.text}>
-			{primaryText ? (
-				<Text style={{ fontSize: 15, paddingBottom: 3 }}>{primaryText}</Text>
-			) : (
-				<View></View>
-			)}
-			{secondaryText ? (
-				<Text style={{ fontSize: 12, color: 'gray' }}>{secondaryText}</Text>
-			) : (
-				<View></View>
-			)}
-		</ListElement>
-	);
-});
 
 const renderRightActions = (backgroundColor, textColor, fontWeight, buttonText, onButtonPress) => {
 	return (
