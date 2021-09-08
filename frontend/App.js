@@ -119,6 +119,7 @@ const theme = {
 		surfaceOverlay: 'rgba(33, 33, 33, 0.08)',
 		primaryMediumEmphasis: 'rgba(255, 255, 255, 0.74)',
 		secondaryTwoHundred: '#FCBE00',
+		secondaryTwoHundredText: '#b38600',
 		secondaryFifty: 'rgba(252, 190, 0, 0.25)',
 		text: '#000',
 	},

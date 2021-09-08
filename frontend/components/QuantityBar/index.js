@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import RMSIcon from '../RMSIcon';
 
-const QuantityBar = ({ style, textColor, textSize, iconColor, onValueChanged, min, max }) => {
-	const [value, setValue] = useState(1);
+const QuantityBar = ({ style, textColor, textSize, iconColor, onValueChanged, min, max, increment }) => {
+	const [value, setValue] = useState(min || 1);
 	const FONT_TO_ICON = 1.5;
 
-	const decrement = (value) => {
+	const decrease = (value) => {
 		if (min !== undefined && value - 1 < parseInt(min)) {
 			return value;
 		}
-		return value - 1;
+		return value - (increment || 1);
 	};
-	const increment = (value) => {
+	const increase = (value) => {
 		if (max !== undefined && value + 1 > parseInt(max)) {
 			return value;
 		}
-		return value + 1;
+		return value + (increment || 1);
 	};
 	const valueChangedHandler = (value) => {
 		if (onValueChanged) {
@@ -31,10 +31,10 @@ const QuantityBar = ({ style, textColor, textSize, iconColor, onValueChanged, mi
 	return (
 		<View
 			style={{
-				...style,
 				...styles.container,
+				...style,
 			}}>
-			<TouchableOpacity onPress={() => setValue((prevVal) => decrement(prevVal))}>
+			<TouchableOpacity onPress={() => setValue((prevVal) => decrease(prevVal))}>
 				<RMSIcon
 					iconName="minus-circle-outline"
 					color={iconColor}
@@ -44,7 +44,7 @@ const QuantityBar = ({ style, textColor, textSize, iconColor, onValueChanged, mi
 			<Text style={{ fontSize: textSize, color: textColor, fontWeight: 'bold' }}>
 				{value}
 			</Text>
-			<TouchableOpacity onPress={() => setValue((prevVal) => increment(prevVal))}>
+			<TouchableOpacity onPress={() => setValue((prevVal) => increase(prevVal))}>
 				<RMSIcon
 					iconName="plus-circle-outline"
 					color={iconColor}
