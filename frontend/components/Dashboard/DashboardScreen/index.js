@@ -1,5 +1,5 @@
 import { Auth } from 'aws-amplify';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
 import { useReduxSliceProperty } from '../../../store/sliceManager';

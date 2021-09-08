@@ -7,7 +7,7 @@ import ButtonItem from '../../Inventory/Items/ButtonItem';
 import SwipePressOnceItem from '../../Inventory/Items/SwipePressOnceItem';
 import { BorrowItem } from '../../Util/UtilWrite';
 
-const MainInventory = withTheme(({ theme }) => {
+const BorrowInventory = withTheme(({ theme }) => {
 	const items = useReduxSliceProperty(itemsSlice, 'items');
 
 	const locations = ['All Items', 'Wedgwood', '100s', "Yeh's"];
@@ -48,4 +48,4 @@ const MainInventory = withTheme(({ theme }) => {
 	);
 });
 
-export default MainInventory;
+export default BorrowInventory;
