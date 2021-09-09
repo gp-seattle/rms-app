@@ -1,30 +1,23 @@
 import { registerRootComponent } from 'expo';
 import React, { useEffect } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
+import BackButton from './components/BackButton';
 import Toast from './components/Borrow/Toast';
-import BorrowInventory from './components/InventoryScreens/BorrowInventory';
 import Dashboard from './components/Dashboard/DashboardScreen';
+import BorrowInventory from './components/InventoryScreens/BorrowInventory';
 import MainInventory from './components/InventoryScreens/MainInventory';
+import SubBorrowInventory from './components/InventoryScreens/SubBorrowInventory';
 import SubInventory from './components/InventoryScreens/SubInventory';
 import RMSTabsNavigator from './components/Navigation/RMSTabsNavigator';
 import StackNavigator from './components/Navigation/StackNavigator';
 import NewItem from './components/NewItem/NewItem';
-import RMSIcon from './components/RMSIcon';
 import { DynamoDBStreamInit } from './components/Util/UtilRead';
 import { AmplifyInit } from './components/Util/UtilWrite';
 import { useReduxSlice, useReduxSliceProperty } from './store/sliceManager';
 import toastSlice from './store/slices/toastSlice';
 import store from './store/store';
-
-function BackButton({ onPress }) {
-	return (
-		<TouchableOpacity onPress={onPress} style={{ marginLeft: 10 }}>
-			<RMSIcon iconName="chevron-left" color="black" size={25} />
-		</TouchableOpacity>
-	);
-}
 
 function MainTabs({ navigation }) {
 	return (
@@ -85,6 +78,14 @@ function Main() {
 				<NewItem name="addItem" title="New Item" />
 				<SubInventory name="subInventory" title="" />
 				<BorrowInventory name="borrowInventory" title="Inventory" />
+				<SubBorrowInventory
+					name="subBorrowInventory"
+					title=""
+					onBack={() => {}}
+					options={({ navigation }) => ({
+						headerLeft: () => <BackButton onPress={navigation.goBack} />,
+					})}
+				/>
 			</StackNavigator>
 			<MainToast />
 		</>
