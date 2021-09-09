@@ -70,7 +70,6 @@ const BorrowInventory = withTheme(({ navigation, route, theme }) => {
 						Object.keys(itemsChecked.current[itemType.id]).forEach((itemId) => {
 							itemsChecked.current[itemType.id][itemId] = checked;
 						});
-						console.log(itemsChecked.current);
 					},
 				};
 			})}
