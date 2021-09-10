@@ -1,80 +1,102 @@
-import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import RMSIcon from '../RMSIcon';
 
-const CheckboxItem = ({
-	primaryText,
-	secondaryText,
-	iconLeft,
-	iconRight,
-	iconSize,
-	textColor,
-	checkColor,
-	disabled,
-	initiallyChecked,
-	onPress,
-	onCheckPress,
-	style,
-}) => {
-	const [checked, setChecked] = useState(initiallyChecked || false);
+const CheckboxItem = forwardRef(
+	(
+		{
+			primaryText,
+			secondaryText,
+			iconLeft,
+			iconRight,
+			iconSize,
+			textColor,
+			checkColor,
+			disabled,
+			initiallyChecked,
+			onPress,
+			onCheckPress,
+			style,
+		},
+		ref,
+	) => {
+		const [checked, setChecked] = useState(initiallyChecked || false);
+		const checkedRef = useRef(initiallyChecked || false);
 
-	function handleCheckPress() {
-		setChecked((lastChecked) => {
-			if (onCheckPress) {
-				onCheckPress(!lastChecked);
+		useEffect(() => {
+			if(checkedRef.current != checked) {
+				setChecked(checkedRef.current);
 			}
-			return !lastChecked;
-		});
-	}
+		}, [checkedRef.current]);
 
-	return (
-		<View style={{ ...styles.container, ...style, height: 70 }}>
-			{iconLeft && (
-				<RMSIcon
-					iconName={iconLeft}
-					size={iconSize}
-					color={textColor}
-					style={{ marginRight: 15 }}
+		useImperativeHandle(ref, () => ({
+			setChecked: (checked) => {
+				checkedRef.current = checked;
+			},
+		}));
+
+		function handleCheckPress() {
+			setChecked((lastChecked) => {
+				if (onCheckPress) {
+					onCheckPress(!lastChecked);
+				}
+				return !lastChecked;
+			});
+		}
+
+		return (
+			<View style={{ ...styles.container, ...style, height: 70 }}>
+				{iconLeft && (
+					<RMSIcon
+						iconName={iconLeft}
+						size={iconSize}
+						color={textColor}
+						style={{ marginRight: 15 }}
+					/>
+				)}
+				<TouchableOpacity style={styles.main} onPress={onPress}>
+					<View style={{ flexDirection: 'column', justifyContent: 'center' }}>
+						{primaryText ? (
+							<Text
+								style={{
+									fontSize: 15,
+									paddingBottom: 3,
+									color: textColor || 'black',
+								}}>
+								{primaryText}
+							</Text>
+						) : (
+							<></>
+						)}
+						{secondaryText ? (
+							<Text style={{ fontSize: 12, color: 'gray' }}>{secondaryText}</Text>
+						) : (
+							<></>
+						)}
+					</View>
+					<View style={{ justifyContent: 'center' }}>
+						{iconRight && (
+							<RMSIcon
+								iconName={iconRight}
+								size={iconSize}
+								color={textColor}
+								style={{ marginRight: 15 }}
+							/>
+						)}
+					</View>
+				</TouchableOpacity>
+				<Checkbox.Android
+					status={checked ? 'checked' : 'unchecked'}
+					onPress={handleCheckPress}
+					disabled={disabled}
+					uncheckedColor={checkColor}
+					color={checkColor}
 				/>
-			)}
-			<TouchableOpacity style={styles.main} onPress={onPress}>
-				<View style={{ flexDirection: 'column', justifyContent: 'center' }}>
-					{primaryText ? (
-						<Text
-							style={{ fontSize: 15, paddingBottom: 3, color: textColor || 'black' }}>
-							{primaryText}
-						</Text>
-					) : (
-						<></>
-					)}
-					{secondaryText ? (
-						<Text style={{ fontSize: 12, color: 'gray' }}>{secondaryText}</Text>
-					) : (
-						<></>
-					)}
-				</View>
-				<View style={{ justifyContent: 'center' }}>
-					{iconRight && (
-						<RMSIcon
-							iconName={iconRight}
-							size={iconSize}
-							color={textColor}
-							style={{ marginRight: 15 }}
-						/>
-					)}
-				</View>
-			</TouchableOpacity>
-			<Checkbox.Android
-				status={checked ? 'checked' : 'unchecked'}
-				onPress={handleCheckPress}
-				disabled={disabled}
-				uncheckedColor={checkColor}
-				color={checkColor}
-			/>
-		</View>
-	);
-};
+			</View>
+		);
+	},
+);
 
 const styles = StyleSheet.create({
 	container: {

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { withTheme } from 'react-native-paper';
 import { useReduxSliceProperty } from '../../../store/sliceManager';
 import itemsSlice from '../../../store/slices/itemsSlice';
@@ -8,9 +8,16 @@ import Inventory from '../../Inventory';
 import ButtonItem from '../../Inventory/Items/ButtonItem';
 
 const BorrowInventory = withTheme(({ navigation, route, theme }) => {
+	const locations = ['All Items', 'Wedgwood', '100s', "Yeh's"];
+	const topItems = [
+		{ iconName: 'star', text: 'Favorite' },
+		{ iconName: 'format-list-bulleted', text: 'Lists' },
+	];
+
 	const itemTypes = useReduxSliceProperty(itemTypeSlice, 'itemTypes');
 	const items = useReduxSliceProperty(itemsSlice, 'items');
 	const itemsChecked = useRef({});
+	const checkboxRefs = useRef([]);
 
 	useEffect(() => {
 		for (let i = 0; i < itemTypes.length; i++) {
@@ -22,17 +29,33 @@ const BorrowInventory = withTheme(({ navigation, route, theme }) => {
 				}
 			}
 		}
-	}, [itemTypes]);
+	}, []);
 
 	if (route.params) {
 		itemsChecked.current[route.params.itemTypeId] = route.params.itemsChecked;
+		for (let i = 0; i < itemTypes.length; i++) {
+			let mainItemsChecked = itemsChecked.current[itemTypes[i].id];
+			let borrowerLookup = {};
+			for(let j = 0; j < items.length; j++) {
+				if(itemTypes[i].itemIds.includes(items[j].id)) {
+					borrowerLookup[items[j].id] = items[j].borrower;
+				}
+			}
+			if (mainItemsChecked) {
+				let itemChecked = mainItemsChecked
+					? Object.keys(mainItemsChecked).reduce((acc, curr) => {
+							if (typeof acc === 'string') {
+								acc = mainItemsChecked[acc] || borrowerLookup[acc].trim() !== '';
+							}
+							return (
+								acc && (mainItemsChecked[curr] || borrowerLookup[curr].trim() !== '')
+							);
+					  })
+					: false;
+				checkboxRefs.current[i].setChecked(itemChecked);
+			}
+		}
 	}
-
-	const locations = ['All Items', 'Wedgwood', '100s', "Yeh's"];
-	const topItems = [
-		{ iconName: 'star', text: 'Favorite' },
-		{ iconName: 'format-list-bulleted', text: 'Lists' },
-	];
 
 	return (
 		<Inventory
@@ -44,7 +67,7 @@ const BorrowInventory = withTheme(({ navigation, route, theme }) => {
 				searchText: topItem.text,
 			}))}
 			itemComponent={CheckboxItem}
-			itemList={itemTypes.map((itemType) => {
+			itemList={itemTypes.map((itemType, index) => {
 				const myItems = items.filter((item) => itemType.itemIds.includes(item.id));
 				return {
 					key: itemType.id,
@@ -55,19 +78,20 @@ const BorrowInventory = withTheme(({ navigation, route, theme }) => {
 					iconSize: 20,
 					textColor: 'black',
 					checkColor: '#6200EE',
+					ref: (el) => (checkboxRefs.current[index] = el),
 					disabled: myItems.reduce((acc, curr) => {
 						if (typeof acc === 'object') {
-							acc = acc.borrower !== '';
+							acc = acc.borrower.trim() !== '';
 						}
-						return acc && curr.borrower !== '';
+						return acc && curr.borrower.trim() !== '';
 					}),
 					onPress: () =>
 						navigation.navigate('subBorrowInventory', {
 							itemType,
-							itemsChecked: itemsChecked.current[itemType.id],
+							itemsChecked: itemsChecked.current[itemType.id] || false,
 						}),
 					onCheckPress: (checked) => {
-						Object.keys(itemsChecked.current[itemType.id]).forEach((itemId) => {
+						Object.keys(itemsChecked.current[itemType.id] || {}).forEach((itemId) => {
 							itemsChecked.current[itemType.id][itemId] = checked;
 						});
 					},
