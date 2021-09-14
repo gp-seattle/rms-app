@@ -1,9 +1,9 @@
 import { createSliceFromLayout } from '../sliceManager';
 
-const ItemsTypeLayout = () => {
-	const name = 'itemsType';
+const CategoryLayout = () => {
+	const name = 'categories';
 	const initialState = {
-		itemTypes: [],
+		categories: [],
 	};
 	const CATEGORIES = ['Video', 'Audio', 'Sports', 'Tech', 'Ambiance', 'Instruments', 'Lighting'];
 	const ICONS = [
@@ -16,8 +16,8 @@ const ItemsTypeLayout = () => {
 		'lighthouse-on',
 	];
 
-	function addItemType(state, id, name, description, categories, itemIds) {
-		state.itemTypes.push({
+	function addCategory(state, id, name, description, categories, itemIds) {
+		state.categories.push({
 			id,
 			name,
 			description,
@@ -26,33 +26,33 @@ const ItemsTypeLayout = () => {
 		});
 	}
 
-	function modifyItemType(state, id, newProperties) {
-		let oldIndex = state.itemTypes.map((itemType) => itemType.id).indexOf(id);
+	function modifyCategory(state, id, newProperties) {
+		let oldIndex = state.categories.map((category) => category.id).indexOf(id);
 		if(newProperties.items) {
 			const items = newProperties.items;
 			delete newProperties.items;
 			newProperties.itemIds = items;
 		}
-		let newItemType = { ...state.itemTypes[oldIndex], ...newProperties };
+		let newItemType = { ...state.categories[oldIndex], ...newProperties };
 		if (newProperties.categories) {
 			let iconName = ICONS[CATEGORIES.indexOf(newProperties.categories[0])];
 			newItemType[iconName] = iconName;
 		}
-		state.itemTypes[oldIndex] = newItemType;
+		state.categories[oldIndex] = newItemType;
 	}
 
-	function removeItemType(state, id) {
+	function removeCategory(state, id) {
 		let index;
-		for (let i = 0; i < state.itemTypes.length; i++) {
-			if (state.itemTypes[i].id === id) {
+		for (let i = 0; i < state.categories.length; i++) {
+			if (state.categories[i].id === id) {
 				index = i;
 				break;
 			}
 		}
 		if (index !== undefined) {
-			state.itemTypes = [
-				...state.itemTypes.slice(0, index),
-				...state.itemTypes.slice(index + 1),
+			state.categories = [
+				...state.categories.slice(0, index),
+				...state.categories.slice(index + 1),
 			];
 		}
 	}
@@ -61,12 +61,12 @@ const ItemsTypeLayout = () => {
 		name,
 		initialState,
 		functions: {
-			addItemType,
-			modifyItemType,
-			removeItemType,
+			addCategory,
+			modifyCategory,
+			removeCategory,
 		},
 		asyncFunctions: {},
 	};
 };
 
-export default createSliceFromLayout(ItemsTypeLayout);
+export default createSliceFromLayout(CategoryLayout);

@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 import { LogBox } from 'react-native';
 import { useReduxSliceProperty } from '../../../store/sliceManager';
 import itemsSlice from '../../../store/slices/itemsSlice';
-import itemTypeSlice from '../../../store/slices/itemTypeSlice';
+import categorySlice from '../../../store/slices/categorySlice';
 import CheckboxItem from '../../CheckboxItem';
 import FabButton from '../../FabButton';
 import Inventory from '../../Inventory';
@@ -16,19 +16,19 @@ const BorrowInventory = ({ navigation, route }) => {
 		{ iconName: 'format-list-bulleted', text: 'Lists' },
 	];
 
-	const itemTypes = useReduxSliceProperty(itemTypeSlice, 'itemTypes');
+	const categories = useReduxSliceProperty(categorySlice, 'categories');
 	const items = useReduxSliceProperty(itemsSlice, 'items');
 	const itemsChecked = useRef({});
 	const checkboxRefs = useRef([]);
 	const fabRef = useRef();
 
 	useEffect(() => {
-		for (let i = 0; i < itemTypes.length; i++) {
-			if (itemsChecked.current[itemTypes[i].id] === undefined) {
-				itemsChecked.current[itemTypes[i].id] = {};
-				for (let j = 0; j < itemTypes[i].itemIds.length; j++) {
-					let itemId = itemTypes[i].itemIds[j];
-					itemsChecked.current[itemTypes[i].id][itemId] = false;
+		for (let i = 0; i < categories.length; i++) {
+			if (itemsChecked.current[categories[i].id] === undefined) {
+				itemsChecked.current[categories[i].id] = {};
+				for (let j = 0; j < categories[i].itemIds.length; j++) {
+					let itemId = categories[i].itemIds[j];
+					itemsChecked.current[categories[i].id][itemId] = false;
 				}
 			}
 		}
@@ -49,11 +49,11 @@ const BorrowInventory = ({ navigation, route }) => {
 
 	if (route.params) {
 		itemsChecked.current[route.params.itemTypeId] = route.params.itemsChecked;
-		for (let i = 0; i < itemTypes.length; i++) {
-			let mainItemsChecked = itemsChecked.current[itemTypes[i].id];
+		for (let i = 0; i < categories.length; i++) {
+			let mainItemsChecked = itemsChecked.current[categories[i].id];
 			let borrowerLookup = {};
 			for (let j = 0; j < items.length; j++) {
-				if (itemTypes[i].itemIds.includes(items[j].id)) {
+				if (categories[i].itemIds.includes(items[j].id)) {
 					borrowerLookup[items[j].id] = items[j].borrower;
 				}
 			}
@@ -85,19 +85,19 @@ const BorrowInventory = ({ navigation, route }) => {
 				searchText: topItem.text,
 			}))}
 			itemComponent={CheckboxItem}
-			itemList={itemTypes.map((itemType, index) => {
-				const myItems = items.filter((item) => itemType.itemIds.includes(item.id));
+			itemList={categories.map((category, index) => {
+				const myItems = items.filter((item) => category.itemIds.includes(item.id));
 				const borrowerLookup = {};
 				for (let i = 0; i < myItems.length; i++) {
-					if (itemType.itemIds.includes(myItems[i].id)) {
+					if (category.itemIds.includes(myItems[i].id)) {
 						borrowerLookup[myItems[i].id] = myItems[i].borrower;
 					}
 				}
 				return {
-					key: itemType.id,
-					searchText: itemType.name,
+					key: category.id,
+					searchText: category.name,
 					dropdownValues: ['All Items', ...new Set(myItems.map((item) => item.location))],
-					primaryText: itemType.name,
+					primaryText: category.name,
 					iconRight: 'chevron-right',
 					iconSize: 20,
 					textColor: 'black',
@@ -111,12 +111,12 @@ const BorrowInventory = ({ navigation, route }) => {
 					}),
 					onPress: () =>
 						navigation.navigate('subBorrowInventory', {
-							itemType,
-							itemsChecked: itemsChecked.current[itemType.id] || false,
+							category,
+							itemsChecked: itemsChecked.current[category.id] || false,
 						}),
 					onCheckPress: (checked) => {
-						Object.keys(itemsChecked.current[itemType.id] || {}).forEach((itemId) => {
-							itemsChecked.current[itemType.id][itemId] =
+						Object.keys(itemsChecked.current[category.id] || {}).forEach((itemId) => {
+							itemsChecked.current[category.id][itemId] =
 								checked && borrowerLookup[itemId] === '';
 						});
 						onNewItemsChecked();
@@ -157,9 +157,9 @@ const BorrowInventory = ({ navigation, route }) => {
 
 function getIdsFromItemsChecked(itemsChecked) {
 	return Object.keys(itemsChecked).reduce((acc, curr) => {
-		function itemTypeToIdList(itemType) {
-			return Object.keys(itemsChecked[itemType]).filter((itemId) => {
-				return itemsChecked[itemType][itemId];
+		function itemTypeToIdList(category) {
+			return Object.keys(itemsChecked[category]).filter((itemId) => {
+				return itemsChecked[category][itemId];
 			});
 		}
 		if (typeof acc !== 'object') {

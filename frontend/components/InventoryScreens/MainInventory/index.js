@@ -1,13 +1,13 @@
 import React from 'react';
 import { useReduxSliceProperty } from '../../../store/sliceManager';
 import itemsSlice from '../../../store/slices/itemsSlice';
-import itemTypeSlice from '../../../store/slices/itemTypeSlice';
+import categorySlice from '../../../store/slices/categorySlice';
 import Inventory from '../../Inventory';
 import ButtonItem from '../../Inventory/Items/ButtonItem';
 
 const MainInventory = ({ onSubSelected }) => {
 	const itemsState = useReduxSliceProperty(itemsSlice);
-	const itemTypeState = useReduxSliceProperty(itemTypeSlice);
+	const categories = useReduxSliceProperty(categorySlice, "categories");
 
 	const locations = ['All Items', 'Wedgwood', '100s', "Yeh's"];
 	const topItems = [
@@ -26,13 +26,13 @@ const MainInventory = ({ onSubSelected }) => {
 				searchText: topItem.text,
 			}))}
 			itemComponent={ButtonItem}
-			itemList={[...itemTypeState.itemTypes]
-				.map((itemType) => {
+			itemList={[...categories]
+				.map((category) => {
 					let locations = [];
 
 					itemsState.items.forEach((item) => {
 						if (
-							itemType.itemIds.includes(item.id) &&
+							category.itemIds.includes(item.id) &&
 							!locations.includes(item.location)
 						) {
 							locations.push(item.location);
@@ -40,10 +40,10 @@ const MainInventory = ({ onSubSelected }) => {
 					});
 
 					return {
-						key: itemType.id,
-						text: itemType.name,
-						onPress: () => onSubSelected(itemType),
-						searchText: itemType.name,
+						key: category.id,
+						text: category.name,
+						onPress: () => onSubSelected(category),
+						searchText: category.name,
 						dropdownValues: ['All Items', ...locations],
 					};
 				})}
