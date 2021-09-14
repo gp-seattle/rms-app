@@ -1,6 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { Button, FAB, withTheme } from 'react-native-paper';
+import { View } from 'react-native';
+import { Button, withTheme } from 'react-native-paper';
+import FabButton from '../FabButton';
 
 const SubmitBar = withTheme(
 	({
@@ -9,14 +10,11 @@ const SubmitBar = withTheme(
 		onCancel,
 		onSubmit,
 		iconName,
-		submitStyle,
 		cancelStyle,
 		submitDisabled,
 		theme,
 		style,
 	}) => {
-		const MIN_OPACITY = 0.25;
-
 		return (
 			<View
 				style={{
@@ -36,19 +34,12 @@ const SubmitBar = withTheme(
 					style={{ ...cancelStyle }}>
 					{cancelText}
 				</Button>
-				<TouchableOpacity onPress={onSubmit} disabled={submitDisabled}>
-					<FAB
-						icon={iconName}
-						label={submitText}
-						color={theme.colors.text}
-						style={{
-							opacity: submitDisabled ? MIN_OPACITY : 1,
-							backgroundColor: theme.colors.secondaryTwoHundred,
-							borderRadius: 25,
-							...submitStyle,
-						}}
-					/>
-				</TouchableOpacity>
+				<FabButton
+					text={submitText}
+					iconName={iconName}
+					onPress={onSubmit}
+					disabled={submitDisabled}
+				/>
 			</View>
 		);
 	},

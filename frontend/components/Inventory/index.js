@@ -24,6 +24,7 @@ const Inventory = ({
 	headerStyle,
 	headerTextStyle,
 	searchbarStyle,
+	extraComponents,
 }) => {
 	const [searchQuery, setSearchQuery] = useState('');
 
@@ -52,6 +53,8 @@ const Inventory = ({
 				dropdownValues={dropdownValues}
 				sortByProperty={sortByProperty}
 			/>
+			{extraComponents}
+			{/* <Button onPress={() => console.log("I was clicked!")}>Hi! Click me!</Button> */}
 		</View>
 	);
 };

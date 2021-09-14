@@ -1,25 +1,10 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { FAB, withTheme } from 'react-native-paper';
+import FabButton from '../FabButton';
 
-const ActionButton = withTheme(({ onPress, theme }) => {
-  const submitText = "Hi";
-  const iconName = "plus";
-	return (
-		<FAB
-			icon={iconName}
-			label={submitText}
-			color={theme.colors.text}
-      onPress={onPress}
-			style={{
-				opacity: submitDisabled ? MIN_OPACITY : 1,
-				backgroundColor: theme.colors.secondaryTwoHundred,
-				borderRadius: 25,
-				...submitStyle,
-			}}
-		/>
-	);
-});
+const ActionButton = ({ onPress }) => {
+	return <FabButton text="Hi" iconName="plus" onPress={onPress} style={styles.fab} />;
+};
 
 const styles = StyleSheet.create({
 	fab: {

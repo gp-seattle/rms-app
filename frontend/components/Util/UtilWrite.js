@@ -81,6 +81,22 @@ export async function DeleteItem(id) {
 	}
 }
 
+export async function BorrowItems(idArr) {
+	const currentUser = (await Auth.currentAuthenticatedUser()).attributes.email;
+	const result = await queryableInvoke({
+		FunctionName: `BorrowItem${ENV_SUFFIX}`,
+		Payload: JSON.stringify({
+			ids: idArr,
+			borrower: currentUser,
+		}),
+	});
+	if (result.resolved) {
+		toastInterface.show(`Item${idArr.length > 1 ? "s" : ""} Borrowed`, 'check');
+	} else {
+		console.error(result.result);
+	}
+}
+
 export async function BorrowItem(id) {
 	const currentUser = (await Auth.currentAuthenticatedUser()).attributes.email;
 	const result = await queryableInvoke({
