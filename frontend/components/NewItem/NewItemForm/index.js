@@ -1,8 +1,8 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput, withTheme } from 'react-native-paper';
-import ListDropdown from '../../Dashboard/ListDropdown';
 import GroupSelector from '../../GroupSelector';
+import ListDropdown from '../../ListDropdown';
 import QuantityBar from '../../QuantityBar';
 import RMSToggleButton from '../../RMSToggleButton';
 
@@ -12,7 +12,6 @@ const NewItemForm = withTheme(
 		const [description, setDescription] = useState();
 		const [name, setName] = useState();
 		const [amount, setAmount] = useState();
-		const [categories, setCategories] = useState();
 		const [valid, setValid] = useState();
 		const locations = [
 			{
@@ -30,22 +29,9 @@ const NewItemForm = withTheme(
 		];
 
 		useEffect(() => {
-			if (valid === true || valid === false) {
-				const categoriesValid =
-					categories !== undefined &&
-					Object.keys(categories).reduce((accumulator, currVal) => {
-						if (typeof accumulator !== 'boolean') {
-							return categories[accumulator] === true || categories[currVal] === true;
-						} else {
-							return accumulator === true || categories[currVal] === true;
-						}
-					});
+			if (typeof valid === 'boolean') {
 				const currentlyValid =
-					name &&
-					description &&
-					name.trim() !== '' &&
-					description.trim() !== '' &&
-					categoriesValid;
+					name && description && name.trim() !== '' && description.trim() !== '';
 				if (currentlyValid && !valid) {
 					setValid(true);
 					onValidChange(true);
@@ -57,21 +43,15 @@ const NewItemForm = withTheme(
 				setValid(false);
 				onValidChange(false);
 			}
-		}, [description, name, categories]);
+		}, [description, name]);
 
 		function getValues() {
-			let categoriesArr = [];
-			Object.keys(categories).forEach((category) => {
-				if (categories[category]) {
-					categoriesArr.push(category);
-				}
-			});
 			return {
 				location,
 				description,
 				name,
 				amount,
-				categories: categoriesArr,
+				categories: [],
 			};
 		}
 
@@ -140,24 +120,6 @@ const NewItemForm = withTheme(
 								onValueChanged={setAmount}
 							/>
 						</View>
-					</View>
-					<View style={styles.categoriesSelector}>
-						<Text style={styles.categoriesText}>Categories</Text>
-						<GroupSelector
-							items={[
-								'Video',
-								'Audio',
-								'Sports',
-								'Tech',
-								'Ambiance',
-								'Instruments',
-								'Lighting',
-							]}
-							ButtonComponent={RMSToggleButton}
-							style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
-							buttonStyle={{ marginTop: 7 }}
-							onSelectedChange={setCategories}
-						/>
 					</View>
 				</View>
 			</>

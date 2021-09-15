@@ -3,14 +3,14 @@ import { ScrollView, View } from 'react-native';
 import { Menu, TextInput, TouchableRipple } from 'react-native-paper';
 
 const useComponentSize = () => {
-  const [size, setSize] = useState({width: 0, height: 0});
+	const [size, setSize] = useState({ width: 0, height: 0 });
 
-  const onLayout = useCallback(event => {
-    const { width, height } = event.nativeEvent.layout;
-    setSize({ width, height });
-  }, []);
+	const onLayout = useCallback((event) => {
+		const { width, height } = event.nativeEvent.layout;
+		setSize({ width, height });
+	}, []);
 
-  return [size, onLayout];
+	return [size, onLayout];
 };
 
 /*
@@ -19,13 +19,13 @@ const useComponentSize = () => {
 const ListDropdown = ({ list, onValueChange, placeholder, style, dropdownStyle, textStyle }) => {
 	const [value, setValue] = useState();
 	const [showDropdown, setShowDropdown] = useState(false);
-  const [size, onLayout] = useComponentSize();
+	const [size, onLayout] = useComponentSize();
 
-  useEffect(() => {
-    if(!placeholder) {
-      selectItem(list[0].label);
-    }
-  }, []);
+	useEffect(() => {
+		if (!placeholder) {
+			selectItem(list[0].label);
+		}
+	}, []);
 
 	function selectItem(val) {
 		setValue(val);
@@ -44,13 +44,11 @@ const ListDropdown = ({ list, onValueChange, placeholder, style, dropdownStyle, 
 				<TouchableRipple
 					onPress={() => setShowDropdown(true)}
 					style={style}
-          onLayout={onLayout}
+					onLayout={onLayout}
 					borderless={true}>
-					<View
-						pointerEvents="none"
-						style={style}>
+					<View pointerEvents="none" style={style}>
 						<TextInput
-              placeholder={placeholder}
+							placeholder={placeholder}
 							value={value}
 							underlineColor="transparent"
 							style={{ borderRadius: 5, backgroundColor: 'transparent' }}
@@ -59,10 +57,14 @@ const ListDropdown = ({ list, onValueChange, placeholder, style, dropdownStyle, 
 					</View>
 				</TouchableRipple>
 			}
-      style={{marginTop: size.height}}>
-			<ScrollView style={{...dropdownStyle, width: size.width}}>
+			style={{ marginTop: size.height }}>
+			<ScrollView style={{ ...dropdownStyle, width: size.width }}>
 				{list.map((item) => (
-					<Menu.Item title={item.label} key={item.value} onPress={() => selectItem(item.label)} />
+					<Menu.Item
+						title={item.label}
+						key={item.value}
+						onPress={() => selectItem(item.label)}
+					/>
 				))}
 			</ScrollView>
 		</Menu>

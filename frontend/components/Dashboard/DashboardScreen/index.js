@@ -10,7 +10,8 @@ import SwipeOnceItem from '../../Inventory/Items/SwipeOnceItem';
 import RMSTitle from '../../RMSTitle';
 import { ReturnItem } from '../../Util/UtilWrite';
 import GroupSelection from '../GroupSelection';
-import ListsSection from '../ListsSection';
+import ListsSection from '../../ListsSection';
+import SearchableDropdown from '../../SearchableDropdown';
 
 const DashboardScreen = withTheme(({ onAddItem, onBorrowItems, theme }) => {
 	const GROUPS = ['Gracepoint', 'A2F', 'Klesis', 'Personal'];
@@ -112,6 +113,15 @@ const DashboardScreen = withTheme(({ onAddItem, onBorrowItems, theme }) => {
 						color="gray"
 					/>
 				</View>
+				<SearchableDropdown
+					list={[
+						{ label: 'Bananas', value: 'Bananas' },
+						{ label: 'Oranges', value: 'Oranges' },
+						{ label: 'Soup', value: 'Soup' },
+					]}
+					onValueChange={() => {}}
+					style={{ width: "75%", paddingBottom: 200 }}
+				/>
 			</ScrollView>
 			<ActionDialog onAddItem={onAddItem} onBorrowItems={onBorrowItems} />
 		</>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import ListGroup from '../Dashboard/ListGroup';
 import ListDropdown from '../ListDropdown';
-import ListGroup from '../ListGroup';
 
 const ListsSection = ({ categories, lists, onNewSelection }) => {
 	const [categorySelected, setCategorySelected] = useState(categories[0]);
