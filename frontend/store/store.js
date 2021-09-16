@@ -2,14 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { getSlicesConfig } from "./sliceManager";
 import counterSlice from "./slices/counterSlice";
 import itemsSlice from "./slices/itemsSlice";
-import categorySlice from "./slices/categorySlice";
+import itemTypeSlice from "./slices/itemTypeSlice";
 import toastSlice from "./slices/toastSlice";
 
 export default configureStore(
   getSlicesConfig({
     count: counterSlice,
     items: itemsSlice,
-    categories: categorySlice,
+    itemsType: itemTypeSlice,
     toast: toastSlice
   })
 );

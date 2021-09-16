@@ -7,12 +7,12 @@ import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
 import { getReduxSlice } from '../../store/sliceManager';
 import itemsSlice from '../../store/slices/itemsSlice';
-import categorySlice from '../../store/slices/categorySlice';
+import itemTypeSlice from '../../store/slices/itemTypeSlice';
 import store from '../../store/store';
 import { DeleteItem } from './UtilWrite';
 
 const itemsInterface = getReduxSlice(store, itemsSlice);
-const categoriesInterface = getReduxSlice(store, categorySlice);
+const itemTypesInterface = getReduxSlice(store, itemTypeSlice);
 
 const ENV_SUFFIX = '-alpha';
 const ENV_REGION = 'us-west-2';
@@ -109,7 +109,7 @@ async function translateToRedux(action, data) {
 					allItems[i].borrower,
 				);
 			} else if (action === 'main init') {
-				categoriesInterface.addCategory(
+				itemTypesInterface.addItemType(
 					allItems[i].id,
 					allItems[i].displayName,
 					allItems[i].description,
@@ -132,7 +132,7 @@ async function translateToRedux(action, data) {
 				item.borrower,
 			);
 		} else if (action === 'main insert') {
-			categoriesInterface.addCategory(
+			itemTypesInterface.addItemType(
 				item.id,
 				item.displayName,
 				item.description,
@@ -144,7 +144,7 @@ async function translateToRedux(action, data) {
 		if (action === 'items remove') {
 			itemsInterface.removeItem(data.id);
 		} else if (action === 'main remove') {
-			categoriesInterface.removeCategory(data.id);
+			itemTypesInterface.removeItemType(data.id);
 		}
 	} else if (action.includes('modify')) {
 		const item = data.newData;
@@ -152,7 +152,7 @@ async function translateToRedux(action, data) {
 		if (action === 'items modify') {
 			itemsInterface.modifyItem(id, item);
 		} else if (action === 'main modify') {
-			categoriesInterface.modifyCategory(id, item);
+			itemTypesInterface.modifyItemType(id, item);
 		}
 	}
 }
