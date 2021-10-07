@@ -1,17 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Menu, TextInput, TouchableRipple } from 'react-native-paper';
-
-const useComponentSize = () => {
-	const [size, setSize] = useState({ width: 0, height: 0 });
-
-	const onLayout = useCallback((event) => {
-		const { width, height } = event.nativeEvent.layout;
-		setSize({ width, height });
-	}, []);
-
-	return [size, onLayout];
-};
+import { useComponentSize } from '../Util/hooks';
 
 /*
   list is an array of objects, each with a label and value key
